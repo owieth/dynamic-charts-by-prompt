@@ -26,8 +26,50 @@ import type {
 } from './chart-schemas';
 
 // Pick only the shadcn renderers that match our lean catalog
-const { Card, Stack, Grid, Heading, Text, Badge, Separator, Tabs, Table } =
-  shadcnComponents;
+const {
+  Card,
+  Stack,
+  // Grid replaced by responsive wrapper below
+  Heading,
+  Text,
+  Badge,
+  Separator,
+  Tabs,
+  Table,
+} = shadcnComponents;
+
+const RESPONSIVE_COLS: Record<number, string> = {
+  1: 'grid-cols-1',
+  2: 'grid-cols-1 md:grid-cols-2',
+  3: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+  4: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+  5: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-5',
+  6: 'grid-cols-1 md:grid-cols-3 lg:grid-cols-6',
+};
+
+const GAP_MAP: Record<string, string> = {
+  sm: 'gap-2',
+  md: 'gap-3',
+  lg: 'gap-4',
+};
+
+/**
+ * Responsive Grid: collapses to 1 column on small screens, then expands
+ * at `md` and `lg` breakpoints based on the requested column count.
+ */
+function Grid({
+  props,
+  children,
+}: {
+  props: { columns?: number; gap?: string };
+  children?: ReactNode;
+}) {
+  const n = Math.max(1, Math.min(6, props.columns ?? 1));
+  const cols = RESPONSIVE_COLS[n] ?? 'grid-cols-1';
+  const gap = GAP_MAP[props.gap ?? 'md'] ?? 'gap-3';
+
+  return <div className={`grid ${cols} ${gap}`}>{children}</div>;
+}
 
 interface ChartPropsBase {
   labels?: string[] | null;
