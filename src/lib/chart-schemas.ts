@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { dataQuerySchema } from "./data-query";
+import { z } from 'zod';
+import { dataQuerySchema } from './data-query';
 
 const datasetSchema = z.object({
   label: z.string(),
@@ -20,14 +20,14 @@ const baseChartSchema = z.object({
   // Display
   title: z.string().nullable(),
   showLegend: z.boolean().nullable(),
-  yFormat: z.enum(["number", "currency-k", "percent"]).nullable(),
+  yFormat: z.enum(['number', 'currency-k', 'percent']).nullable(),
 });
 
 export const lineChartSchema = baseChartSchema;
 
 export const barChartSchema = baseChartSchema.extend({
   stacked: z.boolean().nullable(),
-  indexAxis: z.enum(["x", "y"]).nullable(),
+  indexAxis: z.enum(['x', 'y']).nullable(),
 });
 
 export const pieChartSchema = baseChartSchema;

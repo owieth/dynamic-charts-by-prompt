@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext, type ReactNode } from 'react';
 
 type Row = Record<string, unknown>;
 
@@ -18,14 +18,12 @@ export function DataProvider({
   children: ReactNode;
 }) {
   return (
-    <DataContext.Provider value={{ projects }}>
-      {children}
-    </DataContext.Provider>
+    <DataContext.Provider value={{ projects }}>{children}</DataContext.Provider>
   );
 }
 
 export function useDataSource(source: string): Row[] {
   const ctx = useContext(DataContext);
-  if (source === "projects") return ctx.projects;
+  if (source === 'projects') return ctx.projects;
   return [];
 }

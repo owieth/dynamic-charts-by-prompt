@@ -1,10 +1,10 @@
 export const ZOOM_OPTIONS = {
   zoom: {
-    wheel: { enabled: true, modifierKey: "ctrl" as const },
+    wheel: { enabled: true, modifierKey: 'ctrl' as const },
     pinch: { enabled: true },
-    mode: "xy" as const,
+    mode: 'xy' as const,
   },
-  pan: { enabled: true, mode: "xy" as const },
+  pan: { enabled: true, mode: 'xy' as const },
 } as const;
 
 interface DatasetInput {
@@ -22,9 +22,12 @@ interface DatasetDefaults {
   tension?: number;
 }
 
-export function mapDatasets(datasets: DatasetInput[] | undefined, defaults: DatasetDefaults) {
+export function mapDatasets(
+  datasets: DatasetInput[] | undefined,
+  defaults: DatasetDefaults
+) {
   if (!datasets?.length) return [];
-  return datasets.map((ds) => ({
+  return datasets.map(ds => ({
     label: ds.label,
     data: ds.data,
     backgroundColor: ds.backgroundColor ?? undefined,
@@ -35,26 +38,30 @@ export function mapDatasets(datasets: DatasetInput[] | undefined, defaults: Data
   }));
 }
 
-export function basePlugins(props: { title: string | null; showLegend: boolean | null }) {
+export function basePlugins(props: {
+  title: string | null;
+  showLegend: boolean | null;
+}) {
   return {
     legend: { display: props.showLegend ?? true },
-    title: { display: !!props.title, text: props.title ?? "" },
+    title: { display: !!props.title, text: props.title ?? '' },
   };
 }
 
-type YFormat = "number" | "currency-k" | "percent" | null;
+type YFormat = 'number' | 'currency-k' | 'percent' | null;
 
 export function yAxisConfig(format: YFormat) {
-  if (!format || format === "number") return {};
+  if (!format || format === 'number') return {};
   return {
     y: {
       ticks: {
-        callback: format === "currency-k"
-          ? (v: number | string) => {
-              const n = Number(v);
-              return n >= 1000 ? `$${(n / 1000).toFixed(0)}K` : `$${n}`;
-            }
-          : (v: number | string) => `${v}%`,
+        callback:
+          format === 'currency-k'
+            ? (v: number | string) => {
+                const n = Number(v);
+                return n >= 1000 ? `$${(n / 1000).toFixed(0)}K` : `$${n}`;
+              }
+            : (v: number | string) => `${v}%`,
       },
     },
   };
