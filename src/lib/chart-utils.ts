@@ -14,6 +14,8 @@ interface DatasetInput {
   borderColor: string | string[] | null;
   borderWidth: number | null;
   fill: boolean | null;
+  type?: 'bar' | 'line' | null;
+  borderDash?: number[] | null;
 }
 
 interface DatasetDefaults {
@@ -35,6 +37,8 @@ export function mapDatasets(
     borderWidth: ds.borderWidth ?? defaults.borderWidth,
     ...(defaults.fill !== undefined ? { fill: ds.fill ?? defaults.fill } : {}),
     ...(defaults.tension !== undefined ? { tension: defaults.tension } : {}),
+    ...(ds.type ? { type: ds.type } : {}),
+    ...(ds.borderDash ? { borderDash: ds.borderDash } : {}),
   }));
 }
 
@@ -48,21 +52,29 @@ export function basePlugins(props: {
   };
 }
 
-type YFormat = 'number' | 'currency-k' | 'percent' | null;
+type YFormat = 'number' | 'currency-k' | 'currency-eur-k' | 'percent' | null;
+
+function currencyTickCallback(
+  symbol: string
+): (v: number | string) => string {
+  return (v: number | string) => {
+    const n = Number(v);
+    if (n >= 1e6) return `${symbol}${(n / 1e6).toFixed(1)}M`;
+    if (n >= 1000) return `${symbol}${(n / 1000).toFixed(0)}K`;
+    return `${symbol}${n}`;
+  };
+}
 
 export function yAxisConfig(format: YFormat) {
   if (!format || format === 'number') return {};
+  const tickMap: Record<string, (v: number | string) => string> = {
+    'currency-k': currencyTickCallback('$'),
+    'currency-eur-k': currencyTickCallback('\u20AC'),
+    percent: (v: number | string) => `${v}%`,
+  };
   return {
     y: {
-      ticks: {
-        callback:
-          format === 'currency-k'
-            ? (v: number | string) => {
-                const n = Number(v);
-                return n >= 1000 ? `$${(n / 1000).toFixed(0)}K` : `$${n}`;
-              }
-            : (v: number | string) => `${v}%`,
-      },
+      ticks: { callback: tickMap[format] },
     },
   };
 }

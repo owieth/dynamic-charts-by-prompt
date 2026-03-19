@@ -10,6 +10,7 @@ import {
   lineChartSchema,
   pieChartSchema,
   radarChartSchema,
+  scatterChartSchema,
 } from './chart-schemas';
 
 const { Card, Stack, Grid, Heading, Text, Badge, Separator, Tabs, Table } =
@@ -199,6 +200,32 @@ export const catalog = defineCatalog(schema, {
       props: radarChartSchema,
       description:
         'Radar chart for multi-metric comparison. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays. Set top-level backgroundColor/borderColor to override default colors.',
+    },
+
+    ScatterChart: {
+      props: scatterChartSchema,
+      description:
+        'Scatter plot for comparing two numeric dimensions. Provide datasets with {x, y}[] point data. Use xLabel/yLabel for axis titles and yFormat for value formatting.',
+      example: {
+        title: 'CapEx vs Capacity',
+        xLabel: 'Capacity (MWh)',
+        yLabel: 'CapEx (EUR/kWh)',
+        yFormat: 'number',
+        showLegend: true,
+        datasets: [
+          {
+            label: 'Operational',
+            data: [
+              { x: 100, y: 350 },
+              { x: 200, y: 420 },
+            ],
+            backgroundColor: '#3d2b1f',
+            borderColor: null,
+            pointStyle: 'circle',
+            pointRadius: 5,
+          },
+        ],
+      },
     },
 
     DataTable: {

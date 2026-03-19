@@ -8,6 +8,8 @@ const datasetSchema = z.object({
   borderColor: z.union([z.string(), z.array(z.string())]).nullable(),
   borderWidth: z.number().nullable(),
   fill: z.boolean().nullable(),
+  type: z.enum(['bar', 'line']).nullable(),
+  borderDash: z.array(z.number()).nullable(),
 });
 
 const baseChartSchema = z.object({
@@ -22,7 +24,7 @@ const baseChartSchema = z.object({
   // Display
   title: z.string().nullable(),
   showLegend: z.boolean().nullable(),
-  yFormat: z.enum(['number', 'currency-k', 'percent']).nullable(),
+  yFormat: z.enum(['number', 'currency-k', 'currency-eur-k', 'percent']).nullable(),
   // Style overrides (applied on top of resolved/default colors)
   backgroundColor: z.union([z.string(), z.array(z.string())]).nullable(),
   borderColor: z.union([z.string(), z.array(z.string())]).nullable(),
@@ -68,3 +70,25 @@ export const dataTableSchema = z.object({
 });
 
 export type DataTableProps = z.infer<typeof dataTableSchema>;
+
+const scatterDatasetSchema = z.object({
+  label: z.string(),
+  data: z.array(z.object({ x: z.number(), y: z.number() })),
+  backgroundColor: z.string().nullable(),
+  borderColor: z.string().nullable(),
+  pointStyle: z.string().nullable(),
+  pointRadius: z.number().nullable(),
+});
+
+export const scatterChartSchema = z.object({
+  title: z.string().nullable(),
+  showLegend: z.boolean().nullable(),
+  xLabel: z.string().nullable(),
+  yLabel: z.string().nullable(),
+  yFormat: z
+    .enum(['number', 'currency-k', 'currency-eur-k', 'percent'])
+    .nullable(),
+  datasets: z.array(scatterDatasetSchema).nullable(),
+});
+
+export type ScatterChartProps = z.infer<typeof scatterChartSchema>;

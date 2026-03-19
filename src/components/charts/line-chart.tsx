@@ -20,7 +20,7 @@ export function LineChart({ props }: { props: LineChartProps }) {
           borderWidth: 2,
           fill: false,
           tension: 0.4,
-        }),
+        }) as any,
       }}
       options={{
         responsive: true,

@@ -17,7 +17,7 @@ export function BarChart({ props }: { props: BarChartProps }) {
     <Bar
       data={{
         labels: resolved.labels,
-        datasets: mapDatasets(resolved.datasets, { borderWidth: 1 }),
+        datasets: mapDatasets(resolved.datasets, { borderWidth: 1 }) as any,
       }}
       options={{
         responsive: true,
