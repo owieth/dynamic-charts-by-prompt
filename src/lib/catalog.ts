@@ -73,7 +73,7 @@ export const catalog = defineCatalog(schema, {
     BarChart: {
       props: barChartSchema,
       description:
-        'Bar chart. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays (e.g. capacity + count by year). Each query in dataQueries produces one dataset with a distinct color. All queries should share the same groupBy for aligned labels. Set top-level backgroundColor/borderColor to override default palette colors.',
+        'Bar chart. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays (e.g. capacity + count by year). Each query in dataQueries produces one dataset with a distinct color. All queries should share the same groupBy for aligned labels. Set top-level backgroundColor/borderColor to override default palette colors. The dataQuery source can be any registered data source id (default: "projects").',
       example: {
         title: 'Projects by Country (Top 10)',
         dataQuery: {

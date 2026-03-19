@@ -4,26 +4,23 @@ import { createContext, useContext, type ReactNode } from 'react';
 
 type Row = Record<string, unknown>;
 
-interface DataSources {
-  projects: Row[];
-}
+type DataSources = Record<string, Row[]>;
 
-const DataContext = createContext<DataSources>({ projects: [] });
+const DataContext = createContext<DataSources>({});
 
 export function DataProvider({
-  projects,
+  sources,
   children,
 }: {
-  projects: Row[];
+  sources: DataSources;
   children: ReactNode;
 }) {
   return (
-    <DataContext.Provider value={{ projects }}>{children}</DataContext.Provider>
+    <DataContext.Provider value={sources}>{children}</DataContext.Provider>
   );
 }
 
 export function useDataSource(source: string): Row[] {
   const ctx = useContext(DataContext);
-  if (source === 'projects') return ctx.projects;
-  return [];
+  return ctx[source] ?? [];
 }

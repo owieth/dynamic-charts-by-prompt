@@ -1,11 +1,13 @@
 'use client';
 
 import { ChatPanel } from '@/components/chat-panel';
+import { DataSourcePanel } from '@/components/data-source-panel';
 import { Sidebar } from '@/components/sidebar';
 import { DEFAULT_DASHBOARD_ID } from '@/lib/default-dashboard';
 import { removeElementFromSpec } from '@/lib/spec-utils';
 import { useChat } from '@/lib/use-chat';
 import { useDashboards } from '@/lib/use-dashboards';
+import { useDataSources } from '@/lib/use-data-sources';
 import type { Spec } from '@json-render/core';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
@@ -80,6 +82,9 @@ export default function DashboardPage({
   const resetLayoutRef = useRef<(() => void) | null>(null);
   const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
   const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
+  const [dataSourcePanelOpen, setDataSourcePanelOpen] = useState(false);
+  const { sources, configs, addSource, removeSource, refreshSource } =
+    useDataSources();
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
@@ -251,6 +256,38 @@ export default function DashboardPage({
 
           <div className="flex items-center gap-2">
             <button
+              onClick={() => setDataSourcePanelOpen(true)}
+              className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
+              aria-label="Manage data sources"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <ellipse
+                  cx="8"
+                  cy="4"
+                  rx="5.5"
+                  ry="2.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="M2.5 4v4c0 1.38 2.46 2.5 5.5 2.5s5.5-1.12 5.5-2.5V4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="M2.5 8v4c0 1.38 2.46 2.5 5.5 2.5s5.5-1.12 5.5-2.5V8"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </button>
+            <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
               aria-label="Toggle chat"
@@ -283,6 +320,7 @@ export default function DashboardPage({
             <DashboardRenderer
               spec={displaySpec}
               loading={isStreaming}
+              sources={sources}
               onResetLayout={reset => {
                 resetLayoutRef.current = reset;
               }}
@@ -308,6 +346,16 @@ export default function DashboardPage({
           showExamples={showExamples}
         />
       </div>
+
+      {dataSourcePanelOpen && (
+        <DataSourcePanel
+          configs={configs}
+          onAdd={addSource}
+          onRemove={removeSource}
+          onRefresh={refreshSource}
+          onClose={() => setDataSourcePanelOpen(false)}
+        />
+      )}
     </div>
   );
 }
