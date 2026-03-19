@@ -30,9 +30,16 @@ function buildApiMessages(
   return [...history, { role: 'user' as const, content: newUserText }];
 }
 
+interface DataSourceMeta {
+  name: string;
+  fields: { name: string; type: string; uniqueValues?: number }[];
+  rowCount: number;
+}
+
 interface UseChatOptions {
   api: string;
   initialMessages?: ChatMessage[];
+  dataSources?: DataSourceMeta[];
   onUpdate?: (messages: ChatMessage[], spec: Spec | null) => void;
 }
 
@@ -49,6 +56,7 @@ interface UseChatReturn {
 export function useChat({
   api,
   initialMessages,
+  dataSources,
   onUpdate,
 }: UseChatOptions): UseChatReturn {
   const [messages, setMessages] = useState<ChatMessage[]>(
@@ -112,7 +120,7 @@ export function useChat({
         const response = await fetch(api, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: apiMessages, spec }),
+          body: JSON.stringify({ messages: apiMessages, spec, dataSources }),
           signal: abortRef.current.signal,
         });
 
@@ -204,7 +212,7 @@ export function useChat({
         setIsStreaming(false);
       }
     },
-    [api, spec]
+    [api, spec, dataSources]
   );
 
   const clear = useCallback(() => {

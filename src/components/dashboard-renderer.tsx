@@ -12,11 +12,14 @@ import {
   VisibilityProvider,
   type ComponentRenderer,
 } from '@json-render/react';
-import type { ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
+
+type Row = Record<string, unknown>;
 
 interface DashboardRendererProps {
   spec: Spec | null;
   loading: boolean;
+  additionalSources?: Record<string, Row[]>;
   onResetLayout?: (reset: () => void) => void;
   onRemoveItem?: (key: string) => void;
 }
@@ -30,13 +33,24 @@ const fallback: ComponentRenderer = ({ element }) => (
 export function DashboardRenderer({
   spec,
   loading,
+  additionalSources,
   onResetLayout,
   onRemoveItem,
 }: DashboardRendererProps): ReactNode {
+  const sources = useMemo(() => {
+    const base: Record<string, Row[]> = {
+      projects: projectsData.projects as Row[],
+    };
+    if (additionalSources) {
+      return { ...base, ...additionalSources };
+    }
+    return base;
+  }, [additionalSources]);
+
   if (!spec) return null;
 
   return (
-    <DataProvider projects={projectsData.projects as Record<string, unknown>[]}>
+    <DataProvider sources={sources}>
       <StateProvider initialState={{}}>
         <VisibilityProvider>
           <ActionProvider handlers={{}}>

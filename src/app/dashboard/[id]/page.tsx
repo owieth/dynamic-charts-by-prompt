@@ -1,11 +1,13 @@
 'use client';
 
 import { ChatPanel } from '@/components/chat-panel';
+import { DataUploader } from '@/components/data-uploader';
 import { Sidebar } from '@/components/sidebar';
 import { DEFAULT_DASHBOARD_ID } from '@/lib/default-dashboard';
 import { removeElementFromSpec } from '@/lib/spec-utils';
 import { useChat } from '@/lib/use-chat';
 import { useDashboards } from '@/lib/use-dashboards';
+import { useUserDatasets } from '@/lib/use-user-datasets';
 import type { Spec } from '@json-render/core';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
@@ -77,6 +79,9 @@ export default function DashboardPage({
     renameDashboard,
   } = useDashboards(id);
 
+  const { datasets, addDataset, removeDataset } = useUserDatasets();
+  const [dataUploaderOpen, setDataUploaderOpen] = useState(false);
+
   const resetLayoutRef = useRef<(() => void) | null>(null);
   const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
   const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
@@ -85,6 +90,28 @@ export default function DashboardPage({
     () => activeDashboard?.messages ?? [],
     [activeDashboard?.messages]
   );
+
+  const dataSourcesMeta = useMemo(
+    () =>
+      datasets.map(ds => ({
+        name: ds.name,
+        fields: ds.fields.map(f => ({
+          name: f.name,
+          type: f.type,
+          uniqueValues: f.uniqueValues,
+        })),
+        rowCount: ds.rows.length,
+      })),
+    [datasets]
+  );
+
+  const additionalSources = useMemo(() => {
+    const sources: Record<string, Record<string, unknown>[]> = {};
+    for (const ds of datasets) {
+      sources[ds.name] = ds.rows;
+    }
+    return sources;
+  }, [datasets]);
 
   const onChatUpdate = useCallback(
     (
@@ -120,6 +147,7 @@ export default function DashboardPage({
   } = useChat({
     api: '/api/chat',
     initialMessages,
+    dataSources: dataSourcesMeta,
     onUpdate: onChatUpdate,
   });
 
@@ -251,6 +279,32 @@ export default function DashboardPage({
 
           <div className="flex items-center gap-2">
             <button
+              onClick={() => setDataUploaderOpen(true)}
+              className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
+              aria-label="Manage data sources"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M13.5 4c0 1.1-2.46 2-5.5 2S2.5 5.1 2.5 4m11 0c0-1.1-2.46-2-5.5-2S2.5 2.9 2.5 4m11 0v8c0 1.1-2.46 2-5.5 2s-5.5-.9-5.5-2V4m11 4c0 1.1-2.46 2-5.5 2s-5.5-.9-5.5-2"
+                  stroke="currentColor"
+                  strokeWidth="1.25"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            {datasets.length > 0 && (
+              <span className="text-[10px] tabular-nums text-accent -ml-1.5 mt-3 pointer-events-none select-none">
+                {datasets.length}
+              </span>
+            )}
+            <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
               aria-label="Toggle chat"
@@ -283,6 +337,7 @@ export default function DashboardPage({
             <DashboardRenderer
               spec={displaySpec}
               loading={isStreaming}
+              additionalSources={additionalSources}
               onResetLayout={reset => {
                 resetLayoutRef.current = reset;
               }}
@@ -308,6 +363,14 @@ export default function DashboardPage({
           showExamples={showExamples}
         />
       </div>
+
+      <DataUploader
+        datasets={datasets}
+        onAdd={addDataset}
+        onRemove={removeDataset}
+        open={dataUploaderOpen}
+        onClose={() => setDataUploaderOpen(false)}
+      />
     </div>
   );
 }
