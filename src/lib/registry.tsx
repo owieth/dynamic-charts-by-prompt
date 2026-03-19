@@ -49,7 +49,6 @@ function withSkeleton<P extends ChartPropsBase>(
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const { registry } = defineRegistry(catalog, {
   components: {
     Card,
@@ -72,7 +71,6 @@ const { registry } = defineRegistry(catalog, {
     DoughnutChart: withSkeleton<DoughnutChartProps>(DoughnutChart),
     AreaChart: withSkeleton<AreaChartProps>(AreaChart),
     RadarChart: withSkeleton<RadarChartProps>(RadarChart),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any,
 });
 

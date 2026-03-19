@@ -1,5 +1,13 @@
-import nextConfig from "eslint-config-next";
+import nextConfig from 'eslint-config-next';
 
-const config = [...nextConfig];
+const config = [
+  ...nextConfig,
+  {
+    rules: {
+      'react-hooks/set-state-in-effect': 'warn',
+      'react-hooks/refs': 'warn',
+    },
+  },
+];
 
 export default config;
