@@ -17,6 +17,7 @@ interface GridDashboardProps {
   registry: ComponentRegistry;
   fallback: ComponentRenderer;
   onResetLayout?: (reset: () => void) => void;
+  onRemoveItem?: (key: string) => void;
 }
 
 const BREAKPOINTS = { lg: 0 } as const;
@@ -40,6 +41,7 @@ export function GridDashboard({
   registry,
   fallback,
   onResetLayout,
+  onRemoveItem,
 }: GridDashboardProps) {
   const { width, containerRef, mounted } = useContainerWidth();
   const readyKeys = useRef(new Set<string>());
@@ -149,27 +151,37 @@ export function GridDashboard({
                 key={key}
                 className="group relative overflow-hidden rounded-lg bg-surface/80"
               >
-                {isDraggable && (
-                  <button
-                    type="button"
-                    className="drag-handle absolute top-2 right-2 z-10 flex size-6 items-center justify-center rounded opacity-0 transition-opacity duration-150 group-hover:opacity-100 bg-surface-hi/80 text-ink-muted hover:text-ink cursor-grab active:cursor-grabbing"
-                    aria-label="Drag to reorder"
-                  >
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <circle cx="5" cy="3" r="1" fill="currentColor" />
-                      <circle cx="9" cy="3" r="1" fill="currentColor" />
-                      <circle cx="5" cy="7" r="1" fill="currentColor" />
-                      <circle cx="9" cy="7" r="1" fill="currentColor" />
-                      <circle cx="5" cy="11" r="1" fill="currentColor" />
-                      <circle cx="9" cy="11" r="1" fill="currentColor" />
-                    </svg>
-                  </button>
+                {!loading && (
+                  <div className="absolute top-2 right-2 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                    {onRemoveItem && (
+                      <button
+                        type="button"
+                        onClick={() => onRemoveItem(key)}
+                        className="flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-danger"
+                        aria-label="Remove item"
+                      >
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                          <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
+                      </button>
+                    )}
+                    {isDraggable && (
+                      <button
+                        type="button"
+                        className="drag-handle flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-ink cursor-grab active:cursor-grabbing"
+                        aria-label="Drag to reorder"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                          <circle cx="5" cy="3" r="1" fill="currentColor" />
+                          <circle cx="9" cy="3" r="1" fill="currentColor" />
+                          <circle cx="5" cy="7" r="1" fill="currentColor" />
+                          <circle cx="9" cy="7" r="1" fill="currentColor" />
+                          <circle cx="5" cy="11" r="1" fill="currentColor" />
+                          <circle cx="9" cy="11" r="1" fill="currentColor" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
                 )}
                 {loading && (
                   <div className="absolute top-2 left-2 z-10">
