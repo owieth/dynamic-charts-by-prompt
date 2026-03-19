@@ -16,6 +16,7 @@ interface ChatPanelProps {
   isStreaming: boolean;
   error: Error | null;
   onSend: (text: string) => void;
+  onStop: () => void;
   showExamples: boolean;
 }
 
@@ -24,6 +25,7 @@ export function ChatPanel({
   isStreaming,
   error,
   onSend,
+  onStop,
   showExamples,
 }: ChatPanelProps) {
   const [input, setInput] = useState('');
@@ -166,13 +168,24 @@ export function ChatPanel({
           className="flex-1 resize-none bg-surface border border-border focus:border-accent focus:outline-none px-3 py-2 text-xs text-ink placeholder-ink-dim transition-colors duration-150 ease-out"
           disabled={isStreaming}
         />
-        <button
-          type="submit"
-          disabled={!input.trim() || isStreaming}
-          className="h-full px-3 py-2 shrink-0 self-end bg-accent text-bg font-medium text-xs hover:bg-[#f8b060] active:translate-y-px disabled:bg-surface disabled:text-ink-dim disabled:cursor-not-allowed transition-all duration-150 ease-out"
-        >
-          {isStreaming ? <ThinkingDots /> : '→'}
-        </button>
+        {isStreaming ? (
+          <button
+            type="button"
+            onClick={onStop}
+            className="h-full px-3 py-2 shrink-0 self-end bg-danger/10 text-danger border border-danger/30 font-medium text-xs hover:bg-danger/20 active:translate-y-px transition-all duration-150 ease-out"
+            aria-label="Stop generation"
+          >
+            Stop
+          </button>
+        ) : (
+          <button
+            type="submit"
+            disabled={!input.trim()}
+            className="h-full px-3 py-2 shrink-0 self-end bg-accent text-bg font-medium text-xs hover:bg-[#f8b060] active:translate-y-px disabled:bg-surface disabled:text-ink-dim disabled:cursor-not-allowed transition-all duration-150 ease-out"
+          >
+            →
+          </button>
+        )}
       </form>
     </aside>
   );
