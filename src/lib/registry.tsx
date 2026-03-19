@@ -63,7 +63,13 @@ const { registry } = defineRegistry(catalog, {
     MetricCard: ({
       props,
     }: {
-      props: { label: string; value: string; description: string | null };
+      props: {
+        label: string;
+        value: string;
+        description: string | null;
+        trend: 'up' | 'down' | 'neutral' | null;
+        change: string | null;
+      };
     }) => <MetricCard props={props} />,
     LineChart: withSkeleton<LineChartProps>(LineChart),
     BarChart: withSkeleton<BarChartProps>(BarChart),
