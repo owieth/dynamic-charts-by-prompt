@@ -262,3 +262,69 @@ body {
   bottom: 0;
   transform: rotate(45deg);
 }
+
+/* ─── Print styles ───────────────────────────────────────── */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    background-color: #fff !important;
+    color: #111 !important;
+  }
+
+  /* Hide sidebar, chat panel, and non-essential header controls */
+  [data-print-hide] {
+    display: none !important;
+    width: 0 !important;
+  }
+
+  /* Make main content full-width */
+  .h-dvh {
+    height: auto !important;
+  }
+
+  /* Remove grid background pattern */
+  .dashboard-grid {
+    background-image: none !important;
+    background-color: #fff !important;
+  }
+
+  /* Ensure chart canvases scale properly */
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Page break between grid rows */
+  .react-grid-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Hide resize handles */
+  .react-resizable-handle {
+    display: none !important;
+  }
+
+  /* Remove overflow constraints for print */
+  .overflow-y-auto {
+    overflow: visible !important;
+  }
+
+  /* Light surface colors for print */
+  .bg-surface,
+  .bg-surface\/80 {
+    background-color: #f9f9f9 !important;
+  }
+
+  /* Ensure text is dark for readability */
+  .text-ink {
+    color: #111 !important;
+  }
+  .text-ink-muted {
+    color: #555 !important;
+  }
+}
