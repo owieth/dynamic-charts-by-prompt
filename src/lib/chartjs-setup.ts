@@ -29,32 +29,47 @@ Chart.register(
   zoomPlugin
 );
 
-// Warm instrument theme
-Chart.defaults.color = '#8a8480';
-Chart.defaults.borderColor = '#1e1e24';
+function getCSSVar(name: string): string {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(name)
+    .trim();
+}
+
+/** Apply Chart.js defaults from current CSS custom properties. */
+export function applyChartTheme() {
+  const text = getCSSVar('--chart-text') || '#8a8480';
+  const grid = getCSSVar('--chart-grid') || '#1e1e24';
+  const tooltipBg = getCSSVar('--chart-tooltip-bg') || '#18181f';
+  const tooltipBorder = getCSSVar('--chart-tooltip-border') || '#3f3f48';
+  const title = getCSSVar('--chart-title') || '#f4ede4';
+  const tooltipBody = getCSSVar('--chart-tooltip-body') || '#a8a29e';
+
+  Chart.defaults.color = text;
+  Chart.defaults.borderColor = grid;
+
+  Chart.defaults.scale.grid = { ...Chart.defaults.scale.grid, color: grid };
+
+  Chart.defaults.plugins.tooltip.backgroundColor = tooltipBg;
+  Chart.defaults.plugins.tooltip.borderColor = tooltipBorder;
+  Chart.defaults.plugins.tooltip.titleColor = title;
+  Chart.defaults.plugins.tooltip.bodyColor = tooltipBody;
+
+  Chart.defaults.plugins.title.color = title;
+}
+
+// Font & structural defaults (theme-independent)
 Chart.defaults.font.family = "'Instrument Sans', ui-sans-serif, sans-serif";
 Chart.defaults.font.size = 12;
 
-// Grid lines — subtle
-Chart.defaults.scale.grid = { ...Chart.defaults.scale.grid, color: '#1e1e24' };
-
-// Points — small, clean
 Chart.defaults.elements.point.radius = 3;
 Chart.defaults.elements.point.hoverRadius = 5;
 Chart.defaults.elements.point.borderWidth = 2;
 
-// Lines — smooth
 Chart.defaults.elements.line.tension = 0.35;
 
-// Bar — slight rounding
 Chart.defaults.elements.bar.borderRadius = 3;
 
-// Tooltip — polished
-Chart.defaults.plugins.tooltip.backgroundColor = '#18181f';
-Chart.defaults.plugins.tooltip.borderColor = '#3f3f48';
 Chart.defaults.plugins.tooltip.borderWidth = 1;
-Chart.defaults.plugins.tooltip.titleColor = '#f4ede4';
-Chart.defaults.plugins.tooltip.bodyColor = '#a8a29e';
 Chart.defaults.plugins.tooltip.padding = {
   top: 8,
   bottom: 8,
@@ -65,16 +80,18 @@ Chart.defaults.plugins.tooltip.cornerRadius = 4;
 Chart.defaults.plugins.tooltip.displayColors = true;
 Chart.defaults.plugins.tooltip.boxPadding = 4;
 
-// Legend — compact
 Chart.defaults.plugins.legend.labels.boxWidth = 10;
 Chart.defaults.plugins.legend.labels.useBorderRadius = true;
 Chart.defaults.plugins.legend.labels.borderRadius = 2;
 Chart.defaults.plugins.legend.labels.padding = 16;
 
-// Title — slightly larger
-Chart.defaults.plugins.title.color = '#f4ede4';
 Chart.defaults.plugins.title.font = {
   ...Chart.defaults.plugins.title.font,
   size: 14,
   weight: 'bold',
 };
+
+// Apply initial theme colors
+if (typeof window !== 'undefined') {
+  applyChartTheme();
+}

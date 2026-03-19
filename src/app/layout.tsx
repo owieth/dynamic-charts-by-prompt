@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/lib/theme-context';
 import type { Metadata } from 'next';
 import { Instrument_Sans, Instrument_Serif } from 'next/font/google';
 import './globals.css';
@@ -29,9 +30,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${instrumentSans.variable} ${instrumentSerif.variable}`}
+      className={`dark ${instrumentSans.variable} ${instrumentSerif.variable}`}
+      suppressHydrationWarning
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

@@ -1,7 +1,9 @@
 'use client';
 
+import { ChartThemeSync } from '@/components/chart-theme-sync';
 import { ChatPanel } from '@/components/chat-panel';
 import { Sidebar } from '@/components/sidebar';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { DEFAULT_DASHBOARD_ID } from '@/lib/default-dashboard';
 import { removeElementFromSpec } from '@/lib/spec-utils';
 import { useChat } from '@/lib/use-chat';
@@ -250,6 +252,7 @@ export default function DashboardPage({
           </div>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
@@ -279,6 +282,7 @@ export default function DashboardPage({
         </header>
 
         <main className="flex-1 overflow-y-auto p-4">
+          <ChartThemeSync />
           {hasContent ? (
             <DashboardRenderer
               spec={displaySpec}

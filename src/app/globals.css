@@ -10,17 +10,53 @@
   --font-serif:
     var(--font-instrument-serif), 'Instrument Serif', Georgia, serif;
 
-  --color-bg: #09090b;
-  --color-surface: #111116;
-  --color-surface-hi: #18181f;
-  --color-border: #27272e;
-  --color-border-hi: #3f3f48;
-  --color-ink: #f4ede4;
-  --color-ink-muted: #8a8480;
-  --color-ink-dim: #4a4844;
+  --color-bg: var(--theme-bg);
+  --color-surface: var(--theme-surface);
+  --color-surface-hi: var(--theme-surface-hi);
+  --color-border: var(--theme-border);
+  --color-border-hi: var(--theme-border-hi);
+  --color-ink: var(--theme-ink);
+  --color-ink-muted: var(--theme-ink-muted);
+  --color-ink-dim: var(--theme-ink-dim);
   --color-accent: #f0a050;
   --color-accent-dim: color-mix(in oklch, #f0a050 15%, transparent);
   --color-danger: #ef4444;
+}
+
+/* Dark theme (default) */
+:root {
+  --theme-bg: #09090b;
+  --theme-surface: #111116;
+  --theme-surface-hi: #18181f;
+  --theme-border: #27272e;
+  --theme-border-hi: #3f3f48;
+  --theme-ink: #f4ede4;
+  --theme-ink-muted: #8a8480;
+  --theme-ink-dim: #4a4844;
+  --chart-text: #8a8480;
+  --chart-grid: #1e1e24;
+  --chart-tooltip-bg: #18181f;
+  --chart-tooltip-border: #3f3f48;
+  --chart-title: #f4ede4;
+  --chart-tooltip-body: #a8a29e;
+}
+
+/* Light theme */
+:root.light {
+  --theme-bg: #f8f7f5;
+  --theme-surface: #ffffff;
+  --theme-surface-hi: #f0eeeb;
+  --theme-border: #e2e0dc;
+  --theme-border-hi: #c8c5c0;
+  --theme-ink: #1a1816;
+  --theme-ink-muted: #6b6560;
+  --theme-ink-dim: #b0aaa4;
+  --chart-text: #6b6560;
+  --chart-grid: #e8e5e0;
+  --chart-tooltip-bg: #ffffff;
+  --chart-tooltip-border: #e2e0dc;
+  --chart-title: #1a1816;
+  --chart-tooltip-body: #6b6560;
 }
 
 /* ─── Base ────────────────────────────────────────────────── */
@@ -133,6 +169,28 @@ body {
   --input: 39 39 46;
   --ring: 240 160 80;
   --radius: 0.375rem;
+}
+
+:root.light {
+  --background: 248 247 245;
+  --foreground: 26 24 22;
+  --card: 255 255 255;
+  --card-foreground: 26 24 22;
+  --popover: 255 255 255;
+  --popover-foreground: 26 24 22;
+  --primary: 240 160 80;
+  --primary-foreground: 255 255 255;
+  --secondary: 240 238 235;
+  --secondary-foreground: 60 56 52;
+  --muted: 240 238 235;
+  --muted-foreground: 107 101 96;
+  --accent: 240 238 235;
+  --accent-foreground: 26 24 22;
+  --destructive: 239 68 68;
+  --destructive-foreground: 255 255 255;
+  --border: 226 224 220;
+  --input: 226 224 220;
+  --ring: 240 160 80;
 }
 
 /* ─── Dashboard grid background ──────────────────────────── */
