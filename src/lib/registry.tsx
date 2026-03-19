@@ -1,5 +1,6 @@
 'use client';
 
+import { ChartErrorBoundary } from '@/components/chart-error-boundary';
 import { ChartSkeleton } from '@/components/chart-skeleton';
 import { AreaChart } from '@/components/charts/area-chart';
 import { BarChart } from '@/components/charts/bar-chart';
@@ -42,9 +43,11 @@ function withSkeleton<P extends ChartPropsBase>(
 
     if (!hasData) return <ChartSkeleton />;
     return (
-      <div className="relative h-full min-h-[200px]">
-        <Chart props={props} />
-      </div>
+      <ChartErrorBoundary>
+        <div className="relative h-full min-h-[200px]">
+          <Chart props={props} />
+        </div>
+      </ChartErrorBoundary>
     );
   };
 }
