@@ -3,12 +3,13 @@
 import { ChatPanel } from '@/components/chat-panel';
 import { Sidebar } from '@/components/sidebar';
 import { DEFAULT_DASHBOARD_ID } from '@/lib/default-dashboard';
+import { decodeSpec, encodeSpec } from '@/lib/share-utils';
 import { removeElementFromSpec } from '@/lib/spec-utils';
 import { useChat } from '@/lib/use-chat';
 import { useDashboards } from '@/lib/use-dashboards';
 import type { Spec } from '@json-render/core';
 import dynamic from 'next/dynamic';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { use, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 function usePersistedState(
@@ -66,6 +67,19 @@ export default function DashboardPage({
 }) {
   const { id } = use(params);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [sharedSpec, setSharedSpec] = useState<Spec | null>(null);
+  const isSharedView = id === 'shared' && sharedSpec !== null;
+
+  useEffect(() => {
+    const specParam = searchParams.get('spec');
+    if (id === 'shared' && specParam) {
+      decodeSpec(specParam).then(spec => {
+        if (spec) setSharedSpec(spec);
+      });
+    }
+  }, [id, searchParams]);
 
   const {
     dashboards,
@@ -123,7 +137,7 @@ export default function DashboardPage({
     onUpdate: onChatUpdate,
   });
 
-  const displaySpec = chatSpec ?? activeDashboard?.spec ?? null;
+  const displaySpec = sharedSpec ?? chatSpec ?? activeDashboard?.spec ?? null;
   const hasContent = !isSpecEmpty(displaySpec);
   const showExamples = !activeDashboard?.spec && messages.length === 0;
 
@@ -135,6 +149,19 @@ export default function DashboardPage({
     },
     [displaySpec, activeDashboard, updateDashboard]
   );
+
+  const [shareCopied, setShareCopied] = useState(false);
+  const shareTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const handleShare = useCallback(async () => {
+    if (!displaySpec) return;
+    const encoded = await encodeSpec(displaySpec);
+    const url = `${window.location.origin}/dashboard/shared?spec=${encoded}`;
+    await navigator.clipboard.writeText(url);
+    setShareCopied(true);
+    clearTimeout(shareTimeoutRef.current);
+    shareTimeoutRef.current = setTimeout(() => setShareCopied(false), 2000);
+  }, [displaySpec]);
 
   const handleNewDashboard = useCallback(() => {
     const dashboard = createDashboard();
@@ -162,7 +189,7 @@ export default function DashboardPage({
     <div className="h-dvh flex">
       <div
         className="shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
-        style={{ width: sidebarOpen ? 256 : 0 }}
+        style={{ width: !isSharedView && sidebarOpen ? 256 : 0 }}
       >
         <Sidebar
           dashboards={dashboards}
@@ -250,6 +277,63 @@ export default function DashboardPage({
           </div>
 
           <div className="flex items-center gap-2">
+            {hasContent && (
+              <button
+                onClick={handleShare}
+                className="h-8 flex items-center gap-1.5 px-2 text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
+                aria-label="Share dashboard"
+              >
+                {shareCopied ? (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3.5 8.5L6.5 11.5L12.5 4.5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M6 3.5H4.5C3.67157 3.5 3 4.17157 3 5V12C3 12.8284 3.67157 13.5 4.5 13.5H11.5C12.3284 13.5 13 12.8284 13 12V5C13 4.17157 12.3284 3.5 11.5 3.5H10"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M8 1.5V9"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M5.5 4L8 1.5L10.5 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+                {shareCopied && (
+                  <span className="text-xs text-accent">Link copied!</span>
+                )}
+              </button>
+            )}
+            {!isSharedView && (
             <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
@@ -275,6 +359,7 @@ export default function DashboardPage({
                 />
               </svg>
             </button>
+            )}
           </div>
         </header>
 
@@ -298,7 +383,7 @@ export default function DashboardPage({
 
       <div
         className="shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
-        style={{ width: chatOpen ? 320 : 0 }}
+        style={{ width: !isSharedView && chatOpen ? 320 : 0 }}
       >
         <ChatPanel
           messages={messages}
