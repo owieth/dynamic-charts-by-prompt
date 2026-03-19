@@ -147,10 +147,17 @@ export function useGridLayout(spec: Spec | null, isStreaming: boolean) {
   const childKeysRef = useRef(childKeys);
   childKeysRef.current = childKeys;
 
+  // Track whether the layout has been properly initialized.
+  // RGL fires onLayoutChange immediately with a compacted/default layout
+  // before our packed layout is applied. We must skip saving until our
+  // layout has been set at least once.
+  const layoutInitialized = useRef(false);
+
   // Build layout when childKeys change (streaming adds) or streaming ends
   useEffect(() => {
     if (!spec || childKeys.length === 0) {
       setLayout([]);
+      layoutInitialized.current = false;
       return;
     }
 
@@ -175,6 +182,13 @@ export function useGridLayout(spec: Spec | null, isStreaming: boolean) {
       const saved = loadLayout(childKeys);
       setLayout(saved ?? packLayout(spec, childKeys));
     }
+
+    // Allow saving after a short delay to skip the initial RGL compaction callback
+    layoutInitialized.current = false;
+    const timer = setTimeout(() => {
+      layoutInitialized.current = true;
+    }, 100);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childKeys, isStreaming]);
 
@@ -183,7 +197,11 @@ export function useGridLayout(spec: Spec | null, isStreaming: boolean) {
   // the user's arrangement for persistence.
   const onLayoutChange = useCallback(
     (newLayout: readonly LayoutItem[]) => {
-      if (!isStreaming && childKeysRef.current.length > 0) {
+      if (
+        !isStreaming &&
+        layoutInitialized.current &&
+        childKeysRef.current.length > 0
+      ) {
         saveLayout(childKeysRef.current, [...newLayout]);
       }
     },
