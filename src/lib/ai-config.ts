@@ -1,5 +1,6 @@
 import { catalog } from '@/lib/catalog';
-import { sampleDataContext } from '@/lib/sample-data';
+import type { DatasetInfo } from '@/lib/data-context';
+import { buildFullDataContext, sampleDataContext } from '@/lib/sample-data';
 import { anthropic } from '@ai-sdk/anthropic';
 import { gateway } from '@ai-sdk/gateway';
 
@@ -18,10 +19,25 @@ const CUSTOM_RULES = [
   'Prefer distinct colors: blue (#3b82f6), orange (#f97316), green (#22c55e), violet (#8b5cf6), rose (#f43f5e), amber (#f59e0b).',
 ];
 
+const catalogPrompt = catalog.prompt({ customRules: CUSTOM_RULES });
+
+/** Default system prompt (projects only, no custom datasets) */
 export const SYSTEM_PROMPT =
-  catalog.prompt({ customRules: CUSTOM_RULES }) +
+  catalogPrompt +
   '\n\n---\n\n' +
   sampleDataContext;
+
+/** Build a system prompt that includes custom dataset descriptions */
+export function buildSystemPrompt(customDatasets?: DatasetInfo[]): string {
+  if (!customDatasets || customDatasets.length === 0) {
+    return SYSTEM_PROMPT;
+  }
+  return (
+    catalogPrompt +
+    '\n\n---\n\n' +
+    buildFullDataContext(customDatasets)
+  );
+}
 
 export function getModel() {
   if (process.env.ANTHROPIC_API_KEY) {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useDataSource } from './data-context';
+import { useDataSources } from './data-context';
 import {
   resolveQuery,
   resolveMultiQuery,
@@ -32,7 +32,7 @@ interface ChartProps {
 }
 
 export function useChartData(props: ChartProps): ResolvedChartData {
-  const projects = useDataSource('projects');
+  const sources = useDataSources();
 
   return useMemo(() => {
     const applyOverrides = (
@@ -46,10 +46,16 @@ export function useChartData(props: ChartProps): ResolvedChartData {
         fill: props.fill ?? ds.fill,
       }));
 
+    // Resolve the data source from query
+    const getDataForQuery = (query: DataQuery) =>
+      sources[query.source] ?? [];
+
     // Prefer dataQueries (multi-series) if provided
     if (props.dataQueries && props.dataQueries.length > 0) {
+      // For multi-query, use source from first query (they typically share a source)
+      const data = getDataForQuery(props.dataQueries[0]);
       const resolved = resolveMultiQuery(
-        projects,
+        data,
         props.dataQueries,
         props.datasetLabels ?? undefined
       );
@@ -58,8 +64,9 @@ export function useChartData(props: ChartProps): ResolvedChartData {
 
     // Single dataQuery
     if (props.dataQuery) {
+      const data = getDataForQuery(props.dataQuery);
       const resolved = resolveQuery(
-        projects,
+        data,
         props.dataQuery,
         props.datasetLabel ?? undefined
       );
@@ -81,7 +88,7 @@ export function useChartData(props: ChartProps): ResolvedChartData {
       ),
     };
   }, [
-    projects,
+    sources,
     props.dataQuery,
     props.dataQueries,
     props.datasetLabel,

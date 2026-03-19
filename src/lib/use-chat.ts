@@ -1,5 +1,6 @@
 'use client';
 
+import type { DatasetInfo } from '@/lib/data-context';
 import type { Spec } from '@json-render/core';
 import { applySpecPatch, createMixedStreamParser } from '@json-render/core';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -33,6 +34,7 @@ function buildApiMessages(
 interface UseChatOptions {
   api: string;
   initialMessages?: ChatMessage[];
+  customDatasets?: DatasetInfo[];
   onUpdate?: (messages: ChatMessage[], spec: Spec | null) => void;
 }
 
@@ -49,6 +51,7 @@ interface UseChatReturn {
 export function useChat({
   api,
   initialMessages,
+  customDatasets,
   onUpdate,
 }: UseChatOptions): UseChatReturn {
   const [messages, setMessages] = useState<ChatMessage[]>(
@@ -112,7 +115,7 @@ export function useChat({
         const response = await fetch(api, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: apiMessages, spec }),
+          body: JSON.stringify({ messages: apiMessages, spec, customDatasets }),
           signal: abortRef.current.signal,
         });
 
@@ -204,7 +207,7 @@ export function useChat({
         setIsStreaming(false);
       }
     },
-    [api, spec]
+    [api, spec, customDatasets]
   );
 
   const clear = useCallback(() => {

@@ -54,7 +54,7 @@ export function Sidebar({
   }, [editingId, editValue, onRename]);
 
   return (
-    <aside className="w-64 shrink-0 border-r border-border bg-bg flex flex-col h-full">
+    <aside className="w-64 shrink-0 border-r border-border bg-bg flex flex-col min-h-0 flex-1">
       <div className="px-4 py-4 border-b border-border/60 flex items-center justify-between">
         <span className="text-xs text-ink-muted uppercase tracking-[0.15em] font-medium">
           Dashboards

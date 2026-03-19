@@ -57,7 +57,7 @@ export type RadarChartProps = z.infer<typeof radarChartSchema>;
 export const dataTableSchema = z.object({
   title: z.string().nullable(),
   columns: z.array(z.string()),
-  source: z.literal('projects'),
+  source: z.string(),
   filter: z
     .record(z.string(), z.union([z.string(), z.array(z.string())]))
     .nullable(),

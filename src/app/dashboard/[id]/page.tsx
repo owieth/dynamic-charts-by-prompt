@@ -1,7 +1,9 @@
 'use client';
 
 import { ChatPanel } from '@/components/chat-panel';
+import { DataUploader, type UploadedDataset } from '@/components/data-uploader';
 import { Sidebar } from '@/components/sidebar';
+import type { DataSources } from '@/lib/data-context';
 import { DEFAULT_DASHBOARD_ID } from '@/lib/default-dashboard';
 import { removeElementFromSpec } from '@/lib/spec-utils';
 import { useChat } from '@/lib/use-chat';
@@ -80,6 +82,31 @@ export default function DashboardPage({
   const resetLayoutRef = useRef<(() => void) | null>(null);
   const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
   const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
+  const [uploadedDatasets, setUploadedDatasets] = useState<UploadedDataset[]>([]);
+
+  const handleAddDataset = useCallback((dataset: UploadedDataset) => {
+    setUploadedDatasets(prev => {
+      const filtered = prev.filter(d => d.name !== dataset.name);
+      return [...filtered, dataset];
+    });
+  }, []);
+
+  const handleRemoveDataset = useCallback((name: string) => {
+    setUploadedDatasets(prev => prev.filter(d => d.name !== name));
+  }, []);
+
+  const customDatasetInfos = useMemo(
+    () => uploadedDatasets.map(d => d.info),
+    [uploadedDatasets]
+  );
+
+  const customDataSources = useMemo<DataSources>(() => {
+    const sources: DataSources = {};
+    for (const ds of uploadedDatasets) {
+      sources[ds.name] = ds.rows;
+    }
+    return sources;
+  }, [uploadedDatasets]);
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
@@ -120,6 +147,7 @@ export default function DashboardPage({
   } = useChat({
     api: '/api/chat',
     initialMessages,
+    customDatasets: customDatasetInfos,
     onUpdate: onChatUpdate,
   });
 
@@ -164,16 +192,25 @@ export default function DashboardPage({
         className="shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
         style={{ width: sidebarOpen ? 256 : 0 }}
       >
-        <Sidebar
-          dashboards={dashboards}
-          activeId={activeId}
-          onSelect={dashboardId => {
-            handleSelectDashboard(dashboardId);
-          }}
-          onCreate={handleNewDashboard}
-          onRename={renameDashboard}
-          onDelete={handleDeleteDashboard}
-        />
+        <div className="flex flex-col h-full">
+          <Sidebar
+            dashboards={dashboards}
+            activeId={activeId}
+            onSelect={dashboardId => {
+              handleSelectDashboard(dashboardId);
+            }}
+            onCreate={handleNewDashboard}
+            onRename={renameDashboard}
+            onDelete={handleDeleteDashboard}
+          />
+          <div className="border-t border-border/60">
+            <DataUploader
+              datasets={uploadedDatasets}
+              onAdd={handleAddDataset}
+              onRemove={handleRemoveDataset}
+            />
+          </div>
+        </div>
       </div>
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -283,6 +320,7 @@ export default function DashboardPage({
             <DashboardRenderer
               spec={displaySpec}
               loading={isStreaming}
+              customDataSources={customDataSources}
               onResetLayout={reset => {
                 resetLayoutRef.current = reset;
               }}

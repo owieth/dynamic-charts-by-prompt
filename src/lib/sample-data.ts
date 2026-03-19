@@ -1,3 +1,4 @@
+import type { DatasetInfo } from './data-context';
 import projectsData from './projects.json';
 
 // Compute portfolio totals dynamically from whatever dataset is loaded
@@ -120,3 +121,86 @@ Use these pre-computed values for summary metric cards:
 - Countries: ${totals.countries}
 - Technologies: ${totals.technologies}
 `;
+
+/** Generate a data context prompt section for a custom dataset */
+export function buildDatasetContext(info: DatasetInfo): string {
+  const categorical = info.fields.filter(f => f.type === 'string');
+  const numeric = info.fields.filter(f => f.type === 'number');
+  const date = info.fields.filter(f => f.type === 'date');
+  const boolean = info.fields.filter(f => f.type === 'boolean');
+
+  let ctx = `\n## Data Source: ${info.name}\n\n`;
+  ctx += `${info.rowCount} rows. Charts use \`dataQuery\` with \`"source": "${info.name}"\` to query this data.\n`;
+  ctx += `You NEVER embed raw data — instead, specify a dataQuery and the frontend resolves it.\n\n`;
+  ctx += `### Available Fields\n\n`;
+
+  if (categorical.length > 0) {
+    ctx += `**Categorical (use as groupBy / filter):**\n`;
+    ctx += `| Field | Unique Values | Sample |\n`;
+    ctx += `|-------|---------------|--------|\n`;
+    for (const f of categorical) {
+      ctx += `| ${f.name} | ${f.uniqueCount} | ${f.sample.slice(0, 3).join(', ')} |\n`;
+    }
+    ctx += '\n';
+  }
+
+  if (numeric.length > 0) {
+    ctx += `**Numeric (use as valueField for sum/avg/min/max):**\n`;
+    ctx += `| Field | Unique Values |\n`;
+    ctx += `|-------|---------------|\n`;
+    for (const f of numeric) {
+      ctx += `| ${f.name} | ${f.uniqueCount} |\n`;
+    }
+    ctx += '\n';
+  }
+
+  if (date.length > 0) {
+    ctx += `**Date (use with :year or :quarter suffix for grouping):**\n`;
+    ctx += `| Field | Sample |\n`;
+    ctx += `|-------|--------|\n`;
+    for (const f of date) {
+      ctx += `| ${f.name} | ${f.sample.slice(0, 2).join(', ')} |\n`;
+    }
+    ctx += '\n';
+  }
+
+  if (boolean.length > 0) {
+    ctx += `**Boolean:**\n`;
+    ctx += `| Field |\n`;
+    ctx += `|-------|\n`;
+    for (const f of boolean) {
+      ctx += `| ${f.name} |\n`;
+    }
+    ctx += '\n';
+  }
+
+  // Add a simple query example
+  const groupField = categorical[0] ?? info.fields[0];
+  if (groupField) {
+    ctx += `### DataQuery Example\n\n`;
+    ctx += `Count by ${groupField.name}:\n`;
+    ctx += `\`\`\`json\n`;
+    ctx += `{ "source": "${info.name}", "filter": null, "groupBy": "${groupField.name}", "aggregate": "count", "valueField": null, "sort": "desc", "limit": 10 }\n`;
+    ctx += `\`\`\`\n`;
+  }
+
+  return ctx;
+}
+
+/** Build the full data context for all datasets (built-in + custom) */
+export function buildFullDataContext(customDatasets: DatasetInfo[]): string {
+  let context = sampleDataContext;
+  for (const ds of customDatasets) {
+    context += '\n---\n' + buildDatasetContext(ds);
+  }
+  if (customDatasets.length > 0) {
+    context += `\n---\n\n## Available Data Sources\n\n`;
+    context += `The following data sources are available for dataQuery:\n`;
+    context += `- \`"projects"\` — built-in renewable energy projects\n`;
+    for (const ds of customDatasets) {
+      context += `- \`"${ds.name}"\` — uploaded dataset (${ds.rowCount} rows)\n`;
+    }
+    context += `\nWhen the user asks about their uploaded data, use the appropriate source name in dataQuery.\n`;
+  }
+  return context;
+}
