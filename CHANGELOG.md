@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.1.0...v1.2.0) (2026-03-19)
+
+
+### Features
+
+* add trend indicator to MetricCard ([2fcc6a9](https://github.com/owieth/dynamic-charts-by-prompt/commit/2fcc6a9baaa596765728c27f711b8b93750e66ac))
+
 ## [1.1.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.2...v1.1.0) (2026-03-19)
 
 
