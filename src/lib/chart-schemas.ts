@@ -51,3 +51,18 @@ export type PieChartProps = z.infer<typeof pieChartSchema>;
 export type DoughnutChartProps = z.infer<typeof doughnutChartSchema>;
 export type AreaChartProps = z.infer<typeof areaChartSchema>;
 export type RadarChartProps = z.infer<typeof radarChartSchema>;
+
+export const dataTableSchema = z.object({
+  title: z.string().nullable(),
+  columns: z.array(z.string()),
+  source: z.literal('projects'),
+  filter: z
+    .record(z.string(), z.union([z.string(), z.array(z.string())]))
+    .nullable(),
+  sortBy: z.string().nullable(),
+  sortDir: z.enum(['asc', 'desc']).nullable(),
+  limit: z.number().nullable(),
+  pageSize: z.number().nullable(),
+});
+
+export type DataTableProps = z.infer<typeof dataTableSchema>;

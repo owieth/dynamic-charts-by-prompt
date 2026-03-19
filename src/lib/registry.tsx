@@ -7,6 +7,7 @@ import { DoughnutChart } from '@/components/charts/doughnut-chart';
 import { LineChart } from '@/components/charts/line-chart';
 import { PieChart } from '@/components/charts/pie-chart';
 import { RadarChart } from '@/components/charts/radar-chart';
+import { DataTable } from '@/components/data-table';
 import { DashboardHeader } from '@/components/dashboard-header';
 import { MetricCard } from '@/components/metric-card';
 import { defineRegistry } from '@json-render/react';
@@ -16,6 +17,7 @@ import { catalog } from './catalog';
 import type {
   AreaChartProps,
   BarChartProps,
+  DataTableProps,
   DoughnutChartProps,
   LineChartProps,
   PieChartProps,
@@ -83,6 +85,9 @@ const { registry } = defineRegistry(catalog, {
     DoughnutChart: withSkeleton<DoughnutChartProps>(DoughnutChart),
     AreaChart: withSkeleton<AreaChartProps>(AreaChart),
     RadarChart: withSkeleton<RadarChartProps>(RadarChart),
+    DataTable: ({ props }: { props: DataTableProps }) => (
+      <DataTable props={props} />
+    ),
   } as any,
 });
 
