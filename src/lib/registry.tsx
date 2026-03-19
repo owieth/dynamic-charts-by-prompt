@@ -1,12 +1,12 @@
 'use client';
 
+import { ChartSkeleton } from '@/components/chart-skeleton';
 import { AreaChart } from '@/components/charts/area-chart';
 import { BarChart } from '@/components/charts/bar-chart';
 import { DoughnutChart } from '@/components/charts/doughnut-chart';
 import { LineChart } from '@/components/charts/line-chart';
 import { PieChart } from '@/components/charts/pie-chart';
 import { RadarChart } from '@/components/charts/radar-chart';
-import { ChartSkeleton } from '@/components/chart-skeleton';
 import { MetricCard } from '@/components/metric-card';
 import { defineRegistry } from '@json-render/react';
 import { shadcnComponents } from '@json-render/shadcn';
