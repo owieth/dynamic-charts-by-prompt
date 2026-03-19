@@ -76,6 +76,52 @@ const PALETTE = [
   'rgba(20,184,166,0.8)', // teal
 ];
 
+export function resolveMultiQuery(
+  data: Row[],
+  queries: DataQuery[],
+  datasetLabels?: string[]
+): ResolvedChartData {
+  const perQuery = queries.map((q, i) =>
+    resolveQuery(data, q, datasetLabels?.[i])
+  );
+
+  // Merge labels: union preserving order from the first query
+  const labelSet = new Set<string>();
+  const mergedLabels: string[] = [];
+  for (const resolved of perQuery) {
+    for (const label of resolved.labels) {
+      if (!labelSet.has(label)) {
+        labelSet.add(label);
+        mergedLabels.push(label);
+      }
+    }
+  }
+
+  // Build one dataset per query, aligned to mergedLabels with 0 for missing
+  const datasets: ResolvedChartData['datasets'] = perQuery.map(
+    (resolved, i) => {
+      const labelToValue = new Map<string, number>();
+      resolved.labels.forEach((label, idx) => {
+        labelToValue.set(label, resolved.datasets[0]?.data[idx] ?? 0);
+      });
+
+      const alignedData = mergedLabels.map(l => labelToValue.get(l) ?? 0);
+      const color = PALETTE[i % PALETTE.length];
+
+      return {
+        label: resolved.datasets[0]?.label ?? `Series ${i + 1}`,
+        data: alignedData,
+        backgroundColor: color,
+        borderColor: color,
+        borderWidth: null,
+        fill: null,
+      };
+    }
+  );
+
+  return { labels: mergedLabels, datasets };
+}
+
 export function resolveQuery(
   data: Row[],
   query: DataQuery,
