@@ -161,6 +161,7 @@ export default function DashboardPage({
   return (
     <div className="h-dvh flex">
       <div
+        data-print-hide
         className="shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
         style={{ width: sidebarOpen ? 256 : 0 }}
       >
@@ -249,7 +250,44 @@ export default function DashboardPage({
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" data-print-hide>
+            <button
+              onClick={() => window.print()}
+              className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
+              aria-label="Print dashboard"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M4 6V1.5h8V6"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <rect
+                  x="1.5"
+                  y="6"
+                  width="13"
+                  height="6"
+                  rx="1"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="M4 10h8v4.5H4V10Z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
             <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
@@ -297,6 +335,7 @@ export default function DashboardPage({
       </div>
 
       <div
+        data-print-hide
         className="shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
         style={{ width: chatOpen ? 320 : 0 }}
       >
