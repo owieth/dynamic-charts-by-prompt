@@ -251,20 +251,6 @@ export default function DashboardPage({
           </div>
 
           <div className="flex items-center gap-2">
-            {hasContent && !isStreaming && (
-              <button
-                onClick={() => resetLayoutRef.current?.()}
-                className="text-xs text-ink-muted hover:text-ink px-3 py-1.5 border border-border hover:border-border-hi transition-colors duration-150"
-              >
-                Reset layout
-              </button>
-            )}
-            <button
-              onClick={handleNewDashboard}
-              className="text-xs text-ink-muted hover:text-ink px-3 py-1.5 border border-border hover:border-border-hi transition-colors duration-150"
-            >
-              + New
-            </button>
             <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-ink"
