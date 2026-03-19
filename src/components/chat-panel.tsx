@@ -163,7 +163,7 @@ export function ChatPanel({
         <button
           type="submit"
           disabled={!input.trim() || isStreaming}
-          className="px-3 py-2 shrink-0 self-end bg-accent text-bg font-medium text-xs hover:bg-[#f8b060] active:translate-y-px disabled:bg-surface disabled:text-ink-dim disabled:cursor-not-allowed transition-all duration-150"
+          className="h-full px-3 py-2 shrink-0 self-end bg-accent text-bg font-medium text-xs hover:bg-[#f8b060] active:translate-y-px disabled:bg-surface disabled:text-ink-dim disabled:cursor-not-allowed transition-all duration-150"
         >
           {isStreaming ? <ThinkingDots /> : '→'}
         </button>
