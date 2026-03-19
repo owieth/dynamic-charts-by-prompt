@@ -24,7 +24,6 @@ export interface Dashboard {
 }
 
 const STORAGE_KEY = 'dashboards';
-const ACTIVE_KEY = 'active-dashboard-id';
 
 function createDefaultDashboard(): Dashboard {
   return {
@@ -55,25 +54,8 @@ function saveDashboards(dashboards: Dashboard[]) {
   }
 }
 
-function loadActiveId(): string | null {
-  try {
-    return localStorage.getItem(ACTIVE_KEY);
-  } catch {
-    return null;
-  }
-}
-
-function saveActiveId(id: string) {
-  try {
-    localStorage.setItem(ACTIVE_KEY, id);
-  } catch {
-    // fail silently
-  }
-}
-
-export function useDashboards() {
+export function useDashboards(activeId: string) {
   const [dashboards, setDashboards] = useState<Dashboard[]>([]);
-  const [activeId, setActiveId] = useState<string>(DEFAULT_DASHBOARD_ID);
   const [initialized, setInitialized] = useState(false);
   const dashboardsRef = useRef(dashboards);
   dashboardsRef.current = dashboards;
@@ -90,7 +72,6 @@ export function useDashboards() {
       loaded = [createDefaultDashboard(), ...loaded];
       saveDashboards(loaded);
     } else if (existingDefault.messages.length === 0) {
-      // Refresh spec from code if user hasn't chatted on the default dashboard
       loaded = loaded.map(d =>
         d.id === DEFAULT_DASHBOARD_ID
           ? { ...d, spec: DEFAULT_DASHBOARD_SPEC }
@@ -99,14 +80,6 @@ export function useDashboards() {
       saveDashboards(loaded);
     }
     setDashboards(loaded);
-
-    const savedActiveId = loadActiveId();
-    if (savedActiveId && loaded.find(d => d.id === savedActiveId)) {
-      setActiveId(savedActiveId);
-    } else {
-      setActiveId(loaded[0].id);
-      saveActiveId(loaded[0].id);
-    }
     setInitialized(true);
   }, []);
 
@@ -116,11 +89,6 @@ export function useDashboards() {
   const persist = useCallback((next: Dashboard[]) => {
     setDashboards(next);
     saveDashboards(next);
-  }, []);
-
-  const selectDashboard = useCallback((id: string) => {
-    setActiveId(id);
-    saveActiveId(id);
   }, []);
 
   const createDashboard = useCallback((): Dashboard => {
@@ -134,8 +102,6 @@ export function useDashboards() {
     };
     const next = [dashboard, ...dashboardsRef.current];
     persist(next);
-    setActiveId(dashboard.id);
-    saveActiveId(dashboard.id);
     return dashboard;
   }, [persist]);
 
@@ -157,13 +123,8 @@ export function useDashboards() {
       if (id === DEFAULT_DASHBOARD_ID) return;
       const next = dashboardsRef.current.filter(d => d.id !== id);
       persist(next);
-      if (activeId === id) {
-        const newActive = next[0]?.id ?? DEFAULT_DASHBOARD_ID;
-        setActiveId(newActive);
-        saveActiveId(newActive);
-      }
     },
-    [activeId, persist]
+    [persist]
   );
 
   const renameDashboard = useCallback(
@@ -179,7 +140,6 @@ export function useDashboards() {
     activeId,
     initialized,
     createDashboard,
-    selectDashboard,
     updateDashboard,
     deleteDashboard,
     renameDashboard,
