@@ -21,7 +21,7 @@ interface GridDashboardProps {
 
 const BREAKPOINTS = { lg: 0 } as const;
 const COLS = { lg: 12 } as const;
-const MARGIN = [16, 16] as [number, number];
+const MARGIN = [8, 8] as [number, number];
 const RESIZE_HANDLES = ['se'] as const;
 
 function CellSkeleton() {
@@ -121,7 +121,7 @@ export function GridDashboard({
   }
 
   return (
-    <div ref={containerRef} className="dashboard-grid rounded-lg p-2">
+    <div ref={containerRef}>
       {mounted && (
         <ResponsiveGridLayout
           key={layoutVersion}
@@ -147,7 +147,7 @@ export function GridDashboard({
             return (
               <div
                 key={key}
-                className="group relative overflow-hidden rounded-lg border border-border bg-surface/80 hover:border-border-hi transition-colors duration-150"
+                className="group relative overflow-hidden rounded-lg bg-surface/80"
               >
                 {isDraggable && (
                   <button
@@ -176,7 +176,7 @@ export function GridDashboard({
                     <div className="size-2 rounded-full bg-accent animate-pulse" />
                   </div>
                 )}
-                <div className="size-full overflow-auto">
+                <div className="size-full overflow-auto [&_[data-slot=card]]:h-full [&_[data-slot=card]]:border-0 [&_[data-slot=card]]:shadow-none [&_[data-slot=card]]:rounded-none [&_[data-slot=card]]:py-3 [&_[data-slot=card-content]]:flex-1 [&_[data-slot=card-content]]:min-h-0">
                   {showSkeleton ? (
                     <CellSkeleton />
                   ) : (
