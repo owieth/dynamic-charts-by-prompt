@@ -161,7 +161,10 @@ export default function DashboardPage({
 
   return (
     <div className="h-dvh flex">
-      {sidebarOpen && (
+      <div
+        className="shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
+        style={{ width: sidebarOpen ? 256 : 0 }}
+      >
         <Sidebar
           dashboards={dashboards}
           activeId={activeId}
@@ -172,7 +175,7 @@ export default function DashboardPage({
           onRename={renameDashboard}
           onDelete={handleDeleteDashboard}
         />
-      )}
+      </div>
 
       <div className="flex-1 flex flex-col min-w-0">
         <header className="border-b border-border/60 px-4 py-3 flex items-center justify-between shrink-0">
@@ -308,7 +311,10 @@ export default function DashboardPage({
         </main>
       </div>
 
-      {chatOpen && (
+      <div
+        className="shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
+        style={{ width: chatOpen ? 320 : 0 }}
+      >
         <ChatPanel
           messages={messages}
           isStreaming={isStreaming}
@@ -316,7 +322,7 @@ export default function DashboardPage({
           onSend={send}
           showExamples={showExamples}
         />
-      )}
+      </div>
     </div>
   );
 }
