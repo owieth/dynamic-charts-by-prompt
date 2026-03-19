@@ -1,413 +1,636 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Charts by Prompt — Documentation</title>
-  <meta name="description" content="AI-powered dashboard generation from natural language prompts. Built with Next.js, Chart.js, and Anthropic Claude.">
-  <link rel="canonical" href="https://owieth.github.io/dynamic-charts-by-prompt/">
-  <meta name="theme-color" content="#0071e3" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#4da3ff" media="(prefers-color-scheme: dark)">
-  <style>
-    :root {
-      --bg: #fafafa;
-      --surface: #fff;
-      --text: #1a1a1a;
-      --text-secondary: #555;
-      --accent: #0071e3;
-      --accent-light: #e8f2ff;
-      --border: #e5e5e5;
-      --code-bg: #f5f5f5;
-    }
-    @media (prefers-color-scheme: dark) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Charts by Prompt — Documentation</title>
+    <meta
+      name="description"
+      content="AI-powered dashboard generation from natural language prompts. Built with Next.js, Chart.js, and Anthropic Claude."
+    />
+    <link
+      rel="canonical"
+      href="https://owieth.github.io/dynamic-charts-by-prompt/"
+    />
+    <meta
+      name="theme-color"
+      content="#0071e3"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#4da3ff"
+      media="(prefers-color-scheme: dark)"
+    />
+    <style>
       :root {
-        --bg: #111;
-        --surface: #1a1a1a;
-        --text: #f0f0f0;
-        --text-secondary: #999;
-        --accent: #4da3ff;
-        --accent-light: #1a2a3f;
-        --border: #2a2a2a;
-        --code-bg: #222;
+        --bg: #fafafa;
+        --surface: #fff;
+        --text: #1a1a1a;
+        --text-secondary: #555;
+        --accent: #0071e3;
+        --accent-light: #e8f2ff;
+        --border: #e5e5e5;
+        --code-bg: #f5f5f5;
       }
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111;
+          --surface: #1a1a1a;
+          --text: #f0f0f0;
+          --text-secondary: #999;
+          --accent: #4da3ff;
+          --accent-light: #1a2a3f;
+          --border: #2a2a2a;
+          --code-bg: #222;
+        }
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue',
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      .container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
 
-    /* Hero */
-    .hero {
-      padding: 80px 0 48px;
-      text-align: center;
-    }
-    .hero h1 {
-      font-size: 40px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
-      text-wrap: balance;
-    }
-    .hero p {
-      font-size: 18px;
-      color: var(--text-secondary);
-      max-width: 520px;
-      margin: 0 auto 32px;
-      text-wrap: pretty;
-    }
-    .badge {
-      display: inline-block;
-      padding: 6px 14px;
-      background: var(--accent-light);
-      color: var(--accent);
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-    }
+      /* Hero */
+      .hero {
+        padding: 80px 0 48px;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 40px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+        text-wrap: balance;
+      }
+      .hero p {
+        font-size: 18px;
+        color: var(--text-secondary);
+        max-width: 520px;
+        margin: 0 auto 32px;
+        text-wrap: pretty;
+      }
+      .badge {
+        display: inline-block;
+        padding: 6px 14px;
+        background: var(--accent-light);
+        color: var(--accent);
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 600;
+      }
 
-    /* Nav */
-    nav {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 24px;
-    }
-    nav a {
-      padding: 8px 16px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: background 0.15s;
-    }
-    nav a:hover { background: var(--accent-light); }
+      /* Nav */
+      nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 24px;
+      }
+      nav a {
+        padding: 8px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background 0.15s;
+      }
+      nav a:hover {
+        background: var(--accent-light);
+      }
 
-    /* Sections */
-    section { padding: 48px 0; }
-    section + section { border-top: 1px solid var(--border); }
-    h2 {
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin-bottom: 24px;
-      text-wrap: balance;
-    }
-    h3 {
-      font-size: 18px;
-      font-weight: 600;
-      margin: 24px 0 8px;
-    }
-    p, li { color: var(--text-secondary); font-size: 16px; }
-    p + p { margin-top: 12px; }
-    ul, ol { padding-left: 20px; margin-top: 8px; }
-    li { margin-bottom: 6px; }
-    li strong { color: var(--text); }
+      /* Sections */
+      section {
+        padding: 48px 0;
+      }
+      section + section {
+        border-top: 1px solid var(--border);
+      }
+      h2 {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin-bottom: 24px;
+        text-wrap: balance;
+      }
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 24px 0 8px;
+      }
+      p,
+      li {
+        color: var(--text-secondary);
+        font-size: 16px;
+      }
+      p + p {
+        margin-top: 12px;
+      }
+      ul,
+      ol {
+        padding-left: 20px;
+        margin-top: 8px;
+      }
+      li {
+        margin-bottom: 6px;
+      }
+      li strong {
+        color: var(--text);
+      }
 
-    /* Feature grid */
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 24px;
-    }
-    @media (max-width: 560px) { .features { grid-template-columns: 1fr; } }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-    }
-    .feature-card h3 { margin: 0 0 6px; font-size: 16px; }
-    .feature-card p { font-size: 14px; margin: 0; }
+      /* Feature grid */
+      .features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-top: 24px;
+      }
+      @media (max-width: 560px) {
+        .features {
+          grid-template-columns: 1fr;
+        }
+      }
+      .feature-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+      }
+      .feature-card h3 {
+        margin: 0 0 6px;
+        font-size: 16px;
+      }
+      .feature-card p {
+        font-size: 14px;
+        margin: 0;
+      }
 
-    /* Tech table */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 16px;
-      font-size: 15px;
-    }
-    th, td {
-      text-align: left;
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--border);
-    }
-    th { font-weight: 600; color: var(--text); }
-    td { color: var(--text-secondary); }
+      /* Tech table */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 16px;
+        font-size: 15px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--border);
+      }
+      th {
+        font-weight: 600;
+        color: var(--text);
+      }
+      td {
+        color: var(--text-secondary);
+      }
 
-    /* Code */
-    code {
-      background: var(--code-bg);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 14px;
-      font-family: "SF Mono", Menlo, monospace;
-    }
-    pre {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      overflow-x: auto;
-      margin-top: 12px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    pre code { background: none; padding: 0; }
+      /* Code */
+      code {
+        background: var(--code-bg);
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: 'SF Mono', Menlo, monospace;
+      }
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        overflow-x: auto;
+        margin-top: 12px;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      pre code {
+        background: none;
+        padding: 0;
+      }
 
-    /* Flow diagram */
-    .flow {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 16px 0;
-    }
-    .flow-step {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 16px;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text);
-    }
-    .flow-arrow { color: var(--accent); font-size: 18px; }
+      /* Flow diagram */
+      .flow {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 16px 0;
+      }
+      .flow-step {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text);
+      }
+      .flow-arrow {
+        color: var(--accent);
+        font-size: 18px;
+      }
 
-    /* Steps */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 24px;
-    }
-    @media (max-width: 560px) { .steps { grid-template-columns: 1fr 1fr; } }
-    .step {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px 12px;
-      text-align: center;
-    }
-    .step .step-num {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
-      line-height: 28px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .step p { font-size: 14px; margin: 0; }
+      /* Steps */
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        margin-top: 24px;
+      }
+      @media (max-width: 560px) {
+        .steps {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .step {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px 12px;
+        text-align: center;
+      }
+      .step .step-num {
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .step p {
+        font-size: 14px;
+        margin: 0;
+      }
 
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0;
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 14px;
-    }
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-  </style>
-</head>
-<body>
-
-  <main class="container">
-
-    <!-- Hero -->
-    <div class="hero">
-      <h1>Dynamic Charts by Prompt</h1>
-      <p>Generate interactive Chart.js dashboards from natural language prompts, powered by Anthropic Claude and streamed in real time.</p>
-      <span class="badge">Next.js 15 &middot; Chart.js &middot; AI-Powered</span>
-      <nav>
-        <a href="#architecture">Architecture</a>
-        <a href="#components">Components</a>
-        <a href="#data-query">Data Query API</a>
-        <a href="#extending">Extending</a>
-        <a href="https://github.com/owieth/dynamic-charts-by-prompt">GitHub</a>
-      </nav>
-    </div>
-
-    <!-- How It Works -->
-    <section>
-      <h2>How It Works</h2>
-      <div class="flow">
-        <span class="flow-step">User types prompt</span>
-        <span class="flow-arrow">&rarr;</span>
-        <span class="flow-step">API streams to Claude</span>
-        <span class="flow-arrow">&rarr;</span>
-        <span class="flow-step">JSONL response</span>
-        <span class="flow-arrow">&rarr;</span>
-        <span class="flow-step">json-render parses</span>
-        <span class="flow-arrow">&rarr;</span>
-        <span class="flow-step">Chart.js dashboard</span>
-      </div>
-      <p>Type a natural language description of the data you want to visualize. The system streams an AI-generated component tree that renders as an interactive, drag-and-drop dashboard with charts and metric cards.</p>
-    </section>
-
-    <!-- Tech Stack -->
-    <section>
-      <h2>Tech Stack</h2>
-      <table>
-        <tr><th>Layer</th><th>Technology</th></tr>
-        <tr><td>Framework</td><td>Next.js 15 (App Router, Turbopack) + React 19</td></tr>
-        <tr><td>AI</td><td>Vercel AI SDK v6 + Anthropic Claude</td></tr>
-        <tr><td>Rendering</td><td>@json-render/core + @json-render/react + @json-render/shadcn</td></tr>
-        <tr><td>Charts</td><td>Chart.js 4 + react-chartjs-2 + chartjs-plugin-zoom</td></tr>
-        <tr><td>Styling</td><td>Tailwind CSS v4</td></tr>
-        <tr><td>Validation</td><td>Zod</td></tr>
-      </table>
-    </section>
-
-    <!-- Chart Types -->
-    <section>
-      <h2>Chart Types</h2>
-      <div class="features">
-        <div class="feature-card">
-          <h3>Line Chart</h3>
-          <p>Time series and trend data. Supports multiple datasets with independent y-axes.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Bar Chart</h3>
-          <p>Categorical comparisons. Supports grouped and stacked configurations.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Pie Chart</h3>
-          <p>Proportional data as a full circle. Best for parts of a whole (up to ~7 segments).</p>
-        </div>
-        <div class="feature-card">
-          <h3>Doughnut Chart</h3>
-          <p>Hollow center variant of pie chart. Display a summary metric in the center.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Area Chart</h3>
-          <p>Line chart with filled area. Good for volume or cumulative values over time.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Radar Chart</h3>
-          <p>Multivariate data on radial axes. Compare entities across several dimensions.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Architecture -->
-    <section id="architecture">
-      <h2>Architecture</h2>
-
-      <h3>Request Flow</h3>
-      <ol>
-        <li><strong>Client (<code>page.tsx</code>)</strong> — Uses <code>useUIStream</code> from <code>@json-render/react</code> to manage the streaming connection. Sends POST to <code>/api/generate</code>.</li>
-        <li><strong>API Route (<code>api/generate/route.ts</code>)</strong> — Builds a system prompt via <code>catalog.prompt()</code>, calls <code>streamText</code> with the Anthropic provider, streams the response back.</li>
-        <li><strong>AI Response</strong> — Claude generates JSONL describing a component tree. Each line is a UI component with props and data.</li>
-        <li><strong>Rendering (<code>dashboard-renderer.tsx</code>)</strong> — Receives the parsed tree, maps component names to React components via the registry, renders Chart.js charts in a resizable grid.</li>
-      </ol>
-
-      <h3>SSR Considerations</h3>
-      <table>
-        <tr><th>Dependency</th><th>Issue</th><th>Solution</th></tr>
-        <tr><td><code>chartjs-plugin-zoom</code></td><td>Accesses <code>window</code></td><td>Dynamic import with <code>ssr: false</code></td></tr>
-        <tr><td><code>@json-render/shadcn</code></td><td>Includes React context</td><td>Use <code>/catalog</code> subpath in server code</td></tr>
-        <tr><td><code>@json-render/react</code></td><td>Uses React context</td><td>Use <code>/schema</code> subpath in server code</td></tr>
-      </table>
-
-      <h3>Key Files</h3>
-      <table>
-        <tr><th>File</th><th>Responsibility</th></tr>
-        <tr><td><code>src/app/page.tsx</code></td><td>Client entry, streaming UI</td></tr>
-        <tr><td><code>src/app/api/generate/route.ts</code></td><td>AI streaming endpoint</td></tr>
-        <tr><td><code>src/lib/catalog.ts</code></td><td>json-render catalog definition</td></tr>
-        <tr><td><code>src/lib/registry.tsx</code></td><td>Client-side component registry</td></tr>
-        <tr><td><code>src/lib/chart-schemas.ts</code></td><td>Zod schemas for chart props</td></tr>
-        <tr><td><code>src/lib/chartjs-setup.ts</code></td><td>Chart.js plugin registration</td></tr>
-        <tr><td><code>src/components/dashboard-renderer.tsx</code></td><td>Dynamic renderer (no SSR)</td></tr>
-      </table>
-    </section>
-
-    <!-- Components -->
-    <section id="components">
-      <h2>Component Catalog</h2>
-
-      <h3>Chart Components</h3>
-      <p>All chart components live in <code>src/components/charts/</code>. They accept Chart.js configuration as props and render via <code>react-chartjs-2</code>.</p>
-      <ul>
-        <li><strong>LineChart</strong> — <code>line-chart.tsx</code></li>
-        <li><strong>BarChart</strong> — <code>bar-chart.tsx</code></li>
-        <li><strong>PieChart</strong> — <code>pie-chart.tsx</code></li>
-        <li><strong>DoughnutChart</strong> — <code>doughnut-chart.tsx</code></li>
-        <li><strong>AreaChart</strong> — <code>area-chart.tsx</code></li>
-        <li><strong>RadarChart</strong> — <code>radar-chart.tsx</code></li>
-      </ul>
-
-      <h3>Layout Components</h3>
-      <ul>
-        <li><strong>GridDashboard</strong> — Drag-and-drop, resizable grid layout for arranging charts and metrics.</li>
-        <li><strong>DashboardRenderer</strong> — Bridge between json-render's component tree and React. Loaded with <code>ssr: false</code>.</li>
-        <li><strong>MetricCard</strong> — Single KPI value with label, optional trend indicator, and comparison data.</li>
-      </ul>
-
-      <h3>Schema Definitions</h3>
-      <p>Chart props are validated using Zod schemas in <code>src/lib/chart-schemas.ts</code>. Each chart type has a schema defining labels, datasets, colors, and chart-specific options.</p>
-    </section>
-
-    <!-- Data Query API -->
-    <section id="data-query">
-      <h2>Data Query API</h2>
-
-      <h3><code>data-query.ts</code></h3>
-      <p>Core data querying logic. Parses and executes data queries from the AI-generated component tree, transforms raw data into Chart.js-compatible formats, handles filtering, grouping, and aggregation.</p>
-
-      <h3><code>data-context.tsx</code></h3>
-      <p>React context provider that distributes data throughout the component tree. Provides shared state, loading/error states, and refresh capabilities.</p>
-
-      <h3><code>use-chart-data.ts</code></h3>
-      <p>Custom hook for chart components to consume data from the context. Returns processed Chart.js-ready data, loading state, and refresh function.</p>
-
-      <h3><code>chart-utils.ts</code></h3>
-      <p>Helper functions for color palette generation, dataset formatting, axis configuration, and responsive breakpoints.</p>
-
-      <h3><code>sample-data.ts</code></h3>
-      <p>Markdown tables included in the system prompt. Gives Claude example data formats to work with when generating dashboards.</p>
-    </section>
-
-    <!-- Extending -->
-    <section id="extending">
-      <h2>Adding New Chart Types</h2>
-
-      <div class="steps">
-        <div class="step">
-          <span class="step-num">1</span>
-          <p>Create component in <code>src/components/charts/</code></p>
-        </div>
-        <div class="step">
-          <span class="step-num">2</span>
-          <p>Add Zod schema in <code>chart-schemas.ts</code></p>
-        </div>
-        <div class="step">
-          <span class="step-num">3</span>
-          <p>Register in <code>catalog.ts</code></p>
-        </div>
-        <div class="step">
-          <span class="step-num">4</span>
-          <p>Register in <code>registry.tsx</code></p>
-        </div>
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 32px 0;
+        text-align: center;
+        color: var(--text-secondary);
+        font-size: 14px;
+      }
+      footer a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <!-- Hero -->
+      <div class="hero">
+        <h1>Dynamic Charts by Prompt</h1>
+        <p>
+          Generate interactive Chart.js dashboards from natural language
+          prompts, powered by Anthropic Claude and streamed in real time.
+        </p>
+        <span class="badge"
+          >Next.js 15 &middot; Chart.js &middot; AI-Powered</span
+        >
+        <nav>
+          <a href="#architecture">Architecture</a>
+          <a href="#components">Components</a>
+          <a href="#data-query">Data Query API</a>
+          <a href="#extending">Extending</a>
+          <a href="https://github.com/owieth/dynamic-charts-by-prompt"
+            >GitHub</a
+          >
+        </nav>
       </div>
 
-      <h3>1. Create the Component</h3>
-      <pre><code>// src/components/charts/new-chart.tsx
+      <!-- How It Works -->
+      <section>
+        <h2>How It Works</h2>
+        <div class="flow">
+          <span class="flow-step">User types prompt</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">API streams to Claude</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">JSONL response</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">json-render parses</span>
+          <span class="flow-arrow">&rarr;</span>
+          <span class="flow-step">Chart.js dashboard</span>
+        </div>
+        <p>
+          Type a natural language description of the data you want to visualize.
+          The system streams an AI-generated component tree that renders as an
+          interactive, drag-and-drop dashboard with charts and metric cards.
+        </p>
+      </section>
+
+      <!-- Tech Stack -->
+      <section>
+        <h2>Tech Stack</h2>
+        <table>
+          <tr>
+            <th>Layer</th>
+            <th>Technology</th>
+          </tr>
+          <tr>
+            <td>Framework</td>
+            <td>Next.js 15 (App Router, Turbopack) + React 19</td>
+          </tr>
+          <tr>
+            <td>AI</td>
+            <td>Vercel AI SDK v6 + Anthropic Claude</td>
+          </tr>
+          <tr>
+            <td>Rendering</td>
+            <td>
+              @json-render/core + @json-render/react + @json-render/shadcn
+            </td>
+          </tr>
+          <tr>
+            <td>Charts</td>
+            <td>Chart.js 4 + react-chartjs-2 + chartjs-plugin-zoom</td>
+          </tr>
+          <tr>
+            <td>Styling</td>
+            <td>Tailwind CSS v4</td>
+          </tr>
+          <tr>
+            <td>Validation</td>
+            <td>Zod</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- Chart Types -->
+      <section>
+        <h2>Chart Types</h2>
+        <div class="features">
+          <div class="feature-card">
+            <h3>Line Chart</h3>
+            <p>
+              Time series and trend data. Supports multiple datasets with
+              independent y-axes.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>Bar Chart</h3>
+            <p>
+              Categorical comparisons. Supports grouped and stacked
+              configurations.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>Pie Chart</h3>
+            <p>
+              Proportional data as a full circle. Best for parts of a whole (up
+              to ~7 segments).
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>Doughnut Chart</h3>
+            <p>
+              Hollow center variant of pie chart. Display a summary metric in
+              the center.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>Area Chart</h3>
+            <p>
+              Line chart with filled area. Good for volume or cumulative values
+              over time.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>Radar Chart</h3>
+            <p>
+              Multivariate data on radial axes. Compare entities across several
+              dimensions.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Architecture -->
+      <section id="architecture">
+        <h2>Architecture</h2>
+
+        <h3>Request Flow</h3>
+        <ol>
+          <li>
+            <strong>Client (<code>page.tsx</code>)</strong> — Uses
+            <code>useUIStream</code> from <code>@json-render/react</code> to
+            manage the streaming connection. Sends POST to
+            <code>/api/generate</code>.
+          </li>
+          <li>
+            <strong>API Route (<code>api/generate/route.ts</code>)</strong> —
+            Builds a system prompt via <code>catalog.prompt()</code>, calls
+            <code>streamText</code> with the Anthropic provider, streams the
+            response back.
+          </li>
+          <li>
+            <strong>AI Response</strong> — Claude generates JSONL describing a
+            component tree. Each line is a UI component with props and data.
+          </li>
+          <li>
+            <strong>Rendering (<code>dashboard-renderer.tsx</code>)</strong> —
+            Receives the parsed tree, maps component names to React components
+            via the registry, renders Chart.js charts in a resizable grid.
+          </li>
+        </ol>
+
+        <h3>SSR Considerations</h3>
+        <table>
+          <tr>
+            <th>Dependency</th>
+            <th>Issue</th>
+            <th>Solution</th>
+          </tr>
+          <tr>
+            <td><code>chartjs-plugin-zoom</code></td>
+            <td>Accesses <code>window</code></td>
+            <td>Dynamic import with <code>ssr: false</code></td>
+          </tr>
+          <tr>
+            <td><code>@json-render/shadcn</code></td>
+            <td>Includes React context</td>
+            <td>Use <code>/catalog</code> subpath in server code</td>
+          </tr>
+          <tr>
+            <td><code>@json-render/react</code></td>
+            <td>Uses React context</td>
+            <td>Use <code>/schema</code> subpath in server code</td>
+          </tr>
+        </table>
+
+        <h3>Key Files</h3>
+        <table>
+          <tr>
+            <th>File</th>
+            <th>Responsibility</th>
+          </tr>
+          <tr>
+            <td><code>src/app/page.tsx</code></td>
+            <td>Client entry, streaming UI</td>
+          </tr>
+          <tr>
+            <td><code>src/app/api/generate/route.ts</code></td>
+            <td>AI streaming endpoint</td>
+          </tr>
+          <tr>
+            <td><code>src/lib/catalog.ts</code></td>
+            <td>json-render catalog definition</td>
+          </tr>
+          <tr>
+            <td><code>src/lib/registry.tsx</code></td>
+            <td>Client-side component registry</td>
+          </tr>
+          <tr>
+            <td><code>src/lib/chart-schemas.ts</code></td>
+            <td>Zod schemas for chart props</td>
+          </tr>
+          <tr>
+            <td><code>src/lib/chartjs-setup.ts</code></td>
+            <td>Chart.js plugin registration</td>
+          </tr>
+          <tr>
+            <td><code>src/components/dashboard-renderer.tsx</code></td>
+            <td>Dynamic renderer (no SSR)</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- Components -->
+      <section id="components">
+        <h2>Component Catalog</h2>
+
+        <h3>Chart Components</h3>
+        <p>
+          All chart components live in <code>src/components/charts/</code>. They
+          accept Chart.js configuration as props and render via
+          <code>react-chartjs-2</code>.
+        </p>
+        <ul>
+          <li><strong>LineChart</strong> — <code>line-chart.tsx</code></li>
+          <li><strong>BarChart</strong> — <code>bar-chart.tsx</code></li>
+          <li><strong>PieChart</strong> — <code>pie-chart.tsx</code></li>
+          <li>
+            <strong>DoughnutChart</strong> — <code>doughnut-chart.tsx</code>
+          </li>
+          <li><strong>AreaChart</strong> — <code>area-chart.tsx</code></li>
+          <li><strong>RadarChart</strong> — <code>radar-chart.tsx</code></li>
+        </ul>
+
+        <h3>Layout Components</h3>
+        <ul>
+          <li>
+            <strong>GridDashboard</strong> — Drag-and-drop, resizable grid
+            layout for arranging charts and metrics.
+          </li>
+          <li>
+            <strong>DashboardRenderer</strong> — Bridge between json-render's
+            component tree and React. Loaded with <code>ssr: false</code>.
+          </li>
+          <li>
+            <strong>MetricCard</strong> — Single KPI value with label, optional
+            trend indicator, and comparison data.
+          </li>
+        </ul>
+
+        <h3>Schema Definitions</h3>
+        <p>
+          Chart props are validated using Zod schemas in
+          <code>src/lib/chart-schemas.ts</code>. Each chart type has a schema
+          defining labels, datasets, colors, and chart-specific options.
+        </p>
+      </section>
+
+      <!-- Data Query API -->
+      <section id="data-query">
+        <h2>Data Query API</h2>
+
+        <h3><code>data-query.ts</code></h3>
+        <p>
+          Core data querying logic. Parses and executes data queries from the
+          AI-generated component tree, transforms raw data into
+          Chart.js-compatible formats, handles filtering, grouping, and
+          aggregation.
+        </p>
+
+        <h3><code>data-context.tsx</code></h3>
+        <p>
+          React context provider that distributes data throughout the component
+          tree. Provides shared state, loading/error states, and refresh
+          capabilities.
+        </p>
+
+        <h3><code>use-chart-data.ts</code></h3>
+        <p>
+          Custom hook for chart components to consume data from the context.
+          Returns processed Chart.js-ready data, loading state, and refresh
+          function.
+        </p>
+
+        <h3><code>chart-utils.ts</code></h3>
+        <p>
+          Helper functions for color palette generation, dataset formatting,
+          axis configuration, and responsive breakpoints.
+        </p>
+
+        <h3><code>sample-data.ts</code></h3>
+        <p>
+          Markdown tables included in the system prompt. Gives Claude example
+          data formats to work with when generating dashboards.
+        </p>
+      </section>
+
+      <!-- Extending -->
+      <section id="extending">
+        <h2>Adding New Chart Types</h2>
+
+        <div class="steps">
+          <div class="step">
+            <span class="step-num">1</span>
+            <p>Create component in <code>src/components/charts/</code></p>
+          </div>
+          <div class="step">
+            <span class="step-num">2</span>
+            <p>Add Zod schema in <code>chart-schemas.ts</code></p>
+          </div>
+          <div class="step">
+            <span class="step-num">3</span>
+            <p>Register in <code>catalog.ts</code></p>
+          </div>
+          <div class="step">
+            <span class="step-num">4</span>
+            <p>Register in <code>registry.tsx</code></p>
+          </div>
+        </div>
+
+        <h3>1. Create the Component</h3>
+        <pre><code>// src/components/charts/new-chart.tsx
 'use client';
 
 import { Chart } from 'react-chartjs-2';
@@ -431,8 +654,8 @@ export function NewChart({ labels, datasets }: NewChartProps) {
   );
 }</code></pre>
 
-      <h3>2. Define the Schema</h3>
-      <pre><code>// In src/lib/chart-schemas.ts
+        <h3>2. Define the Schema</h3>
+        <pre><code>// In src/lib/chart-schemas.ts
 export const newChartSchema = z.object({
   labels: z.array(z.string()),
   datasets: z.array(z.object({
@@ -442,8 +665,8 @@ export const newChartSchema = z.object({
   })),
 });</code></pre>
 
-      <h3>3. Register in Catalog</h3>
-      <pre><code>// In src/lib/catalog.ts
+        <h3>3. Register in Catalog</h3>
+        <pre><code>// In src/lib/catalog.ts
 components: {
   // ... existing
   NewChart: {
@@ -452,8 +675,8 @@ components: {
   },
 }</code></pre>
 
-      <h3>4. Register in Registry</h3>
-      <pre><code>// In src/lib/registry.tsx
+        <h3>4. Register in Registry</h3>
+        <pre><code>// In src/lib/registry.tsx
 import { NewChart } from '@/components/charts/new-chart';
 
 components: {
@@ -461,19 +684,26 @@ components: {
   NewChart: NewChart,
 }</code></pre>
 
-      <h3>5. Register Chart.js Elements (if needed)</h3>
-      <pre><code>// In src/lib/chartjs-setup.ts
+        <h3>5. Register Chart.js Elements (if needed)</h3>
+        <pre><code>// In src/lib/chartjs-setup.ts
 import { NewController, NewElement } from 'chart.js';
 Chart.register(NewController, NewElement);</code></pre>
-    </section>
+      </section>
+    </main>
 
-  </main>
-
-  <footer>
-    <div class="container">
-      <p>&copy; <script>document.write(new Date().getFullYear());</script> Olivier Winkler. <a href="https://github.com/owieth/dynamic-charts-by-prompt">View on GitHub</a></p>
-    </div>
-  </footer>
-
-</body>
+    <footer>
+      <div class="container">
+        <p>
+          &copy;
+          <script>
+            document.write(new Date().getFullYear());
+          </script>
+          Olivier Winkler.
+          <a href="https://github.com/owieth/dynamic-charts-by-prompt"
+            >View on GitHub</a
+          >
+        </p>
+      </div>
+    </footer>
+  </body>
 </html>

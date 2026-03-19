@@ -15,15 +15,15 @@ Generate interactive chart dashboards from natural language prompts, powered by 
 
 ## Tech Stack
 
-| Layer | Technology |
-| --- | --- |
-| Framework | [Next.js 15](https://nextjs.org) (App Router, Turbopack) + React 19 |
-| AI | [Vercel AI SDK v6](https://sdk.vercel.ai) + Anthropic Claude |
-| Charting | [Chart.js 4](https://www.chartjs.org) + react-chartjs-2 + chartjs-plugin-zoom |
+| Layer        | Technology                                                                     |
+| ------------ | ------------------------------------------------------------------------------ |
+| Framework    | [Next.js 15](https://nextjs.org) (App Router, Turbopack) + React 19            |
+| AI           | [Vercel AI SDK v6](https://sdk.vercel.ai) + Anthropic Claude                   |
+| Charting     | [Chart.js 4](https://www.chartjs.org) + react-chartjs-2 + chartjs-plugin-zoom  |
 | UI Rendering | [@json-render](https://github.com/nicklaros/json-render) (core, react, shadcn) |
-| Styling | [Tailwind CSS v4](https://tailwindcss.com) |
-| Validation | [Zod](https://zod.dev) |
-| Grid Layout | [react-grid-layout](https://github.com/react-grid-layout/react-grid-layout) |
+| Styling      | [Tailwind CSS v4](https://tailwindcss.com)                                     |
+| Validation   | [Zod](https://zod.dev)                                                         |
+| Grid Layout  | [react-grid-layout](https://github.com/react-grid-layout/react-grid-layout)    |
 
 ## Getting Started
 
@@ -99,14 +99,14 @@ src/
 
 ## Available Chart Types
 
-| Type | Component | Description |
-| --- | --- | --- |
-| Line | `LineChart` | Trend lines over time or categories |
-| Bar | `BarChart` | Categorical comparisons |
-| Pie | `PieChart` | Proportional distribution |
+| Type     | Component       | Description                              |
+| -------- | --------------- | ---------------------------------------- |
+| Line     | `LineChart`     | Trend lines over time or categories      |
+| Bar      | `BarChart`      | Categorical comparisons                  |
+| Pie      | `PieChart`      | Proportional distribution                |
 | Doughnut | `DoughnutChart` | Proportional distribution (ring variant) |
-| Area | `AreaChart` | Filled line charts for volume |
-| Radar | `RadarChart` | Multi-axis comparison |
+| Area     | `AreaChart`     | Filled line charts for volume            |
+| Radar    | `RadarChart`    | Multi-axis comparison                    |
 
 ## Contributing
 
