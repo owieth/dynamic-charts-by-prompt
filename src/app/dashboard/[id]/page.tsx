@@ -51,7 +51,7 @@ function usePersistedState(
 const DashboardRenderer = dynamic(
   () =>
     import('@/components/dashboard-renderer').then(m => m.DashboardRenderer),
-  { ssr: false }
+  { ssr: false, loading: () => <DashboardSkeleton /> }
 );
 
 function isSpecEmpty(spec: Spec | null): boolean {
@@ -317,6 +317,30 @@ export default function DashboardPage({
           showExamples={showExamples}
         />
       )}
+    </div>
+  );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div
+      className="grid grid-cols-12 gap-[8px]"
+      style={{ padding: '8px 8px 0' }}
+    >
+      {Array.from({ length: 4 }, (_, i) => (
+        <div
+          key={i}
+          className="col-span-3 rounded-lg bg-surface/80 animate-pulse"
+          style={{ height: 168 }}
+        />
+      ))}
+      {Array.from({ length: 4 }, (_, i) => (
+        <div
+          key={`chart-${i}`}
+          className="col-span-6 rounded-lg bg-surface/80 animate-pulse"
+          style={{ height: 344 }}
+        />
+      ))}
     </div>
   );
 }
