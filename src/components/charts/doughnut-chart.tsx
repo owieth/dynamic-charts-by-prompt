@@ -15,6 +15,7 @@ export function DoughnutChart({ props }: { props: DoughnutChartProps }) {
       }}
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         plugins: basePlugins(props),
       }}
     />

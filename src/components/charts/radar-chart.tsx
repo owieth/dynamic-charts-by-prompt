@@ -15,6 +15,7 @@ export function RadarChart({ props }: { props: RadarChartProps }) {
       }}
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         plugins: basePlugins(props),
       }}
     />

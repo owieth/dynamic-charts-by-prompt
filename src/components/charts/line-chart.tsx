@@ -15,6 +15,7 @@ export function LineChart({ props }: { props: LineChartProps }) {
       }}
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { ...basePlugins(props), zoom: ZOOM_OPTIONS },
         scales: yAxisConfig(props.yFormat),
       }}

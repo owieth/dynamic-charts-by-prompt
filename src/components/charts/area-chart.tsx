@@ -16,6 +16,7 @@ export function AreaChart({ props }: { props: AreaChartProps }) {
       }}
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         plugins: { ...basePlugins(props), zoom: ZOOM_OPTIONS },
         scales: {
           x: { stacked },

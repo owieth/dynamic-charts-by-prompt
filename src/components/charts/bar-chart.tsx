@@ -16,6 +16,7 @@ export function BarChart({ props }: { props: BarChartProps }) {
       }}
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         indexAxis: props.indexAxis ?? "x",
         plugins: { ...basePlugins(props), zoom: ZOOM_OPTIONS },
         scales: {

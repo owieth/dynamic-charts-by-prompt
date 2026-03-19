@@ -15,6 +15,7 @@ export function PieChart({ props }: { props: PieChartProps }) {
       }}
       options={{
         responsive: true,
+        maintainAspectRatio: false,
         plugins: basePlugins(props),
       }}
     />
