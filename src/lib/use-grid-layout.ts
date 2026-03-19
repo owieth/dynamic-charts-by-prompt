@@ -124,12 +124,16 @@ function saveLayout(keys: string[], layout: LayoutItem[]) {
  * Stabilize childKeys — only return a new array reference when the
  * actual set of keys changes, not on every spec mutation during streaming.
  */
+function computeKeys(spec: Spec | null): string[] {
+  return spec ? extractGridChildren(spec) : [];
+}
+
 function useStableKeys(spec: Spec | null): string[] {
-  const [stable, setStable] = useState<string[]>([]);
-  const prevHash = useRef('');
+  const [stable, setStable] = useState<string[]>(() => computeKeys(spec));
+  const prevHash = useRef(stable.join('|'));
 
   useEffect(() => {
-    const keys = spec ? extractGridChildren(spec) : [];
+    const keys = computeKeys(spec);
     const hash = keys.join('|');
     if (hash !== prevHash.current) {
       prevHash.current = hash;
@@ -142,7 +146,11 @@ function useStableKeys(spec: Spec | null): string[] {
 
 export function useGridLayout(spec: Spec | null, isStreaming: boolean) {
   const childKeys = useStableKeys(spec);
-  const [layout, setLayout] = useState<LayoutItem[]>([]);
+  const [layout, setLayout] = useState<LayoutItem[]>(() => {
+    if (!spec || childKeys.length === 0) return [];
+    const saved = loadLayout(childKeys);
+    return saved ?? packLayout(spec, childKeys);
+  });
   const [layoutVersion, setLayoutVersion] = useState(0);
   const childKeysRef = useRef(childKeys);
   childKeysRef.current = childKeys;

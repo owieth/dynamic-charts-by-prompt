@@ -160,8 +160,19 @@ export function GridDashboard({
                         className="flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-danger"
                         aria-label="Remove item"
                       >
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                          <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M3 3l6 6M9 3l-6 6"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                          />
                         </svg>
                       </button>
                     )}
@@ -171,7 +182,13 @@ export function GridDashboard({
                         className="drag-handle flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-ink cursor-grab active:cursor-grabbing"
                         aria-label="Drag to reorder"
                       >
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          aria-hidden="true"
+                        >
                           <circle cx="5" cy="3" r="1" fill="currentColor" />
                           <circle cx="9" cy="3" r="1" fill="currentColor" />
                           <circle cx="5" cy="7" r="1" fill="currentColor" />

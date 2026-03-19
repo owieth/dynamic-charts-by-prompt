@@ -1,7 +1,7 @@
 'use client';
 
 import type { Spec } from '@json-render/core';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import {
   DEFAULT_DASHBOARD_ID,
   DEFAULT_DASHBOARD_SPEC,
@@ -54,34 +54,30 @@ function saveDashboards(dashboards: Dashboard[]) {
   }
 }
 
+function initDashboards(): Dashboard[] {
+  if (typeof window === 'undefined') return [createDefaultDashboard()];
+  let loaded = loadDashboards();
+  if (loaded.length === 0) {
+    loaded = [createDefaultDashboard()];
+    saveDashboards(loaded);
+  }
+  const existingDefault = loaded.find(d => d.id === DEFAULT_DASHBOARD_ID);
+  if (!existingDefault) {
+    loaded = [createDefaultDashboard(), ...loaded];
+    saveDashboards(loaded);
+  } else if (existingDefault.messages.length === 0) {
+    loaded = loaded.map(d =>
+      d.id === DEFAULT_DASHBOARD_ID ? { ...d, spec: DEFAULT_DASHBOARD_SPEC } : d
+    );
+    saveDashboards(loaded);
+  }
+  return loaded;
+}
+
 export function useDashboards(activeId: string) {
-  const [dashboards, setDashboards] = useState<Dashboard[]>([]);
-  const [initialized, setInitialized] = useState(false);
+  const [dashboards, setDashboards] = useState<Dashboard[]>(initDashboards);
   const dashboardsRef = useRef(dashboards);
   dashboardsRef.current = dashboards;
-
-  useEffect(() => {
-    let loaded = loadDashboards();
-    if (loaded.length === 0) {
-      loaded = [createDefaultDashboard()];
-      saveDashboards(loaded);
-    }
-    // Ensure default dashboard exists and has latest spec
-    const existingDefault = loaded.find(d => d.id === DEFAULT_DASHBOARD_ID);
-    if (!existingDefault) {
-      loaded = [createDefaultDashboard(), ...loaded];
-      saveDashboards(loaded);
-    } else if (existingDefault.messages.length === 0) {
-      loaded = loaded.map(d =>
-        d.id === DEFAULT_DASHBOARD_ID
-          ? { ...d, spec: DEFAULT_DASHBOARD_SPEC }
-          : d
-      );
-      saveDashboards(loaded);
-    }
-    setDashboards(loaded);
-    setInitialized(true);
-  }, []);
 
   const activeDashboard =
     dashboards.find(d => d.id === activeId) ?? dashboards[0] ?? null;
@@ -138,7 +134,6 @@ export function useDashboards(activeId: string) {
     dashboards,
     activeDashboard,
     activeId,
-    initialized,
     createDashboard,
     updateDashboard,
     deleteDashboard,

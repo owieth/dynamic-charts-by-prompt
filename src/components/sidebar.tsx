@@ -196,7 +196,10 @@ export function Sidebar({
                 )}
               </div>
 
-              <span className="text-[10px] text-ink-dim mt-0.5 block">
+              <span
+                className="text-[10px] text-ink-dim mt-0.5 block"
+                suppressHydrationWarning
+              >
                 {timeAgo(dashboard.updatedAt)}
               </span>
             </div>
