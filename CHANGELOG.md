@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.1...v1.0.2) (2026-03-19)
+
+
+### Bug Fixes
+
+* **chat:** restore messages after page refresh ([bdea1e4](https://github.com/owieth/dynamic-charts-by-prompt/commit/bdea1e472979d0b5391372fae8181edaaf4e8f10))
+
 ## [1.0.1](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.0...v1.0.1) (2026-03-19)
 
 
