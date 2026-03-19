@@ -1,0 +1,148 @@
+import { z } from "zod";
+
+// ─── Schema ──────────────────────────────────────────────────
+
+export const dataQuerySchema = z.object({
+  source: z.literal("projects"),
+  filter: z.record(z.string(), z.union([z.string(), z.array(z.string())])).nullable(),
+  groupBy: z.string(),
+  aggregate: z.enum(["count", "sum", "avg", "min", "max"]),
+  valueField: z.string().nullable(),
+  sort: z.enum(["asc", "desc"]).nullable(),
+  limit: z.number().nullable(),
+});
+
+export type DataQuery = z.infer<typeof dataQuerySchema>;
+
+// ─── Engine ──────────────────────────────────────────────────
+
+type Row = Record<string, unknown>;
+
+function matchesFilter(row: Row, filter: Record<string, string | string[]>): boolean {
+  for (const [field, value] of Object.entries(filter)) {
+    const cell = String(row[field] ?? "");
+    if (Array.isArray(value)) {
+      if (!value.includes(cell)) return false;
+    } else {
+      if (cell !== value) return false;
+    }
+  }
+  return true;
+}
+
+function deriveField(row: Row, field: string): string {
+  const val = row[field];
+  // Support "CoD:year" syntax for date grouping
+  if (field.includes(":")) {
+    const [base, transform] = field.split(":");
+    const raw = String(row[base] ?? "");
+    if (transform === "year" && raw.includes("-")) return raw.split("-")[0];
+    if (transform === "quarter" && raw.includes("-")) {
+      const month = parseInt(raw.split("-")[1], 10);
+      return `Q${Math.ceil(month / 3)}`;
+    }
+    return raw;
+  }
+  return String(val ?? "unknown");
+}
+
+export interface ResolvedChartData {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    backgroundColor: string | string[] | null;
+    borderColor: string | string[] | null;
+    borderWidth: number | null;
+    fill: boolean | null;
+  }[];
+}
+
+const PALETTE = [
+  "rgba(59,130,246,0.8)",   // blue
+  "rgba(249,115,22,0.8)",   // orange
+  "rgba(34,197,94,0.8)",    // green
+  "rgba(139,92,246,0.8)",   // violet
+  "rgba(244,63,94,0.8)",    // rose
+  "rgba(245,158,11,0.8)",   // amber
+  "rgba(14,165,233,0.8)",   // sky
+  "rgba(168,85,247,0.8)",   // purple
+  "rgba(236,72,153,0.8)",   // pink
+  "rgba(20,184,166,0.8)",   // teal
+];
+
+export function resolveQuery(
+  data: Row[],
+  query: DataQuery,
+  datasetLabel?: string,
+): ResolvedChartData {
+  // 1. Filter
+  let rows = data;
+  if (query.filter) {
+    rows = rows.filter((r) => matchesFilter(r, query.filter!));
+  }
+
+  // 2. Group
+  const groups = new Map<string, number[]>();
+  for (const row of rows) {
+    const key = deriveField(row, query.groupBy);
+    if (!groups.has(key)) groups.set(key, []);
+    const val = query.aggregate === "count"
+      ? 1
+      : Number(row[query.valueField ?? ""] ?? 0);
+    groups.get(key)!.push(val);
+  }
+
+  // 3. Aggregate
+  const entries: [string, number][] = [];
+  for (const [key, vals] of groups) {
+    let result: number;
+    switch (query.aggregate) {
+      case "count":
+        result = vals.length;
+        break;
+      case "sum":
+        result = vals.reduce((a, b) => a + b, 0);
+        break;
+      case "avg":
+        result = vals.reduce((a, b) => a + b, 0) / vals.length;
+        break;
+      case "min":
+        result = Math.min(...vals);
+        break;
+      case "max":
+        result = Math.max(...vals);
+        break;
+    }
+    entries.push([key, result]);
+  }
+
+  // 4. Sort
+  if (query.sort === "desc") entries.sort((a, b) => b[1] - a[1]);
+  else if (query.sort === "asc") entries.sort((a, b) => a[1] - b[1]);
+
+  // 5. Limit
+  const limited = query.limit ? entries.slice(0, query.limit) : entries;
+
+  // 6. Build chart data
+  const labels = limited.map(([k]) => k);
+  const values = limited.map(([, v]) => Math.round(v * 100) / 100);
+
+  const needsPerSliceColor = labels.length <= PALETTE.length;
+
+  return {
+    labels,
+    datasets: [
+      {
+        label: datasetLabel ?? `${query.aggregate}(${query.valueField || query.groupBy})`,
+        data: values,
+        backgroundColor: needsPerSliceColor
+          ? labels.map((_, i) => PALETTE[i % PALETTE.length])
+          : PALETTE[0],
+        borderColor: null,
+        borderWidth: null,
+        fill: null,
+      },
+    ],
+  };
+}
