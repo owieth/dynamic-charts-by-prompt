@@ -41,7 +41,11 @@ function withSkeleton<P extends ChartPropsBase>(
       props.dataQuery;
 
     if (!hasData) return <ChartSkeleton />;
-    return <Chart props={props} />;
+    return (
+      <div className="relative h-full min-h-[200px]">
+        <Chart props={props} />
+      </div>
+    );
   };
 }
 
