@@ -4,6 +4,7 @@ import { ChatPanel } from '@/components/chat-panel';
 import { Sidebar } from '@/components/sidebar';
 import { DEFAULT_DASHBOARD_ID } from '@/lib/default-dashboard';
 import { removeElementFromSpec } from '@/lib/spec-utils';
+import { useTheme } from '@/lib/theme-context';
 import { useChat } from '@/lib/use-chat';
 import { useDashboards } from '@/lib/use-dashboards';
 import type { Spec } from '@json-render/core';
@@ -77,6 +78,7 @@ export default function DashboardPage({
     renameDashboard,
   } = useDashboards(id);
 
+  const { theme, toggleTheme } = useTheme();
   const resetLayoutRef = useRef<(() => void) | null>(null);
   const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
   const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
@@ -250,6 +252,50 @@ export default function DashboardPage({
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className="size-8 flex items-center justify-center text-ink-muted hover:text-accent"
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? (
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <circle
+                    cx="8"
+                    cy="8"
+                    r="3.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
+                  <path
+                    d="M8 1.5v1M8 13.5v1M1.5 8h1M13.5 8h1M3.4 3.4l.7.7M11.9 11.9l.7.7M12.6 3.4l-.7.7M4.1 11.9l-.7.7"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M14 9.68A6.5 6.5 0 0 1 6.32 2 6.5 6.5 0 1 0 14 9.68Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </button>
             <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"

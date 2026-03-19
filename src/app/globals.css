@@ -23,6 +23,41 @@
   --color-danger: #ef4444;
 }
 
+/* ─── Light theme overrides ──────────────────────────────── */
+.light {
+  --color-bg: #f8f8fa;
+  --color-surface: #ffffff;
+  --color-surface-hi: #f0f0f4;
+  --color-border: #e0e0e6;
+  --color-border-hi: #c8c8d0;
+  --color-ink: #1a1a2e;
+  --color-ink-muted: #6b6b80;
+  --color-ink-dim: #a0a0b0;
+  --color-accent: #f0a050;
+  --color-accent-dim: color-mix(in oklch, #f0a050 15%, transparent);
+  --color-danger: #ef4444;
+
+  --background: 248 248 250;
+  --foreground: 26 26 46;
+  --card: 255 255 255;
+  --card-foreground: 26 26 46;
+  --popover: 255 255 255;
+  --popover-foreground: 26 26 46;
+  --primary: 240 160 80;
+  --primary-foreground: 255 255 255;
+  --secondary: 240 240 244;
+  --secondary-foreground: 50 50 66;
+  --muted: 240 240 244;
+  --muted-foreground: 107 107 128;
+  --accent: 240 240 244;
+  --accent-foreground: 26 26 46;
+  --destructive: 239 68 68;
+  --destructive-foreground: 255 255 255;
+  --border: 224 224 230;
+  --input: 224 224 230;
+  --ring: 240 160 80;
+}
+
 /* ─── Base ────────────────────────────────────────────────── */
 body {
   font-family: var(--font-sans);
