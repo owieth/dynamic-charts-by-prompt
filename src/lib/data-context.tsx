@@ -1,29 +1,27 @@
 'use client';
 
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
 
 type Row = Record<string, unknown>;
 
-interface DataSources {
-  projects: Row[];
-}
+type DataSources = Record<string, Row[]>;
 
-const DataContext = createContext<DataSources>({ projects: [] });
+const DataContext = createContext<DataSources>({});
 
 export function DataProvider({
-  projects,
+  sources,
   children,
 }: {
-  projects: Row[];
+  sources: DataSources;
   children: ReactNode;
 }) {
+  const value = useMemo(() => sources, [sources]);
   return (
-    <DataContext.Provider value={{ projects }}>{children}</DataContext.Provider>
+    <DataContext.Provider value={value}>{children}</DataContext.Provider>
   );
 }
 
 export function useDataSource(source: string): Row[] {
   const ctx = useContext(DataContext);
-  if (source === 'projects') return ctx.projects;
-  return [];
+  return ctx[source] ?? [];
 }
