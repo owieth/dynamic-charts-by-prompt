@@ -25,6 +25,7 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [emptyResult, setEmptyResult] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const resetLayoutRef = useRef<(() => void) | null>(null);
 
   const onComplete = useCallback((finalSpec: Spec) => {
     if (isSpecEmpty(finalSpec)) setEmptyResult(true);
@@ -80,12 +81,22 @@ export default function Home() {
         </div>
 
         {(hasContent || displayError) && (
-          <button
-            onClick={handleClear}
-            className="text-xs text-ink-muted hover:text-ink px-3 py-1.5 border border-border hover:border-border-hi transition-colors duration-150"
-          >
-            ← New dashboard
-          </button>
+          <div className="flex items-center gap-2">
+            {hasContent && !isStreaming && (
+              <button
+                onClick={() => resetLayoutRef.current?.()}
+                className="text-xs text-ink-muted hover:text-ink px-3 py-1.5 border border-border hover:border-border-hi transition-colors duration-150"
+              >
+                Reset layout
+              </button>
+            )}
+            <button
+              onClick={handleClear}
+              className="text-xs text-ink-muted hover:text-ink px-3 py-1.5 border border-border hover:border-border-hi transition-colors duration-150"
+            >
+              ← New dashboard
+            </button>
+          </div>
         )}
       </header>
 
@@ -147,7 +158,7 @@ export default function Home() {
 
       {/* ── Main ───────────────────────────────────────────── */}
       <main className="flex-1 px-6 py-8 animate-fade-up delay-100">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {displayError && (
             <div className="mb-6 px-4 py-3 text-sm text-danger border border-danger/30 bg-danger/5 animate-fade-in">
               {displayError}
@@ -156,7 +167,11 @@ export default function Home() {
 
           {hasContent ? (
             <div className="animate-fade-in">
-              <DashboardRenderer spec={spec} loading={isStreaming} />
+              <DashboardRenderer
+                spec={spec}
+                loading={isStreaming}
+                onResetLayout={(reset) => { resetLayoutRef.current = reset; }}
+              />
             </div>
           ) : (
             <EmptyState isStreaming={isStreaming} onExampleClick={handleExampleClick} />
