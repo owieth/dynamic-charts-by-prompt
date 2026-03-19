@@ -41,13 +41,17 @@ export const catalog = defineCatalog(schema, {
         label: z.string(),
         value: z.string(),
         description: z.string().nullable(),
+        trend: z.enum(['up', 'down', 'neutral']).nullable(),
+        change: z.string().nullable(),
       }),
       description:
-        "KPI metric display. Use for summary numbers (e.g. label='Total Projects', value='206', description='Across 22 countries').",
+        "KPI metric display. Use for summary numbers. Optional trend ('up'|'down'|'neutral') and change (e.g. '+12%') show a colored arrow indicator.",
       example: {
         label: 'Total Projects',
         value: '206',
         description: 'Across 22 countries',
+        trend: 'up',
+        change: '+12%',
       },
     },
 
