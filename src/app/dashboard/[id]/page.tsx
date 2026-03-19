@@ -340,11 +340,11 @@ function DashboardSkeleton() {
           style={{ height: 168 }}
         />
       ))}
-      {Array.from({ length: 4 }, (_, i) => (
+      {Array.from({ length: 6 }, (_, i) => (
         <div
           key={`chart-${i}`}
           className="col-span-6 rounded-lg bg-surface/80 animate-pulse"
-          style={{ height: 344 }}
+          style={{ height: 432 }}
         />
       ))}
     </div>
