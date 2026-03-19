@@ -37,18 +37,36 @@ export const catalog = defineCatalog(schema, {
     },
     Table,
 
+    DashboardHeader: {
+      props: z.object({
+        title: z.string(),
+        subtitle: z.string().nullable(),
+      }),
+      description:
+        'Dashboard title and subtitle. Use at the very top of every dashboard to summarize its purpose.',
+      example: {
+        title: 'Renewable Energy Projects Overview',
+        subtitle:
+          'Key metrics and trends across global renewable energy installations',
+      },
+    },
+
     MetricCard: {
       props: z.object({
         label: z.string(),
         value: z.string(),
         description: z.string().nullable(),
+        trend: z.enum(['up', 'down', 'neutral']).nullable(),
+        change: z.string().nullable(),
       }),
       description:
-        "KPI metric display. Use for summary numbers (e.g. label='Total Projects', value='206', description='Across 22 countries').",
+        "KPI metric display. Use for summary numbers. Optional trend ('up'|'down'|'neutral') and change (e.g. '+12%') show a colored arrow indicator.",
       example: {
         label: 'Total Projects',
         value: '206',
         description: 'Across 22 countries',
+        trend: 'up',
+        change: '+12%',
       },
     },
 
