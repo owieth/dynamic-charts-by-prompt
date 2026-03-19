@@ -7,7 +7,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@ai-sdk/anthropic": "3.0.58",
@@ -34,6 +35,8 @@
     "eslint-config-next": "16.2.0",
     "postcss": "8.5.8",
     "tailwindcss": "4.2.2",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "prettier": "3.6.2",
+    "prettier-plugin-organize-imports": "4.3.0"
   }
 }
