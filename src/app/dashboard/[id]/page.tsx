@@ -9,7 +9,44 @@ import { useDashboards } from '@/lib/use-dashboards';
 import type { Spec } from '@json-render/core';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
-import { use, useCallback, useMemo, useRef, useState } from 'react';
+import { use, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+function usePersistedState(
+  key: string,
+  defaultValue: boolean
+): [boolean, (update: boolean | ((prev: boolean) => boolean)) => void] {
+  const [value, setValue] = useState<boolean>(defaultValue);
+  const hydrated = useRef(false);
+
+  useEffect(() => {
+    if (hydrated.current) return;
+    hydrated.current = true;
+    try {
+      const stored = localStorage.getItem(key);
+      if (stored !== null) {
+        setValue(stored === 'true');
+      }
+    } catch {
+      // ignore
+    }
+  }, [key]);
+
+  const set = useCallback(
+    (update: boolean | ((prev: boolean) => boolean)) => {
+      setValue(prev => {
+        const next = typeof update === 'function' ? update(prev) : update;
+        try {
+          localStorage.setItem(key, String(next));
+        } catch {
+          // fail silently
+        }
+        return next;
+      });
+    },
+    [key]
+  );
+  return [value, set];
+}
 
 const DashboardRenderer = dynamic(
   () =>
@@ -41,8 +78,8 @@ export default function DashboardPage({
   } = useDashboards(id);
 
   const resetLayoutRef = useRef<(() => void) | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [chatOpen, setChatOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
+  const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
