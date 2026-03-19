@@ -5,17 +5,26 @@ import { streamText } from 'ai';
 export const maxDuration = 60;
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { messages, spec } = await req.json();
 
   if (!Array.isArray(messages) || messages.length === 0) {
     return Response.json({ message: 'Missing messages' }, { status: 400 });
   }
 
-  const aiMessages = messages.map((m: { role: string; content: string }) => ({
-    role: m.role as 'user' | 'assistant',
-    content:
-      m.role === 'user' ? buildUserPrompt({ prompt: m.content }) : m.content,
-  }));
+  const aiMessages = messages.map(
+    (m: { role: string; content: string }, i: number) => ({
+      role: m.role as 'user' | 'assistant',
+      content:
+        m.role === 'user'
+          ? buildUserPrompt({
+              prompt: m.content,
+              ...(i === messages.length - 1 && spec
+                ? { context: { state: spec } }
+                : {}),
+            })
+          : m.content,
+    })
+  );
 
   const result = streamText({
     model: getModel(),

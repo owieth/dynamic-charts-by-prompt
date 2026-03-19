@@ -112,7 +112,7 @@ export function useChat({
         const response = await fetch(api, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: apiMessages }),
+          body: JSON.stringify({ messages: apiMessages, spec }),
           signal: abortRef.current.signal,
         });
 
