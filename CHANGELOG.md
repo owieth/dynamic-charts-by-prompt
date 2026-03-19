@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.4.0...v1.5.0) (2026-03-19)
+
+
+### Features
+
+* multi-series dataQuery for chart overlays ([b61d92b](https://github.com/owieth/dynamic-charts-by-prompt/commit/b61d92bc641b9cf224ccbcc125c72bd425732289))
+
+
+### Bug Fixes
+
+* **charts:** include dataQueries in withSkeleton hasData check ([c27d6ab](https://github.com/owieth/dynamic-charts-by-prompt/commit/c27d6ab733246e3861db543619da08673415b4a9))
+
 ## [1.4.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.3.0...v1.4.0) (2026-03-19)
 
 
