@@ -1,11 +1,18 @@
 'use client';
 
 import { ChatPanel } from '@/components/chat-panel';
+import { DataSourceManager } from '@/components/data-source-manager';
 import { Sidebar } from '@/components/sidebar';
+import {
+  loadDataSourceConfigs,
+  saveDataSourceConfigs,
+  type DataSourceConfig,
+} from '@/lib/data-source-config';
 import { DEFAULT_DASHBOARD_ID } from '@/lib/default-dashboard';
 import { removeElementFromSpec } from '@/lib/spec-utils';
 import { useChat } from '@/lib/use-chat';
 import { useDashboards } from '@/lib/use-dashboards';
+import { useRemoteDataSources } from '@/lib/use-remote-data';
 import type { Spec } from '@json-render/core';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
@@ -80,6 +87,58 @@ export default function DashboardPage({
   const resetLayoutRef = useRef<(() => void) | null>(null);
   const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
   const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
+  const [dataSourcesOpen, setDataSourcesOpen] = useState(false);
+
+  // Data source configs
+  const [dataSourceConfigs, setDataSourceConfigs] = useState<DataSourceConfig[]>([]);
+  const configsHydrated = useRef(false);
+
+  useEffect(() => {
+    if (configsHydrated.current) return;
+    configsHydrated.current = true;
+    setDataSourceConfigs(loadDataSourceConfigs());
+  }, []);
+
+  const handleAddDataSource = useCallback((config: DataSourceConfig) => {
+    setDataSourceConfigs(prev => {
+      const next = [...prev, config];
+      saveDataSourceConfigs(next);
+      return next;
+    });
+  }, []);
+
+  const handleRemoveDataSource = useCallback((configId: string) => {
+    setDataSourceConfigs(prev => {
+      const next = prev.filter(c => c.id !== configId);
+      saveDataSourceConfigs(next);
+      return next;
+    });
+  }, []);
+
+  // Remote data
+  const remoteStates = useRemoteDataSources(dataSourceConfigs);
+
+  const additionalSources = useMemo(() => {
+    const sources: Record<string, Record<string, unknown>[]> = {};
+    for (const [name, state] of remoteStates) {
+      if (state.data.length > 0) {
+        sources[name] = state.data;
+      }
+    }
+    return Object.keys(sources).length > 0 ? sources : undefined;
+  }, [remoteStates]);
+
+  const remoteStatusMap = useMemo(() => {
+    const map = new Map<string, { loading: boolean; error: string | null; rowCount: number }>();
+    for (const [name, state] of remoteStates) {
+      map.set(name, {
+        loading: state.loading,
+        error: state.error,
+        rowCount: state.data.length,
+      });
+    }
+    return map;
+  }, [remoteStates]);
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
@@ -102,7 +161,7 @@ export default function DashboardPage({
       if (activeDashboard.name === 'New Dashboard' && firstName) {
         const truncated =
           firstName.length > 40
-            ? firstName.slice(0, 40).replace(/\s+\S*$/, '') + '…'
+            ? firstName.slice(0, 40).replace(/\s+\S*$/, '') + '\u2026'
             : firstName;
         patch.name = truncated;
       }
@@ -158,22 +217,36 @@ export default function DashboardPage({
     [deleteDashboard, id, router]
   );
 
+  const restSourceCount = dataSourceConfigs.filter(c => c.type === 'rest').length;
+
   return (
     <div className="h-dvh flex">
       <div
         className="shrink-0 overflow-hidden transition-[width] duration-200 ease-out"
         style={{ width: sidebarOpen ? 256 : 0 }}
       >
-        <Sidebar
-          dashboards={dashboards}
-          activeId={activeId}
-          onSelect={dashboardId => {
-            handleSelectDashboard(dashboardId);
-          }}
-          onCreate={handleNewDashboard}
-          onRename={renameDashboard}
-          onDelete={handleDeleteDashboard}
-        />
+        {dataSourcesOpen ? (
+          <div className="w-64 shrink-0 border-r border-border bg-bg h-full">
+            <DataSourceManager
+              configs={dataSourceConfigs}
+              remoteStatus={remoteStatusMap}
+              onAdd={handleAddDataSource}
+              onRemove={handleRemoveDataSource}
+              onClose={() => setDataSourcesOpen(false)}
+            />
+          </div>
+        ) : (
+          <Sidebar
+            dashboards={dashboards}
+            activeId={activeId}
+            onSelect={dashboardId => {
+              handleSelectDashboard(dashboardId);
+            }}
+            onCreate={handleNewDashboard}
+            onRename={renameDashboard}
+            onDelete={handleDeleteDashboard}
+          />
+        )}
       </div>
 
       <div className="flex-1 flex flex-col min-w-0">
@@ -251,6 +324,46 @@ export default function DashboardPage({
 
           <div className="flex items-center gap-2">
             <button
+              onClick={() => {
+                if (!sidebarOpen) setSidebarOpen(true);
+                setDataSourcesOpen(o => !o);
+              }}
+              className="relative size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
+              aria-label="Toggle data sources"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <ellipse
+                  cx="8"
+                  cy="4"
+                  rx="5.5"
+                  ry="2.5"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                />
+                <path
+                  d="M2.5 4v4c0 1.38 2.46 2.5 5.5 2.5s5.5-1.12 5.5-2.5V4"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                />
+                <path
+                  d="M2.5 8v4c0 1.38 2.46 2.5 5.5 2.5s5.5-1.12 5.5-2.5V8"
+                  stroke="currentColor"
+                  strokeWidth="1.3"
+                />
+              </svg>
+              {restSourceCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 size-3.5 rounded-full bg-accent text-[8px] text-white flex items-center justify-center font-medium tabular-nums">
+                  {restSourceCount}
+                </span>
+              )}
+            </button>
+            <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
               aria-label="Toggle chat"
@@ -283,6 +396,7 @@ export default function DashboardPage({
             <DashboardRenderer
               spec={displaySpec}
               loading={isStreaming}
+              additionalSources={additionalSources}
               onResetLayout={reset => {
                 resetLayoutRef.current = reset;
               }}

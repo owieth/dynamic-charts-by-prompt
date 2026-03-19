@@ -14,9 +14,12 @@ import {
 } from '@json-render/react';
 import type { ReactNode } from 'react';
 
+type Row = Record<string, unknown>;
+
 interface DashboardRendererProps {
   spec: Spec | null;
   loading: boolean;
+  additionalSources?: Record<string, Row[]>;
   onResetLayout?: (reset: () => void) => void;
   onRemoveItem?: (key: string) => void;
 }
@@ -30,13 +33,17 @@ const fallback: ComponentRenderer = ({ element }) => (
 export function DashboardRenderer({
   spec,
   loading,
+  additionalSources,
   onResetLayout,
   onRemoveItem,
 }: DashboardRendererProps): ReactNode {
   if (!spec) return null;
 
   return (
-    <DataProvider projects={projectsData.projects as Record<string, unknown>[]}>
+    <DataProvider
+      projects={projectsData.projects as Record<string, unknown>[]}
+      additionalSources={additionalSources}
+    >
       <StateProvider initialState={{}}>
         <VisibilityProvider>
           <ActionProvider handlers={{}}>

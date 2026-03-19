@@ -3,8 +3,8 @@
 import { useMemo } from 'react';
 import { useDataSource } from './data-context';
 import {
-  resolveQuery,
   resolveMultiQuery,
+  resolveQuery,
   type DataQuery,
   type ResolvedChartData,
 } from './data-query';
@@ -32,7 +32,11 @@ interface ChartProps {
 }
 
 export function useChartData(props: ChartProps): ResolvedChartData {
-  const projects = useDataSource('projects');
+  const sourceName =
+    props.dataQuery?.source ??
+    props.dataQueries?.[0]?.source ??
+    'projects';
+  const data = useDataSource(sourceName);
 
   return useMemo(() => {
     const applyOverrides = (
@@ -49,7 +53,7 @@ export function useChartData(props: ChartProps): ResolvedChartData {
     // Prefer dataQueries (multi-series) if provided
     if (props.dataQueries && props.dataQueries.length > 0) {
       const resolved = resolveMultiQuery(
-        projects,
+        data,
         props.dataQueries,
         props.datasetLabels ?? undefined
       );
@@ -59,7 +63,7 @@ export function useChartData(props: ChartProps): ResolvedChartData {
     // Single dataQuery
     if (props.dataQuery) {
       const resolved = resolveQuery(
-        projects,
+        data,
         props.dataQuery,
         props.datasetLabel ?? undefined
       );
@@ -81,7 +85,7 @@ export function useChartData(props: ChartProps): ResolvedChartData {
       ),
     };
   }, [
-    projects,
+    data,
     props.dataQuery,
     props.dataQueries,
     props.datasetLabel,
