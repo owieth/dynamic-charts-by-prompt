@@ -80,6 +80,7 @@ export default function DashboardPage({
   const resetLayoutRef = useRef<(() => void) | null>(null);
   const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
   const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
+  const [copied, setCopied] = useState(false);
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
@@ -125,6 +126,14 @@ export default function DashboardPage({
 
   const displaySpec = chatSpec ?? activeDashboard?.spec ?? null;
   const hasContent = !isSpecEmpty(displaySpec);
+
+  const handleCopySpec = useCallback(() => {
+    if (!displaySpec) return;
+    navigator.clipboard.writeText(JSON.stringify(displaySpec, null, 2)).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }, [displaySpec]);
   const showExamples = !activeDashboard?.spec && messages.length === 0;
 
   const handleRemoveItem = useCallback(
@@ -250,6 +259,59 @@ export default function DashboardPage({
           </div>
 
           <div className="flex items-center gap-2">
+            {displaySpec && (
+              <button
+                onClick={handleCopySpec}
+                className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out relative"
+                aria-label="Copy dashboard JSON"
+              >
+                {copied ? (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M3 8.5L6.5 12L13 4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <rect
+                      x="5.5"
+                      y="5.5"
+                      width="8"
+                      height="9"
+                      rx="1.5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M10.5 5.5V3a1.5 1.5 0 00-1.5-1.5H3A1.5 1.5 0 001.5 3v7A1.5 1.5 0 003 11.5h2.5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                  </svg>
+                )}
+                {copied && (
+                  <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[11px] text-accent whitespace-nowrap">
+                    Copied!
+                  </span>
+                )}
+              </button>
+            )}
             <button
               onClick={() => setChatOpen(o => !o)}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
