@@ -3,7 +3,6 @@
 import "@/lib/chartjs-setup";
 import type { ReactNode } from "react";
 import {
-  Renderer,
   StateProvider,
   VisibilityProvider,
   ActionProvider,
@@ -13,10 +12,12 @@ import { registry } from "@/lib/registry";
 import { DataProvider } from "@/lib/data-context";
 import type { Spec } from "@json-render/core";
 import projectsData from "@/lib/projects.json";
+import { GridDashboard } from "@/components/grid-dashboard";
 
 interface DashboardRendererProps {
   spec: Spec | null;
   loading: boolean;
+  onResetLayout?: (reset: () => void) => void;
 }
 
 const fallback: ComponentRenderer = ({ element }) => (
@@ -25,7 +26,7 @@ const fallback: ComponentRenderer = ({ element }) => (
   </div>
 );
 
-export function DashboardRenderer({ spec, loading }: DashboardRendererProps): ReactNode {
+export function DashboardRenderer({ spec, loading, onResetLayout }: DashboardRendererProps): ReactNode {
   if (!spec) return null;
 
   return (
@@ -33,11 +34,12 @@ export function DashboardRenderer({ spec, loading }: DashboardRendererProps): Re
       <StateProvider initialState={{}}>
         <VisibilityProvider>
           <ActionProvider handlers={{}}>
-            <Renderer
+            <GridDashboard
               spec={spec}
+              loading={loading}
               registry={registry}
               fallback={fallback}
-              loading={loading}
+              onResetLayout={onResetLayout}
             />
           </ActionProvider>
         </VisibilityProvider>
