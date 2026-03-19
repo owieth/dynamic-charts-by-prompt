@@ -16,7 +16,9 @@ const baseChartSchema = z.object({
   datasets: z.array(datasetSchema).nullable(),
   // Dynamic data (preferred — resolved at render time)
   dataQuery: dataQuerySchema.nullable(),
+  dataQueries: z.array(dataQuerySchema).nullable(),
   datasetLabel: z.string().nullable(),
+  datasetLabels: z.array(z.string()).nullable(),
   // Display
   title: z.string().nullable(),
   showLegend: z.boolean().nullable(),

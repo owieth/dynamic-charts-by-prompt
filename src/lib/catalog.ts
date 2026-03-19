@@ -73,7 +73,7 @@ export const catalog = defineCatalog(schema, {
     BarChart: {
       props: barChartSchema,
       description:
-        'Bar chart. ALWAYS use dataQuery to pull data from the projects source. Set groupBy for categories, aggregate for the operation, valueField for numeric fields. Use sort/limit to control output. Set top-level backgroundColor/borderColor to override default palette colors (e.g. backgroundColor: "rgba(59,130,246,0.8)" for solid blue, or an array for per-bar colors).',
+        'Bar chart. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays (e.g. capacity + count by year). Each query in dataQueries produces one dataset with a distinct color. All queries should share the same groupBy for aligned labels. Set top-level backgroundColor/borderColor to override default palette colors.',
       example: {
         title: 'Projects by Country (Top 10)',
         dataQuery: {
@@ -85,7 +85,9 @@ export const catalog = defineCatalog(schema, {
           sort: 'desc',
           limit: 10,
         },
+        dataQueries: null,
         datasetLabel: 'Projects',
+        datasetLabels: null,
         labels: null,
         datasets: null,
         showLegend: true,
@@ -102,7 +104,7 @@ export const catalog = defineCatalog(schema, {
     LineChart: {
       props: lineChartSchema,
       description:
-        "Line chart for trends. Use dataQuery with a date field (e.g. 'CoD:year') as groupBy. Set top-level backgroundColor/borderColor to override default colors.",
+        "Line chart for trends. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays. Use a date field (e.g. 'CoD:year') as groupBy. Set top-level backgroundColor/borderColor to override default colors.",
       example: {
         title: 'Projects by Year',
         dataQuery: {
@@ -114,7 +116,9 @@ export const catalog = defineCatalog(schema, {
           sort: 'asc',
           limit: null,
         },
+        dataQueries: null,
         datasetLabel: 'Projects',
+        datasetLabels: null,
         labels: null,
         datasets: null,
         showLegend: true,
@@ -141,7 +145,9 @@ export const catalog = defineCatalog(schema, {
           sort: 'desc',
           limit: null,
         },
+        dataQueries: null,
         datasetLabel: 'Projects',
+        datasetLabels: null,
         labels: null,
         datasets: null,
         showLegend: true,
@@ -162,7 +168,7 @@ export const catalog = defineCatalog(schema, {
     AreaChart: {
       props: areaChartSchema,
       description:
-        'Area chart with filled regions. Use dataQuery for cumulative trends. Set top-level backgroundColor/borderColor to override default colors.',
+        'Area chart with filled regions. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays. Set top-level backgroundColor/borderColor to override default colors.',
       example: {
         title: 'Cumulative Capacity by Year',
         dataQuery: {
@@ -174,7 +180,9 @@ export const catalog = defineCatalog(schema, {
           sort: 'asc',
           limit: null,
         },
+        dataQueries: null,
         datasetLabel: 'Capacity (kW)',
+        datasetLabels: null,
         labels: null,
         datasets: null,
         showLegend: true,
@@ -190,7 +198,7 @@ export const catalog = defineCatalog(schema, {
     RadarChart: {
       props: radarChartSchema,
       description:
-        'Radar chart for multi-metric comparison. Use dataQuery to compare groups. Set top-level backgroundColor/borderColor to override default colors.',
+        'Radar chart for multi-metric comparison. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays. Set top-level backgroundColor/borderColor to override default colors.',
     },
 
     DataTable: {
