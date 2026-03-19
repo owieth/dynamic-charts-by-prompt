@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "3.0.58",
-    "@ai-sdk/gateway": "3.0.13",
+    "@ai-sdk/gateway": "3.0.66",
     "@json-render/core": "0.14.1",
     "@json-render/react": "0.14.1",
     "@json-render/shadcn": "0.14.1",
