@@ -54,7 +54,7 @@ export const catalog = defineCatalog(schema, {
     BarChart: {
       props: barChartSchema,
       description:
-        'Bar chart. ALWAYS use dataQuery to pull data from the projects source. Set groupBy for categories, aggregate for the operation, valueField for numeric fields. Use sort/limit to control output.',
+        'Bar chart. ALWAYS use dataQuery to pull data from the projects source. Set groupBy for categories, aggregate for the operation, valueField for numeric fields. Use sort/limit to control output. Set top-level backgroundColor/borderColor to override default palette colors (e.g. backgroundColor: "rgba(59,130,246,0.8)" for solid blue, or an array for per-bar colors).',
       example: {
         title: 'Projects by Country (Top 10)',
         dataQuery: {
@@ -73,13 +73,17 @@ export const catalog = defineCatalog(schema, {
         yFormat: 'number',
         stacked: false,
         indexAxis: 'x',
+        backgroundColor: null,
+        borderColor: null,
+        borderWidth: null,
+        fill: null,
       },
     },
 
     LineChart: {
       props: lineChartSchema,
       description:
-        "Line chart for trends. Use dataQuery with a date field (e.g. 'CoD:year') as groupBy.",
+        "Line chart for trends. Use dataQuery with a date field (e.g. 'CoD:year') as groupBy. Set top-level backgroundColor/borderColor to override default colors.",
       example: {
         title: 'Projects by Year',
         dataQuery: {
@@ -96,13 +100,17 @@ export const catalog = defineCatalog(schema, {
         datasets: null,
         showLegend: true,
         yFormat: 'number',
+        backgroundColor: null,
+        borderColor: null,
+        borderWidth: null,
+        fill: null,
       },
     },
 
     PieChart: {
       props: pieChartSchema,
       description:
-        'Pie chart for proportional distribution. Use dataQuery with groupBy for slices.',
+        'Pie chart for proportional distribution. Use dataQuery with groupBy for slices. Set top-level backgroundColor to override default slice colors (use an array for per-slice colors).',
       example: {
         title: 'Projects by Technology',
         dataQuery: {
@@ -119,19 +127,23 @@ export const catalog = defineCatalog(schema, {
         datasets: null,
         showLegend: true,
         yFormat: null,
+        backgroundColor: null,
+        borderColor: null,
+        borderWidth: null,
+        fill: null,
       },
     },
 
     DoughnutChart: {
       props: doughnutChartSchema,
       description:
-        'Doughnut chart — pie with center hole. Use dataQuery for part-to-whole breakdowns.',
+        'Doughnut chart — pie with center hole. Use dataQuery for part-to-whole breakdowns. Set top-level backgroundColor to override default slice colors.',
     },
 
     AreaChart: {
       props: areaChartSchema,
       description:
-        'Area chart with filled regions. Use dataQuery for cumulative trends.',
+        'Area chart with filled regions. Use dataQuery for cumulative trends. Set top-level backgroundColor/borderColor to override default colors.',
       example: {
         title: 'Cumulative Capacity by Year',
         dataQuery: {
@@ -149,13 +161,17 @@ export const catalog = defineCatalog(schema, {
         showLegend: true,
         stacked: false,
         yFormat: 'number',
+        backgroundColor: null,
+        borderColor: null,
+        borderWidth: null,
+        fill: null,
       },
     },
 
     RadarChart: {
       props: radarChartSchema,
       description:
-        'Radar chart for multi-metric comparison. Use dataQuery to compare groups.',
+        'Radar chart for multi-metric comparison. Use dataQuery to compare groups. Set top-level backgroundColor/borderColor to override default colors.',
     },
   },
   actions: {},

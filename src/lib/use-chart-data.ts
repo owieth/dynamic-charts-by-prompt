@@ -22,32 +22,50 @@ interface ChartProps {
     | null;
   dataQuery?: DataQuery | null;
   datasetLabel?: string | null;
+  backgroundColor?: string | string[] | null;
+  borderColor?: string | string[] | null;
+  borderWidth?: number | null;
+  fill?: boolean | null;
 }
 
 export function useChartData(props: ChartProps): ResolvedChartData {
   const projects = useDataSource('projects');
 
   return useMemo(() => {
+    const applyOverrides = (
+      datasets: ResolvedChartData['datasets']
+    ): ResolvedChartData['datasets'] =>
+      datasets.map(ds => ({
+        ...ds,
+        backgroundColor: props.backgroundColor ?? ds.backgroundColor,
+        borderColor: props.borderColor ?? ds.borderColor,
+        borderWidth: props.borderWidth ?? ds.borderWidth,
+        fill: props.fill ?? ds.fill,
+      }));
+
     // Prefer dataQuery if provided
     if (props.dataQuery) {
-      return resolveQuery(
+      const resolved = resolveQuery(
         projects,
         props.dataQuery,
         props.datasetLabel ?? undefined
       );
+      return { ...resolved, datasets: applyOverrides(resolved.datasets) };
     }
 
     // Fall back to static labels/datasets
     return {
       labels: props.labels ?? [],
-      datasets: (props.datasets ?? []).map(ds => ({
-        label: ds.label,
-        data: ds.data,
-        backgroundColor: ds.backgroundColor,
-        borderColor: ds.borderColor,
-        borderWidth: ds.borderWidth,
-        fill: ds.fill,
-      })),
+      datasets: applyOverrides(
+        (props.datasets ?? []).map(ds => ({
+          label: ds.label,
+          data: ds.data,
+          backgroundColor: ds.backgroundColor,
+          borderColor: ds.borderColor,
+          borderWidth: ds.borderWidth,
+          fill: ds.fill,
+        }))
+      ),
     };
   }, [
     projects,
@@ -55,5 +73,9 @@ export function useChartData(props: ChartProps): ResolvedChartData {
     props.datasetLabel,
     props.labels,
     props.datasets,
+    props.backgroundColor,
+    props.borderColor,
+    props.borderWidth,
+    props.fill,
   ]);
 }
