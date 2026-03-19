@@ -36,6 +36,20 @@ export const catalog = defineCatalog(schema, {
     },
     Table,
 
+    DashboardHeader: {
+      props: z.object({
+        title: z.string(),
+        subtitle: z.string().nullable(),
+      }),
+      description:
+        'Dashboard title and subtitle. Use at the very top of every dashboard to summarize its purpose.',
+      example: {
+        title: 'Renewable Energy Projects Overview',
+        subtitle:
+          'Key metrics and trends across global renewable energy installations',
+      },
+    },
+
     MetricCard: {
       props: z.object({
         label: z.string(),

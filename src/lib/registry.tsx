@@ -7,6 +7,7 @@ import { DoughnutChart } from '@/components/charts/doughnut-chart';
 import { LineChart } from '@/components/charts/line-chart';
 import { PieChart } from '@/components/charts/pie-chart';
 import { RadarChart } from '@/components/charts/radar-chart';
+import { DashboardHeader } from '@/components/dashboard-header';
 import { MetricCard } from '@/components/metric-card';
 import { defineRegistry } from '@json-render/react';
 import { shadcnComponents } from '@json-render/shadcn';
@@ -60,6 +61,11 @@ const { registry } = defineRegistry(catalog, {
     Separator,
     Tabs,
     Table,
+    DashboardHeader: ({
+      props,
+    }: {
+      props: { title: string; subtitle: string | null };
+    }) => <DashboardHeader props={props} />,
     MetricCard: ({
       props,
     }: {
