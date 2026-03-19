@@ -3,6 +3,7 @@
 import { ChatPanel } from '@/components/chat-panel';
 import { Sidebar } from '@/components/sidebar';
 import { DEFAULT_DASHBOARD_ID } from '@/lib/default-dashboard';
+import { encodeSpec, MAX_SHARE_URL_LENGTH } from '@/lib/share';
 import { removeElementFromSpec } from '@/lib/spec-utils';
 import { useTheme } from '@/lib/theme-context';
 import { useChat } from '@/lib/use-chat';
@@ -83,6 +84,7 @@ export default function DashboardPage({
   const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
   const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
   const [copied, setCopied] = useState(false);
+  const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'too-long'>('idle');
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
@@ -169,6 +171,20 @@ export default function DashboardPage({
     },
     [deleteDashboard, id, router]
   );
+
+  const handleShare = useCallback(async () => {
+    if (!displaySpec || !activeDashboard) return;
+    const encoded = await encodeSpec(displaySpec, activeDashboard.name);
+    const url = `${window.location.origin}/dashboard/shared?s=${encoded}`;
+    if (url.length > MAX_SHARE_URL_LENGTH) {
+      setShareStatus('too-long');
+      setTimeout(() => setShareStatus('idle'), 3000);
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+    setShareStatus('copied');
+    setTimeout(() => setShareStatus('idle'), 1500);
+  }, [displaySpec, activeDashboard]);
 
   return (
     <div className="h-dvh flex">
@@ -315,6 +331,37 @@ export default function DashboardPage({
                 )}
               </button>
             )}
+            <div className="relative">
+              <button
+                onClick={handleShare}
+                disabled={!hasContent}
+                className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out disabled:opacity-30 disabled:cursor-not-allowed"
+                aria-label="Share dashboard"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M6 6.5L10 4.5M6 9.5L10 11.5M13 3.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6 8a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM13 12.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              {shareStatus !== 'idle' && (
+                <div className="absolute top-full right-0 mt-1 px-2 py-1 rounded bg-surface border border-border/60 text-xs text-ink-muted whitespace-nowrap z-10">
+                  {shareStatus === 'copied'
+                    ? 'Link copied!'
+                    : 'Dashboard too complex to share via URL'}
+                </div>
+              )}
+            </div>
             <button
               onClick={toggleTheme}
               className="size-8 flex items-center justify-center text-ink-muted hover:text-accent"
