@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useDataSource } from './data-context';
 import {
   resolveQuery,
+  resolveMultiQuery,
   type DataQuery,
   type ResolvedChartData,
 } from './data-query';
@@ -21,7 +22,9 @@ interface ChartProps {
       }[]
     | null;
   dataQuery?: DataQuery | null;
+  dataQueries?: DataQuery[] | null;
   datasetLabel?: string | null;
+  datasetLabels?: string[] | null;
   backgroundColor?: string | string[] | null;
   borderColor?: string | string[] | null;
   borderWidth?: number | null;
@@ -43,7 +46,17 @@ export function useChartData(props: ChartProps): ResolvedChartData {
         fill: props.fill ?? ds.fill,
       }));
 
-    // Prefer dataQuery if provided
+    // Prefer dataQueries (multi-series) if provided
+    if (props.dataQueries && props.dataQueries.length > 0) {
+      const resolved = resolveMultiQuery(
+        projects,
+        props.dataQueries,
+        props.datasetLabels ?? undefined
+      );
+      return { ...resolved, datasets: applyOverrides(resolved.datasets) };
+    }
+
+    // Single dataQuery
     if (props.dataQuery) {
       const resolved = resolveQuery(
         projects,
@@ -70,7 +83,9 @@ export function useChartData(props: ChartProps): ResolvedChartData {
   }, [
     projects,
     props.dataQuery,
+    props.dataQueries,
     props.datasetLabel,
+    props.datasetLabels,
     props.labels,
     props.datasets,
     props.backgroundColor,
