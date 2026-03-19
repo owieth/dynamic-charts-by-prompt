@@ -29,6 +29,7 @@ interface ChartPropsBase {
   labels?: string[] | null;
   datasets?: unknown[] | null;
   dataQuery?: unknown | null;
+  dataQueries?: unknown[] | null;
 }
 
 function withSkeleton<P extends ChartPropsBase>(
@@ -38,7 +39,8 @@ function withSkeleton<P extends ChartPropsBase>(
     const hasData =
       (props.labels && props.labels.length > 0) ||
       (props.datasets && props.datasets.length > 0) ||
-      props.dataQuery;
+      props.dataQuery ||
+      (props.dataQueries && props.dataQueries.length > 0);
 
     if (!hasData) return <ChartSkeleton />;
     return (
