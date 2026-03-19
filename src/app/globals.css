@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ───────────────────────────────────────── */
+@theme {
+  --font-sans: var(--font-instrument-sans), "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
+
+  --color-bg:          #09090b;
+  --color-surface:     #111116;
+  --color-surface-hi:  #18181f;
+  --color-border:      #27272e;
+  --color-border-hi:   #3f3f48;
+  --color-ink:         #f4ede4;
+  --color-ink-muted:   #8a8480;
+  --color-ink-dim:     #4a4844;
+  --color-accent:      #f0a050;
+  --color-accent-dim:  color-mix(in oklch, #f0a050 15%, transparent);
+  --color-danger:      #ef4444;
+}
+
+/* ─── Base ────────────────────────────────────────────────── */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  background-image:
+    radial-gradient(ellipse 90% 40% at 50% -5%, color-mix(in oklch, #f0a050 8%, transparent) 0%, transparent 70%),
+    linear-gradient(color-mix(in oklch, #f0a050 3%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, #f0a050 3%, transparent) 1px, transparent 1px);
+  background-size: 100% 100%, 56px 56px, 56px 56px;
+}
+
+/* ─── Animations ──────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+@keyframes scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-fade-in {
+  animation: fade-in 0.4s ease both;
+}
+.delay-50  { animation-delay: 50ms; }
+.delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-250 { animation-delay: 250ms; }
+.delay-300 { animation-delay: 300ms; }
+
+/* ─── shadcn/ui CSS custom properties ────────────────────── */
+/* Using bare RGB triplets so shadcn can compose: rgb(var(--card) / alpha) */
+:root {
+  --background:        9 9 11;
+  --foreground:        244 237 228;
+  --card:              17 17 22;
+  --card-foreground:   244 237 228;
+  --popover:           17 17 22;
+  --popover-foreground:244 237 228;
+  --primary:           240 160 80;
+  --primary-foreground:9 9 11;
+  --secondary:         24 24 31;
+  --secondary-foreground: 212 204 196;
+  --muted:             24 24 31;
+  --muted-foreground:  138 132 128;
+  --accent:            24 24 31;
+  --accent-foreground: 244 237 228;
+  --destructive:       239 68 68;
+  --destructive-foreground: 255 255 255;
+  --border:            39 39 46;
+  --input:             39 39 46;
+  --ring:              240 160 80;
+  --radius:            0.375rem;
+}
