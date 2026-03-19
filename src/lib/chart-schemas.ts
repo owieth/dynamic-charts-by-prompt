@@ -21,6 +21,11 @@ const baseChartSchema = z.object({
   title: z.string().nullable(),
   showLegend: z.boolean().nullable(),
   yFormat: z.enum(['number', 'currency-k', 'percent']).nullable(),
+  // Style overrides (applied on top of resolved/default colors)
+  backgroundColor: z.union([z.string(), z.array(z.string())]).nullable(),
+  borderColor: z.union([z.string(), z.array(z.string())]).nullable(),
+  borderWidth: z.number().nullable(),
+  fill: z.boolean().nullable(),
 });
 
 export const lineChartSchema = baseChartSchema;

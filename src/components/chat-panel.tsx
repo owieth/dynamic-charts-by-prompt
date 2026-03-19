@@ -2,6 +2,7 @@
 
 import type { ChatMessage } from '@/lib/use-dashboards';
 import { cn } from '@/lib/utils';
+import type { Spec } from '@json-render/core';
 import { useEffect, useRef, useState } from 'react';
 
 const EXAMPLE_PROMPTS = [
@@ -90,45 +91,50 @@ export function ChatPanel({
           </div>
         ) : (
           <>
-            {messages.map(msg => (
-              <div
-                key={msg.id}
-                className={cn(
-                  'flex flex-col gap-1 max-w-[90%]',
-                  msg.role === 'user'
-                    ? 'ml-auto items-end'
-                    : 'mr-auto items-start'
-                )}
-              >
+            {messages.map((msg, idx) => {
+              const isLast = idx === messages.length - 1;
+              const isAssistantStreaming =
+                msg.role === 'assistant' && isStreaming && isLast;
+              const showBubble = msg.role === 'user' || !!msg.text;
+
+              return (
                 <div
+                  key={msg.id}
                   className={cn(
-                    'px-3 py-2 text-xs leading-relaxed',
+                    'flex flex-col gap-1 max-w-[90%]',
                     msg.role === 'user'
-                      ? 'bg-surface-hi text-ink rounded-sm'
-                      : 'text-ink-muted'
+                      ? 'ml-auto items-end'
+                      : 'mr-auto items-start'
                   )}
                 >
-                  {msg.text ||
-                    (msg.role === 'assistant' && isStreaming && (
+                  {showBubble && (
+                    <div
+                      className={cn(
+                        'px-3 py-2 text-xs leading-relaxed',
+                        msg.role === 'user'
+                          ? 'bg-surface-hi text-ink rounded-sm'
+                          : 'text-ink-muted'
+                      )}
+                    >
+                      {msg.text}
+                    </div>
+                  )}
+                  {isAssistantStreaming && !msg.text && (
+                    <div className="flex items-center gap-2 text-xs text-ink-muted py-1">
                       <ThinkingDots />
-                    ))}
+                      <span>Generating…</span>
+                    </div>
+                  )}
+                  {msg.role === 'assistant' &&
+                    msg.spec &&
+                    !isAssistantStreaming && (
+                      <span className="text-[10px] text-accent/70 px-1">
+                        {specSummary(msg.spec)}
+                      </span>
+                    )}
                 </div>
-                {msg.role === 'assistant' && msg.spec && (
-                  <span className="text-[10px] text-accent/70 px-1">
-                    Dashboard updated
-                  </span>
-                )}
-              </div>
-            ))}
-            {isStreaming &&
-              messages.length > 0 &&
-              !messages[messages.length - 1]?.text &&
-              messages[messages.length - 1]?.role === 'assistant' && (
-                <div className="flex items-center gap-2 text-xs text-ink-muted">
-                  <ThinkingDots />
-                  <span>Generating…</span>
-                </div>
-              )}
+              );
+            })}
           </>
         )}
       </div>
@@ -170,6 +176,36 @@ export function ChatPanel({
       </form>
     </aside>
   );
+}
+
+const CATEGORY_LABELS: Record<string, string> = {
+  chart: 'chart',
+  metric: 'metric',
+  layout: 'layout element',
+};
+
+function categorize(type: string): string {
+  if (type.endsWith('Chart')) return 'chart';
+  if (type === 'MetricCard') return 'metric';
+  return 'layout';
+}
+
+function specSummary(spec: Spec): string {
+  const elements = Object.values(spec.elements);
+  if (elements.length === 0) return 'Dashboard updated';
+
+  const counts: Record<string, number> = {};
+  for (const el of elements) {
+    const cat = categorize(el.type);
+    counts[cat] = (counts[cat] ?? 0) + 1;
+  }
+
+  const parts = Object.entries(counts).map(([cat, n]) => {
+    const label = CATEGORY_LABELS[cat] ?? cat;
+    return `${n} ${label}${n > 1 ? 's' : ''}`;
+  });
+
+  return `Updated ${parts.join(', ')}`;
 }
 
 function ThinkingDots() {
