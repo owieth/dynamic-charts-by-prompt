@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.1.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.2...v1.1.0) (2026-03-19)
+
+
+### Features
+
+* add AI-generated dashboard title and description ([b72c6ae](https://github.com/owieth/dynamic-charts-by-prompt/commit/b72c6ae9f79820ab9ffac9a1619cd6150944e4c3))
+* **ai-config:** instruct Claude to start dashboards with DashboardHeader ([cd0aa66](https://github.com/owieth/dynamic-charts-by-prompt/commit/cd0aa6650875008960c6030b6a67292f89d9f31f))
+* **catalog:** register DashboardHeader component definition ([4383ca9](https://github.com/owieth/dynamic-charts-by-prompt/commit/4383ca9f887424443d8c49779f1882af8e4e5483))
+* **components:** add DashboardHeader component ([63bbfc6](https://github.com/owieth/dynamic-charts-by-prompt/commit/63bbfc62403ca5af3c37405fab74b52615126344))
+* **registry:** register DashboardHeader renderer ([fa2042f](https://github.com/owieth/dynamic-charts-by-prompt/commit/fa2042f4bd22d722da17ad8741aee2344d81e5ea))
+
 ## [1.0.2](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.1...v1.0.2) (2026-03-19)
 
 
