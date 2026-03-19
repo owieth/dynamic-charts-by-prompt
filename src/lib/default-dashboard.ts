@@ -8,10 +8,10 @@ export const DEFAULT_DASHBOARD_SPEC: Spec = {
     root: {
       type: 'Stack',
       props: { direction: 'vertical', gap: 'lg' },
-      children: ['metrics-row', 'charts-row-1', 'charts-row-2'],
+      children: ['metrics-row', 'charts-row-1', 'charts-row-2', 'charts-row-3'],
     },
 
-    // ── Metrics row ──────────────────────────────
+    // ── Metrics ──────────────────────────────────
     'metrics-row': {
       type: 'Stack',
       props: { direction: 'horizontal', gap: 'lg' },
@@ -55,18 +55,18 @@ export const DEFAULT_DASHBOARD_SPEC: Spec = {
       },
     },
 
-    // ── Charts row 1 ─────────────────────────────
+    // ── Row 1: BarChart + DoughnutChart ──────────
     'charts-row-1': {
       type: 'Grid',
       props: { columns: 2 },
-      children: ['card-country', 'card-tech'],
+      children: ['card-bar', 'card-doughnut'],
     },
-    'card-country': {
+    'card-bar': {
       type: 'Card',
       props: { title: 'Top 10 Countries by Project Count' },
-      children: ['chart-country'],
+      children: ['chart-bar'],
     },
-    'chart-country': {
+    'chart-bar': {
       type: 'BarChart',
       props: {
         title: 'Top 10 Countries by Project Count',
@@ -84,14 +84,16 @@ export const DEFAULT_DASHBOARD_SPEC: Spec = {
         yFormat: 'number',
         labels: null,
         datasets: null,
+        stacked: false,
+        indexAxis: 'x',
       },
     },
-    'card-tech': {
+    'card-doughnut': {
       type: 'Card',
       props: { title: 'Technology Breakdown' },
-      children: ['chart-tech'],
+      children: ['chart-doughnut'],
     },
-    'chart-tech': {
+    'chart-doughnut': {
       type: 'DoughnutChart',
       props: {
         title: 'Technology Breakdown',
@@ -112,18 +114,76 @@ export const DEFAULT_DASHBOARD_SPEC: Spec = {
       },
     },
 
-    // ── Charts row 2 ─────────────────────────────
+    // ── Row 2: LineChart + AreaChart ──────────────
     'charts-row-2': {
       type: 'Grid',
       props: { columns: 2 },
-      children: ['card-status', 'card-capacity'],
+      children: ['card-line', 'card-area'],
     },
-    'card-status': {
+    'card-line': {
+      type: 'Card',
+      props: { title: 'Projects by Commissioning Year' },
+      children: ['chart-line'],
+    },
+    'chart-line': {
+      type: 'LineChart',
+      props: {
+        title: 'Projects by Commissioning Year',
+        dataQuery: {
+          source: 'projects',
+          groupBy: 'CoD:year',
+          aggregate: 'count',
+          valueField: null,
+          sort: 'asc',
+          limit: null,
+          filter: null,
+        },
+        datasetLabel: 'Projects',
+        showLegend: true,
+        yFormat: 'number',
+        labels: null,
+        datasets: null,
+      },
+    },
+    'card-area': {
+      type: 'Card',
+      props: { title: 'Cumulative Capacity by Year (kW)' },
+      children: ['chart-area'],
+    },
+    'chart-area': {
+      type: 'AreaChart',
+      props: {
+        title: 'Cumulative Capacity by Year (kW)',
+        dataQuery: {
+          source: 'projects',
+          groupBy: 'CoD:year',
+          aggregate: 'sum',
+          valueField: 'Capacity (kW)',
+          sort: 'asc',
+          limit: null,
+          filter: null,
+        },
+        datasetLabel: 'Capacity (kW)',
+        showLegend: true,
+        yFormat: 'number',
+        stacked: false,
+        labels: null,
+        datasets: null,
+      },
+    },
+
+    // ── Row 3: PieChart + RadarChart ─────────────
+    'charts-row-3': {
+      type: 'Grid',
+      props: { columns: 2 },
+      children: ['card-pie', 'card-radar'],
+    },
+    'card-pie': {
       type: 'Card',
       props: { title: 'Projects by Status' },
-      children: ['chart-status'],
+      children: ['chart-pie'],
     },
-    'chart-status': {
+    'chart-pie': {
       type: 'PieChart',
       props: {
         title: 'Projects by Status',
@@ -143,31 +203,29 @@ export const DEFAULT_DASHBOARD_SPEC: Spec = {
         datasets: null,
       },
     },
-    'card-capacity': {
+    'card-radar': {
       type: 'Card',
-      props: { title: 'Capacity by Technology (kW)' },
-      children: ['chart-capacity'],
+      props: { title: 'Avg Capacity by Technology (kW)' },
+      children: ['chart-radar'],
     },
-    'chart-capacity': {
-      type: 'BarChart',
+    'chart-radar': {
+      type: 'RadarChart',
       props: {
-        title: 'Capacity by Technology (kW)',
+        title: 'Avg Capacity by Technology (kW)',
         dataQuery: {
           source: 'projects',
           groupBy: 'Technology',
-          aggregate: 'sum',
+          aggregate: 'avg',
           valueField: 'Capacity (kW)',
-          sort: 'desc',
+          sort: null,
           limit: null,
           filter: null,
         },
-        datasetLabel: 'Capacity (kW)',
+        datasetLabel: 'Avg Capacity (kW)',
         showLegend: true,
         yFormat: 'number',
         labels: null,
         datasets: null,
-        stacked: false,
-        indexAxis: 'y',
       },
     },
   },
