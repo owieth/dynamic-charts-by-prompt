@@ -107,7 +107,26 @@ Solar PV projects in Singapore by status:
 
 Average Frigg Score by country (top 10):
 \`\`\`json
-{ "source": "projects", "filter": null, "groupBy": "Country", "aggregate": "avg", "valueField": "Frigg Score", "sort": "desc", "limit": 10 }
+{ "source": "projects", "filter": null, "groupBy": "Country", "aggregate": "avg", "valueField": "Frigg Score", "sort": "desc", "limit": 10, "computedFields": null }
+\`\`\`
+
+### Computed Fields (post-processing)
+
+\`computedFields\` is an optional array applied after aggregation. Each entry has: \`name\` (label), \`type\` ("ratio" | "running_total" | "pct_of_total"), \`field\` (for running_total/pct_of_total, nullable), \`numerator\` and \`denominator\` (for ratio, nullable).
+
+CapEx per kW by technology (ratio of two fields):
+\`\`\`json
+{ "source": "projects", "filter": null, "groupBy": "Technology", "aggregate": "sum", "valueField": "CapEx", "sort": "desc", "limit": null, "computedFields": [{ "name": "CapEx per kW", "type": "ratio", "field": null, "numerator": "CapEx", "denominator": "Capacity (kW)" }] }
+\`\`\`
+
+Cumulative project count by year (running total):
+\`\`\`json
+{ "source": "projects", "filter": null, "groupBy": "CoD:year", "aggregate": "count", "valueField": null, "sort": "asc", "limit": null, "computedFields": [{ "name": "Cumulative Projects", "type": "running_total", "field": null, "numerator": null, "denominator": null }] }
+\`\`\`
+
+Capacity share by technology (percentage of total):
+\`\`\`json
+{ "source": "projects", "filter": null, "groupBy": "Technology", "aggregate": "sum", "valueField": "Capacity (kW)", "sort": "desc", "limit": null, "computedFields": [{ "name": "Capacity Share (%)", "type": "pct_of_total", "field": null, "numerator": null, "denominator": null }] }
 \`\`\`
 
 ### Portfolio Totals (for MetricCard components)
