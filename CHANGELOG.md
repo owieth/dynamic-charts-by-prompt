@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.0...v1.0.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* **ci:** migrate to googleapis/release-please-action ([f8241a5](https://github.com/owieth/dynamic-charts-by-prompt/commit/f8241a5d48b90a1626f2da86d279aa12b77ada02))
+* **ci:** migrate to googleapis/release-please-action ([393dc34](https://github.com/owieth/dynamic-charts-by-prompt/commit/393dc3412ea7e96c8d742a6569c7d879cd0e42fd))
+
 ## 1.0.0 (2026-03-19)
 
 ### Features
