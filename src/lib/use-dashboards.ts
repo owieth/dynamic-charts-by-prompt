@@ -1,7 +1,7 @@
 'use client';
 
 import type { Spec } from '@json-render/core';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   DEFAULT_DASHBOARD_ID,
   DEFAULT_DASHBOARD_SPEC,
@@ -54,29 +54,38 @@ function saveDashboards(dashboards: Dashboard[]) {
   }
 }
 
-function initDashboards(): Dashboard[] {
-  if (typeof window === 'undefined') return [createDefaultDashboard()];
-  let loaded = loadDashboards();
+function reconcileDashboards(loaded: Dashboard[]): Dashboard[] {
   if (loaded.length === 0) {
     loaded = [createDefaultDashboard()];
-    saveDashboards(loaded);
   }
   const existingDefault = loaded.find(d => d.id === DEFAULT_DASHBOARD_ID);
   if (!existingDefault) {
     loaded = [createDefaultDashboard(), ...loaded];
-    saveDashboards(loaded);
   } else if (existingDefault.messages.length === 0) {
     loaded = loaded.map(d =>
       d.id === DEFAULT_DASHBOARD_ID ? { ...d, spec: DEFAULT_DASHBOARD_SPEC } : d
     );
-    saveDashboards(loaded);
   }
   return loaded;
 }
 
 export function useDashboards(activeId: string) {
-  const [dashboards, setDashboards] = useState<Dashboard[]>(initDashboards);
+  const [dashboards, setDashboards] = useState<Dashboard[]>(() =>
+    reconcileDashboards([createDefaultDashboard()])
+  );
+  const hydrated = useRef(false);
   const dashboardsRef = useRef(dashboards);
+
+  useEffect(() => {
+    if (hydrated.current) return;
+    hydrated.current = true;
+    const loaded = loadDashboards();
+    if (loaded.length > 0) {
+      const reconciled = reconcileDashboards(loaded);
+      saveDashboards(reconciled);
+      setDashboards(reconciled);
+    }
+  }, []);
   dashboardsRef.current = dashboards;
 
   const activeDashboard =
