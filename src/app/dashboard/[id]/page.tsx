@@ -41,7 +41,8 @@ export default function DashboardPage({
   } = useDashboards(id);
 
   const resetLayoutRef = useRef<(() => void) | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [chatOpen, setChatOpen] = useState(true);
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
@@ -122,26 +123,25 @@ export default function DashboardPage({
 
   return (
     <div className="h-dvh flex">
-      <div className={`${sidebarOpen ? 'block' : 'hidden'} md:block`}>
+      {sidebarOpen && (
         <Sidebar
           dashboards={dashboards}
           activeId={activeId}
           onSelect={dashboardId => {
             handleSelectDashboard(dashboardId);
-            setSidebarOpen(false);
           }}
           onCreate={handleNewDashboard}
           onRename={renameDashboard}
           onDelete={handleDeleteDashboard}
         />
-      </div>
+      )}
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="border-b border-border/60 px-6 py-4 flex items-center justify-between backdrop-blur-sm shrink-0">
+        <header className="border-b border-border/60 px-4 py-3 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(o => !o)}
-              className="md:hidden size-8 flex items-center justify-center text-ink-muted hover:text-ink"
+              className="size-8 flex items-center justify-center text-ink-muted hover:text-ink"
               aria-label="Toggle sidebar"
             >
               <svg
@@ -212,35 +212,55 @@ export default function DashboardPage({
             >
               + New
             </button>
+            <button
+              onClick={() => setChatOpen(o => !o)}
+              className="size-8 flex items-center justify-center text-ink-muted hover:text-ink"
+              aria-label="Toggle chat"
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2 3h12v8H5l-3 3V3z"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
           </div>
         </header>
 
-        <main className="flex-1 overflow-y-auto px-6 py-6">
-          <div className="max-w-7xl mx-auto">
-            {hasContent ? (
-              <DashboardRenderer
-                spec={displaySpec}
-                loading={isStreaming}
-                onResetLayout={reset => {
-                  resetLayoutRef.current = reset;
-                }}
-              />
-            ) : isStreaming ? (
-              <StreamingPlaceholder />
-            ) : (
-              <EmptyDashboard />
-            )}
-          </div>
+        <main className="flex-1 overflow-y-auto p-4">
+          {hasContent ? (
+            <DashboardRenderer
+              spec={displaySpec}
+              loading={isStreaming}
+              onResetLayout={reset => {
+                resetLayoutRef.current = reset;
+              }}
+            />
+          ) : isStreaming ? (
+            <StreamingPlaceholder />
+          ) : (
+            <EmptyDashboard />
+          )}
         </main>
       </div>
 
-      <ChatPanel
-        messages={messages}
-        isStreaming={isStreaming}
-        error={error}
-        onSend={send}
-        showExamples={showExamples}
-      />
+      {chatOpen && (
+        <ChatPanel
+          messages={messages}
+          isStreaming={isStreaming}
+          error={error}
+          onSend={send}
+          showExamples={showExamples}
+        />
+      )}
     </div>
   );
 }
