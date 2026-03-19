@@ -17,11 +17,12 @@ interface GridDashboardProps {
   registry: ComponentRegistry;
   fallback: ComponentRenderer;
   onResetLayout?: (reset: () => void) => void;
+  onRemoveItem?: (key: string) => void;
 }
 
-const BREAKPOINTS = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 } as const;
-const COLS = { lg: 12, md: 12, sm: 6, xs: 4, xxs: 2 } as const;
-const MARGIN = [16, 16] as [number, number];
+const BREAKPOINTS = { lg: 0 } as const;
+const COLS = { lg: 12 } as const;
+const MARGIN = [8, 8] as [number, number];
 const RESIZE_HANDLES = ['se'] as const;
 
 function CellSkeleton() {
@@ -40,6 +41,7 @@ export function GridDashboard({
   registry,
   fallback,
   onResetLayout,
+  onRemoveItem,
 }: GridDashboardProps) {
   const { width, containerRef, mounted } = useContainerWidth();
   const readyKeys = useRef(new Set<string>());
@@ -121,7 +123,7 @@ export function GridDashboard({
   }
 
   return (
-    <div ref={containerRef} className="dashboard-grid rounded-lg p-2">
+    <div ref={containerRef}>
       {mounted && (
         <ResponsiveGridLayout
           key={layoutVersion}
@@ -147,36 +149,63 @@ export function GridDashboard({
             return (
               <div
                 key={key}
-                className="group relative overflow-hidden rounded-lg border border-border bg-surface/80 hover:border-border-hi transition-colors duration-150"
+                className="group relative overflow-hidden rounded-lg bg-surface/80 border border-border/60"
               >
-                {isDraggable && (
-                  <button
-                    type="button"
-                    className="drag-handle absolute top-2 right-2 z-10 flex size-6 items-center justify-center rounded opacity-0 transition-opacity duration-150 group-hover:opacity-100 bg-surface-hi/80 text-ink-muted hover:text-ink cursor-grab active:cursor-grabbing"
-                    aria-label="Drag to reorder"
-                  >
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      aria-hidden="true"
-                    >
-                      <circle cx="5" cy="3" r="1" fill="currentColor" />
-                      <circle cx="9" cy="3" r="1" fill="currentColor" />
-                      <circle cx="5" cy="7" r="1" fill="currentColor" />
-                      <circle cx="9" cy="7" r="1" fill="currentColor" />
-                      <circle cx="5" cy="11" r="1" fill="currentColor" />
-                      <circle cx="9" cy="11" r="1" fill="currentColor" />
-                    </svg>
-                  </button>
+                {!loading && (
+                  <div className="absolute top-2 right-2 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out">
+                    {onRemoveItem && (
+                      <button
+                        type="button"
+                        onClick={() => onRemoveItem(key)}
+                        className="flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-danger transition-colors duration-200 ease-out"
+                        aria-label="Remove item"
+                      >
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M3 3l6 6M9 3l-6 6"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                    {isDraggable && (
+                      <button
+                        type="button"
+                        className="drag-handle flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-accent cursor-grab active:cursor-grabbing transition-colors duration-200 ease-out"
+                        aria-label="Drag to reorder"
+                      >
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <circle cx="5" cy="3" r="1" fill="currentColor" />
+                          <circle cx="9" cy="3" r="1" fill="currentColor" />
+                          <circle cx="5" cy="7" r="1" fill="currentColor" />
+                          <circle cx="9" cy="7" r="1" fill="currentColor" />
+                          <circle cx="5" cy="11" r="1" fill="currentColor" />
+                          <circle cx="9" cy="11" r="1" fill="currentColor" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
                 )}
                 {loading && (
                   <div className="absolute top-2 left-2 z-10">
                     <div className="size-2 rounded-full bg-accent animate-pulse" />
                   </div>
                 )}
-                <div className="size-full overflow-auto">
+                <div className="size-full overflow-auto [&_[data-slot=card]]:h-full [&_[data-slot=card]]:border-0 [&_[data-slot=card]]:shadow-none [&_[data-slot=card]]:rounded-none [&_[data-slot=card]]:py-3 [&_[data-slot=card]]:px-4 [&_[data-slot=card-content]]:flex-1 [&_[data-slot=card-content]]:min-h-0">
                   {showSkeleton ? (
                     <CellSkeleton />
                   ) : (

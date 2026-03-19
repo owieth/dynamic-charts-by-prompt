@@ -8,7 +8,7 @@ interface MetricCardProps {
 
 export function MetricCard({ props }: { props: MetricCardProps }) {
   return (
-    <div className="flex-1 min-w-[140px] rounded-md border border-[rgb(var(--border))] bg-[rgb(var(--card))] px-5 py-4">
+    <div className="flex-1 min-w-[140px] h-full px-5 py-4">
       <p className="text-xs text-[rgb(var(--muted-foreground))] mb-1">
         {props.label}
       </p>

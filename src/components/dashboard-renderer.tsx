@@ -18,6 +18,7 @@ interface DashboardRendererProps {
   spec: Spec | null;
   loading: boolean;
   onResetLayout?: (reset: () => void) => void;
+  onRemoveItem?: (key: string) => void;
 }
 
 const fallback: ComponentRenderer = ({ element }) => (
@@ -30,6 +31,7 @@ export function DashboardRenderer({
   spec,
   loading,
   onResetLayout,
+  onRemoveItem,
 }: DashboardRendererProps): ReactNode {
   if (!spec) return null;
 
@@ -44,6 +46,7 @@ export function DashboardRenderer({
               registry={registry}
               fallback={fallback}
               onResetLayout={onResetLayout}
+              onRemoveItem={onRemoveItem}
             />
           </ActionProvider>
         </VisibilityProvider>
