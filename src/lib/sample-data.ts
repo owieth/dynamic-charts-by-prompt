@@ -1,14 +1,19 @@
-import projectsData from "./projects.json";
+import projectsData from './projects.json';
 
 // Compute portfolio totals dynamically from whatever dataset is loaded
 function computeTotals() {
   const p = projectsData.projects;
-  const totalCapacity = p.reduce((s, r) => s + ((r["Capacity (kW)"] as number) || 0), 0);
-  const totalCapex = p.reduce((s, r) => s + ((r["CapEx"] as number) || 0), 0);
-  const friggScores = p.map(r => r["Frigg Score"] as number).filter(v => v > 0);
-  const irrs = p.map(r => r["Project IRR"] as number).filter(v => v > 0 && v < 1);
-  const countries = new Set(p.map(r => r["Country"]));
-  const techs = new Set(p.map(r => r["Technology"]));
+  const totalCapacity = p.reduce(
+    (s, r) => s + ((r['Capacity (kW)'] as number) || 0),
+    0
+  );
+  const totalCapex = p.reduce((s, r) => s + ((r['CapEx'] as number) || 0), 0);
+  const friggScores = p.map(r => r['Frigg Score'] as number).filter(v => v > 0);
+  const irrs = p
+    .map(r => r['Project IRR'] as number)
+    .filter(v => v > 0 && v < 1);
+  const countries = new Set(p.map(r => r['Country']));
+  const techs = new Set(p.map(r => r['Technology']));
 
   const fmt = (n: number) => {
     if (n >= 1e9) return `$${(n / 1e9).toFixed(1)}B`;
@@ -19,12 +24,17 @@ function computeTotals() {
 
   return {
     totalProjects: p.length,
-    totalCapacity: totalCapacity >= 1e6
-      ? `${(totalCapacity / 1e6).toFixed(0)} GW`
-      : `${(totalCapacity / 1e3).toFixed(0)} MW`,
+    totalCapacity:
+      totalCapacity >= 1e6
+        ? `${(totalCapacity / 1e6).toFixed(0)} GW`
+        : `${(totalCapacity / 1e3).toFixed(0)} MW`,
     totalCapex: fmt(totalCapex),
-    avgFrigg: friggScores.length ? (friggScores.reduce((a, b) => a + b, 0) / friggScores.length).toFixed(1) : "N/A",
-    avgIRR: irrs.length ? `${(irrs.reduce((a, b) => a + b, 0) / irrs.length * 100).toFixed(1)}%` : "N/A",
+    avgFrigg: friggScores.length
+      ? (friggScores.reduce((a, b) => a + b, 0) / friggScores.length).toFixed(1)
+      : 'N/A',
+    avgIRR: irrs.length
+      ? `${((irrs.reduce((a, b) => a + b, 0) / irrs.length) * 100).toFixed(1)}%`
+      : 'N/A',
     countries: countries.size,
     technologies: techs.size,
   };

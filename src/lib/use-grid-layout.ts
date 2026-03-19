@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect, useMemo, useRef } from "react";
-import type { Spec } from "@json-render/core";
+import type { Spec } from '@json-render/core';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface LayoutItem {
   i: string;
@@ -12,21 +12,21 @@ interface LayoutItem {
 }
 
 const COLS = 12;
-const STORAGE_PREFIX = "dashboard-layout:";
+const STORAGE_PREFIX = 'dashboard-layout:';
 
 const CHART_TYPES = new Set([
-  "LineChart",
-  "BarChart",
-  "PieChart",
-  "DoughnutChart",
-  "AreaChart",
-  "RadarChart",
+  'LineChart',
+  'BarChart',
+  'PieChart',
+  'DoughnutChart',
+  'AreaChart',
+  'RadarChart',
 ]);
 
-const LAYOUT_CONTAINERS = new Set(["Stack", "Grid"]);
+const LAYOUT_CONTAINERS = new Set(['Stack', 'Grid']);
 
 function hashKeys(keys: string[]): string {
-  return keys.slice().sort().join("|");
+  return keys.slice().sort().join('|');
 }
 
 function storageKey(keys: string[]): string {
@@ -34,43 +34,40 @@ function storageKey(keys: string[]): string {
 }
 
 function getElementType(spec: Spec, key: string): string {
-  return spec.elements[key]?.type ?? "";
+  return spec.elements[key]?.type ?? '';
 }
 
 function hasChartChild(spec: Spec, key: string): boolean {
   const el = spec.elements[key];
   if (!el?.children) return false;
-  return el.children.some((c) => CHART_TYPES.has(getElementType(spec, c)));
+  return el.children.some(c => CHART_TYPES.has(getElementType(spec, c)));
 }
 
 function collectLeafWidgets(spec: Spec, key: string): string[] {
   const type = getElementType(spec, key);
   const el = spec.elements[key];
 
-  if (type === "Card") return [key];
-  if (type === "Tabs") return [key];
+  if (type === 'Card') return [key];
+  if (type === 'Tabs') return [key];
 
   if (LAYOUT_CONTAINERS.has(type)) {
     if (!el?.children?.length) return [key];
-    return el.children.flatMap((child) => collectLeafWidgets(spec, child));
+    return el.children.flatMap(child => collectLeafWidgets(spec, child));
   }
 
   return [key];
 }
 
-function defaultSize(
-  spec: Spec,
-  key: string,
-): { w: number; h: number } {
+function defaultSize(spec: Spec, key: string): { w: number; h: number } {
   const type = getElementType(spec, key);
-  if (type === "MetricCard") return { w: 3, h: 2 };
+  if (type === 'MetricCard') return { w: 3, h: 2 };
   if (CHART_TYPES.has(type)) return { w: 6, h: 5 };
-  if (type === "Card" && hasChartChild(spec, key)) return { w: 6, h: 5 };
-  if (type === "Card") return { w: 6, h: 4 };
-  if (type === "Table") return { w: 12, h: 5 };
-  if (type === "Tabs") return { w: 12, h: 6 };
-  if (type === "Heading") return { w: 12, h: 1 };
-  if (type === "Text") return { w: 6, h: 1 };
+  if (type === 'Card' && hasChartChild(spec, key)) return { w: 6, h: 5 };
+  if (type === 'Card') return { w: 6, h: 4 };
+  if (type === 'Table') return { w: 12, h: 5 };
+  if (type === 'Tabs') return { w: 12, h: 6 };
+  if (type === 'Heading') return { w: 12, h: 1 };
+  if (type === 'Text') return { w: 6, h: 1 };
   return { w: 6, h: 4 };
 }
 
@@ -98,7 +95,7 @@ function packLayout(spec: Spec, keys: string[]): LayoutItem[] {
 function extractGridChildren(spec: Spec): string[] {
   const root = spec.elements[spec.root];
   if (!root?.children?.length) return [];
-  return root.children.flatMap((child) => collectLeafWidgets(spec, child));
+  return root.children.flatMap(child => collectLeafWidgets(spec, child));
 }
 
 function loadLayout(keys: string[]): LayoutItem[] | null {
@@ -106,8 +103,8 @@ function loadLayout(keys: string[]): LayoutItem[] | null {
     const raw = localStorage.getItem(storageKey(keys));
     if (!raw) return null;
     const saved = JSON.parse(raw) as LayoutItem[];
-    const savedKeys = new Set(saved.map((l) => l.i));
-    if (keys.length !== savedKeys.size || keys.some((k) => !savedKeys.has(k)))
+    const savedKeys = new Set(saved.map(l => l.i));
+    if (keys.length !== savedKeys.size || keys.some(k => !savedKeys.has(k)))
       return null;
     return saved;
   } catch {
@@ -129,11 +126,11 @@ function saveLayout(keys: string[], layout: LayoutItem[]) {
  */
 function useStableKeys(spec: Spec | null): string[] {
   const [stable, setStable] = useState<string[]>([]);
-  const prevHash = useRef("");
+  const prevHash = useRef('');
 
   useEffect(() => {
     const keys = spec ? extractGridChildren(spec) : [];
-    const hash = keys.join("|");
+    const hash = keys.join('|');
     if (hash !== prevHash.current) {
       prevHash.current = hash;
       setStable(keys);
@@ -158,15 +155,15 @@ export function useGridLayout(spec: Spec | null, isStreaming: boolean) {
     }
 
     if (isStreaming) {
-      setLayout((prev) => {
-        const existing = new Map(prev.map((l) => [l.i, l]));
-        const newKeys = childKeys.filter((k) => !existing.has(k));
+      setLayout(prev => {
+        const existing = new Map(prev.map(l => [l.i, l]));
+        const newKeys = childKeys.filter(k => !existing.has(k));
         if (newKeys.length === 0 && prev.length === childKeys.length)
           return prev;
 
         const kept = childKeys
-          .filter((k) => existing.has(k))
-          .map((k) => existing.get(k)!);
+          .filter(k => existing.has(k))
+          .map(k => existing.get(k)!);
         const appended = packLayout(spec, newKeys);
 
         const maxY = kept.reduce((m, l) => Math.max(m, l.y + l.h), 0);
@@ -178,7 +175,7 @@ export function useGridLayout(spec: Spec | null, isStreaming: boolean) {
       const saved = loadLayout(childKeys);
       setLayout(saved ?? packLayout(spec, childKeys));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childKeys, isStreaming]);
 
   // onLayoutChange: only persist to localStorage, do NOT setLayout
@@ -190,7 +187,7 @@ export function useGridLayout(spec: Spec | null, isStreaming: boolean) {
         saveLayout(childKeysRef.current, [...newLayout]);
       }
     },
-    [isStreaming],
+    [isStreaming]
   );
 
   const resetLayout = useCallback(() => {
@@ -201,7 +198,7 @@ export function useGridLayout(spec: Spec | null, isStreaming: boolean) {
       // ignore
     }
     setLayout(packLayout(spec, childKeys));
-    setLayoutVersion((v) => v + 1);
+    setLayoutVersion(v => v + 1);
   }, [spec, childKeys]);
 
   return {

@@ -1,23 +1,26 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 /* react-grid-layout styles are inlined below since Tailwind CSS v4 @import
    only supports CSS modules, not plain CSS from node_modules. */
 
 /* ─── Design tokens ───────────────────────────────────────── */
 @theme {
-  --font-sans: var(--font-instrument-sans), "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-instrument-serif), "Instrument Serif", Georgia, serif;
+  --font-sans:
+    var(--font-instrument-sans), 'Instrument Sans', ui-sans-serif, system-ui,
+    sans-serif;
+  --font-serif:
+    var(--font-instrument-serif), 'Instrument Serif', Georgia, serif;
 
-  --color-bg:          #09090b;
-  --color-surface:     #111116;
-  --color-surface-hi:  #18181f;
-  --color-border:      #27272e;
-  --color-border-hi:   #3f3f48;
-  --color-ink:         #f4ede4;
-  --color-ink-muted:   #8a8480;
-  --color-ink-dim:     #4a4844;
-  --color-accent:      #f0a050;
-  --color-accent-dim:  color-mix(in oklch, #f0a050 15%, transparent);
-  --color-danger:      #ef4444;
+  --color-bg: #09090b;
+  --color-surface: #111116;
+  --color-surface-hi: #18181f;
+  --color-border: #27272e;
+  --color-border-hi: #3f3f48;
+  --color-ink: #f4ede4;
+  --color-ink-muted: #8a8480;
+  --color-ink-dim: #4a4844;
+  --color-accent: #f0a050;
+  --color-accent-dim: color-mix(in oklch, #f0a050 15%, transparent);
+  --color-danger: #ef4444;
 }
 
 /* ─── Base ────────────────────────────────────────────────── */
@@ -29,20 +32,41 @@ body {
 
 /* ─── Animations ──────────────────────────────────────────── */
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.8); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
 }
 @keyframes scan {
-  0%   { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 .animate-fade-up {
@@ -51,36 +75,48 @@ body {
 .animate-fade-in {
   animation: fade-in 0.4s ease both;
 }
-.delay-50  { animation-delay: 50ms; }
-.delay-100 { animation-delay: 100ms; }
-.delay-150 { animation-delay: 150ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-250 { animation-delay: 250ms; }
-.delay-300 { animation-delay: 300ms; }
+.delay-50 {
+  animation-delay: 50ms;
+}
+.delay-100 {
+  animation-delay: 100ms;
+}
+.delay-150 {
+  animation-delay: 150ms;
+}
+.delay-200 {
+  animation-delay: 200ms;
+}
+.delay-250 {
+  animation-delay: 250ms;
+}
+.delay-300 {
+  animation-delay: 300ms;
+}
 
 /* ─── shadcn/ui CSS custom properties ────────────────────── */
 /* Using bare RGB triplets so shadcn can compose: rgb(var(--card) / alpha) */
 :root {
-  --background:        9 9 11;
-  --foreground:        244 237 228;
-  --card:              17 17 22;
-  --card-foreground:   244 237 228;
-  --popover:           17 17 22;
-  --popover-foreground:244 237 228;
-  --primary:           240 160 80;
-  --primary-foreground:9 9 11;
-  --secondary:         24 24 31;
+  --background: 9 9 11;
+  --foreground: 244 237 228;
+  --card: 17 17 22;
+  --card-foreground: 244 237 228;
+  --popover: 17 17 22;
+  --popover-foreground: 244 237 228;
+  --primary: 240 160 80;
+  --primary-foreground: 9 9 11;
+  --secondary: 24 24 31;
   --secondary-foreground: 212 204 196;
-  --muted:             24 24 31;
-  --muted-foreground:  138 132 128;
-  --accent:            24 24 31;
+  --muted: 24 24 31;
+  --muted-foreground: 138 132 128;
+  --accent: 24 24 31;
   --accent-foreground: 244 237 228;
-  --destructive:       239 68 68;
+  --destructive: 239 68 68;
   --destructive-foreground: 255 255 255;
-  --border:            39 39 46;
-  --input:             39 39 46;
-  --ring:              240 160 80;
-  --radius:            0.375rem;
+  --border: 39 39 46;
+  --input: 39 39 46;
+  --ring: 240 160 80;
+  --radius: 0.375rem;
 }
 
 /* ─── Dashboard grid background ──────────────────────────── */
@@ -147,7 +183,7 @@ body {
   opacity: 0.5;
 }
 .react-grid-item > .react-resizable-handle::after {
-  content: "";
+  content: '';
   position: absolute;
   right: 3px;
   bottom: 3px;
@@ -160,34 +196,53 @@ body {
   display: none;
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-sw {
-  bottom: 0; left: 0; cursor: sw-resize; transform: rotate(90deg);
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+  transform: rotate(90deg);
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-se {
-  bottom: 0; right: 0; cursor: se-resize;
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-nw {
-  top: 0; left: 0; cursor: nw-resize; transform: rotate(180deg);
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+  transform: rotate(180deg);
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-ne {
-  top: 0; right: 0; cursor: ne-resize; transform: rotate(270deg);
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+  transform: rotate(270deg);
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-w,
 .react-grid-item > .react-resizable-handle.react-resizable-handle-e {
-  top: 50%; margin-top: -10px; cursor: ew-resize;
+  top: 50%;
+  margin-top: -10px;
+  cursor: ew-resize;
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-w {
-  left: 0; transform: rotate(135deg);
+  left: 0;
+  transform: rotate(135deg);
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-e {
-  right: 0; transform: rotate(315deg);
+  right: 0;
+  transform: rotate(315deg);
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-n,
 .react-grid-item > .react-resizable-handle.react-resizable-handle-s {
-  left: 50%; margin-left: -10px; cursor: ns-resize;
+  left: 50%;
+  margin-left: -10px;
+  cursor: ns-resize;
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-n {
-  top: 0; transform: rotate(225deg);
+  top: 0;
+  transform: rotate(225deg);
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-s {
-  bottom: 0; transform: rotate(45deg);
+  bottom: 0;
+  transform: rotate(45deg);
 }

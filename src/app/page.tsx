@@ -1,19 +1,20 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import { useState, useRef, useCallback } from "react";
-import { useUIStream } from "@json-render/react";
-import type { Spec } from "@json-render/core";
+import type { Spec } from '@json-render/core';
+import { useUIStream } from '@json-render/react';
+import dynamic from 'next/dynamic';
+import { useCallback, useRef, useState } from 'react';
 
 const DashboardRenderer = dynamic(
-  () => import("@/components/dashboard-renderer").then((m) => m.DashboardRenderer),
+  () =>
+    import('@/components/dashboard-renderer').then(m => m.DashboardRenderer),
   { ssr: false }
 );
 
 const EXAMPLE_PROMPTS = [
-  "Portfolio overview: total capacity, CapEx, project count, and avg Frigg score as metrics with technology breakdown charts",
-  "Show projects by country as a bar chart and by status as a doughnut chart side by side",
-  "Renewable energy pipeline: projects by commissioning year, capacity by country, and Frigg score distribution",
+  'Portfolio overview: total capacity, CapEx, project count, and avg Frigg score as metrics with technology breakdown charts',
+  'Show projects by country as a bar chart and by status as a doughnut chart side by side',
+  'Renewable energy pipeline: projects by commissioning year, capacity by country, and Frigg score distribution',
 ];
 
 function isSpecEmpty(spec: Spec | null): boolean {
@@ -22,7 +23,7 @@ function isSpecEmpty(spec: Spec | null): boolean {
 }
 
 export default function Home() {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [emptyResult, setEmptyResult] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const resetLayoutRef = useRef<(() => void) | null>(null);
@@ -32,13 +33,16 @@ export default function Home() {
   }, []);
 
   const { spec, isStreaming, error, send, clear } = useUIStream({
-    api: "/api/generate",
+    api: '/api/generate',
     onComplete,
   });
 
   const hasContent = !isSpecEmpty(spec);
-  const displayError = error?.message
-    ?? (emptyResult ? "No response received — check your API key and account balance." : null);
+  const displayError =
+    error?.message ??
+    (emptyResult
+      ? 'No response received — check your API key and account balance.'
+      : null);
 
   function submitPrompt() {
     const trimmed = input.trim();
@@ -54,7 +58,7 @@ export default function Home() {
 
   function handleClear() {
     clear();
-    setInput("");
+    setInput('');
     setEmptyResult(false);
     inputRef.current?.focus();
   }
@@ -66,14 +70,40 @@ export default function Home() {
 
   return (
     <div className="min-h-dvh flex flex-col">
-
       {/* ── Header ─────────────────────────────────────────── */}
       <header className="animate-fade-up border-b border-border/60 px-6 py-4 flex items-center justify-between backdrop-blur-sm">
         <div className="flex items-center gap-3">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" className="shrink-0">
-            <rect x="1"  y="11" width="4" height="8" fill="var(--color-accent)" />
-            <rect x="8"  y="6"  width="4" height="13" fill="var(--color-accent)" opacity="0.75" />
-            <rect x="15" y="2"  width="4" height="17" fill="var(--color-accent)" opacity="0.5" />
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            aria-hidden="true"
+            className="shrink-0"
+          >
+            <rect
+              x="1"
+              y="11"
+              width="4"
+              height="8"
+              fill="var(--color-accent)"
+            />
+            <rect
+              x="8"
+              y="6"
+              width="4"
+              height="13"
+              fill="var(--color-accent)"
+              opacity="0.75"
+            />
+            <rect
+              x="15"
+              y="2"
+              width="4"
+              height="17"
+              fill="var(--color-accent)"
+              opacity="0.5"
+            />
           </svg>
           <span className="font-serif italic text-ink text-base tracking-tight select-none">
             Charts by Prompt
@@ -102,14 +132,17 @@ export default function Home() {
 
       {/* ── Prompt bar ─────────────────────────────────────── */}
       <div className="animate-fade-up delay-50 border-b border-border/60 px-6 py-5">
-        <form onSubmit={handleSubmit} className="flex gap-3 items-end max-w-4xl mx-auto">
+        <form
+          onSubmit={handleSubmit}
+          className="flex gap-3 items-end max-w-4xl mx-auto"
+        >
           <div className="flex-1 relative group">
             <textarea
               ref={inputRef}
               value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   submitPrompt();
                 }
@@ -125,12 +158,14 @@ export default function Home() {
               "
               disabled={isStreaming}
             />
-            <div className="
+            <div
+              className="
               absolute inset-0 pointer-events-none
               opacity-0 group-focus-within:opacity-100
               transition-opacity duration-200
               shadow-[0_0_0_1px_var(--color-accent),0_0_20px_-4px_var(--color-accent-dim)]
-            " />
+            "
+            />
           </div>
 
           <button
@@ -150,7 +185,7 @@ export default function Home() {
                 Generating
               </span>
             ) : (
-              "Generate →"
+              'Generate →'
             )}
           </button>
         </form>
@@ -170,15 +205,19 @@ export default function Home() {
               <DashboardRenderer
                 spec={spec}
                 loading={isStreaming}
-                onResetLayout={(reset) => { resetLayoutRef.current = reset; }}
+                onResetLayout={reset => {
+                  resetLayoutRef.current = reset;
+                }}
               />
             </div>
           ) : (
-            <EmptyState isStreaming={isStreaming} onExampleClick={handleExampleClick} />
+            <EmptyState
+              isStreaming={isStreaming}
+              onExampleClick={handleExampleClick}
+            />
           )}
         </div>
       </main>
-
     </div>
   );
 }
@@ -194,7 +233,7 @@ function EmptyState({
     return (
       <div className="flex flex-col items-center justify-center py-40 gap-5 animate-fade-in">
         <div className="flex items-end gap-1.5 h-8">
-          {[0, 1, 2, 3, 4].map((i) => (
+          {[0, 1, 2, 3, 4].map(i => (
             <div
               key={i}
               className="w-1 bg-accent rounded-sm"
@@ -205,7 +244,9 @@ function EmptyState({
             />
           ))}
         </div>
-        <p className="text-sm text-ink-muted tracking-wide">Building your dashboard…</p>
+        <p className="text-sm text-ink-muted tracking-wide">
+          Building your dashboard…
+        </p>
       </div>
     );
   }
@@ -213,17 +254,24 @@ function EmptyState({
   return (
     <div className="flex flex-col items-center pt-16 pb-20 gap-14">
       <div className="text-center animate-fade-up delay-100">
-        <h1 className="font-serif italic text-ink leading-[1.15] text-balance mb-4"
-            style={{ fontSize: "clamp(2rem, 5vw, 3.25rem)" }}>
-          What would you<br />like to see?
+        <h1
+          className="font-serif italic text-ink leading-[1.15] text-balance mb-4"
+          style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)' }}
+        >
+          What would you
+          <br />
+          like to see?
         </h1>
         <p className="text-sm text-ink-muted text-pretty max-w-xs leading-relaxed">
-          Describe a dashboard in plain English and Claude will build it from your data — live.
+          Describe a dashboard in plain English and Claude will build it from
+          your data — live.
         </p>
       </div>
 
       <div className="w-full max-w-xl animate-fade-up delay-200">
-        <p className="text-[10px] text-ink-dim uppercase tracking-[0.18em] mb-4">Examples</p>
+        <p className="text-[10px] text-ink-dim uppercase tracking-[0.18em] mb-4">
+          Examples
+        </p>
         <div className="flex flex-col">
           {EXAMPLE_PROMPTS.map((prompt, i) => (
             <button
@@ -239,12 +287,14 @@ function EmptyState({
               style={{ animationDelay: `${250 + i * 60}ms` }}
             >
               <span className="text-accent font-mono text-xs tabular-nums mt-0.5 w-4 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
-                {String(i + 1).padStart(2, "0")}
+                {String(i + 1).padStart(2, '0')}
               </span>
               <span className="text-sm text-ink-muted group-hover:text-ink transition-colors leading-relaxed">
                 {prompt}
               </span>
-              <span className="ml-auto text-ink-dim group-hover:text-accent transition-colors text-xs shrink-0 mt-0.5 pl-4">→</span>
+              <span className="ml-auto text-ink-dim group-hover:text-accent transition-colors text-xs shrink-0 mt-0.5 pl-4">
+                →
+              </span>
             </button>
           ))}
         </div>
@@ -260,11 +310,13 @@ function EmptyState({
 function ThinkingDots() {
   return (
     <span className="flex items-center gap-0.5">
-      {[0, 1, 2].map((i) => (
+      {[0, 1, 2].map(i => (
         <span
           key={i}
           className="inline-block size-1 rounded-full bg-current"
-          style={{ animation: `pulse-dot 1.2s ease-in-out ${i * 180}ms infinite` }}
+          style={{
+            animation: `pulse-dot 1.2s ease-in-out ${i * 180}ms infinite`,
+          }}
         />
       ))}
     </span>

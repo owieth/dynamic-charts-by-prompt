@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import "@/lib/chartjs-setup";
-import type { ReactNode } from "react";
+import { GridDashboard } from '@/components/grid-dashboard';
+import '@/lib/chartjs-setup';
+import { DataProvider } from '@/lib/data-context';
+import projectsData from '@/lib/projects.json';
+import { registry } from '@/lib/registry';
+import type { Spec } from '@json-render/core';
 import {
+  ActionProvider,
   StateProvider,
   VisibilityProvider,
-  ActionProvider,
   type ComponentRenderer,
-} from "@json-render/react";
-import { registry } from "@/lib/registry";
-import { DataProvider } from "@/lib/data-context";
-import type { Spec } from "@json-render/core";
-import projectsData from "@/lib/projects.json";
-import { GridDashboard } from "@/components/grid-dashboard";
+} from '@json-render/react';
+import type { ReactNode } from 'react';
 
 interface DashboardRendererProps {
   spec: Spec | null;
@@ -26,7 +26,11 @@ const fallback: ComponentRenderer = ({ element }) => (
   </div>
 );
 
-export function DashboardRenderer({ spec, loading, onResetLayout }: DashboardRendererProps): ReactNode {
+export function DashboardRenderer({
+  spec,
+  loading,
+  onResetLayout,
+}: DashboardRendererProps): ReactNode {
   if (!spec) return null;
 
   return (

@@ -1,9 +1,14 @@
-"use client";
+'use client';
 
-import { Line } from "react-chartjs-2";
-import { ZOOM_OPTIONS, mapDatasets, basePlugins, yAxisConfig } from "@/lib/chart-utils";
-import { useChartData } from "@/lib/use-chart-data";
-import type { LineChartProps } from "@/lib/chart-schemas";
+import type { LineChartProps } from '@/lib/chart-schemas';
+import {
+  ZOOM_OPTIONS,
+  basePlugins,
+  mapDatasets,
+  yAxisConfig,
+} from '@/lib/chart-utils';
+import { useChartData } from '@/lib/use-chart-data';
+import { Line } from 'react-chartjs-2';
 
 export function LineChart({ props }: { props: LineChartProps }) {
   const resolved = useChartData(props);
@@ -11,7 +16,11 @@ export function LineChart({ props }: { props: LineChartProps }) {
     <Line
       data={{
         labels: resolved.labels,
-        datasets: mapDatasets(resolved.datasets, { borderWidth: 2, fill: false, tension: 0.4 }),
+        datasets: mapDatasets(resolved.datasets, {
+          borderWidth: 2,
+          fill: false,
+          tension: 0.4,
+        }),
       }}
       options={{
         responsive: true,

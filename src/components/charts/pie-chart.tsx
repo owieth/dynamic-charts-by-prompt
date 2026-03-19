@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Pie } from "react-chartjs-2";
-import { mapDatasets, basePlugins } from "@/lib/chart-utils";
-import { useChartData } from "@/lib/use-chart-data";
-import type { PieChartProps } from "@/lib/chart-schemas";
+import type { PieChartProps } from '@/lib/chart-schemas';
+import { basePlugins, mapDatasets } from '@/lib/chart-utils';
+import { useChartData } from '@/lib/use-chart-data';
+import { Pie } from 'react-chartjs-2';
 
 export function PieChart({ props }: { props: PieChartProps }) {
   const resolved = useChartData(props);

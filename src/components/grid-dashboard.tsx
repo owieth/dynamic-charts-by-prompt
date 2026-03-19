@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useCallback, useRef } from "react";
-import { ResponsiveGridLayout, useContainerWidth } from "react-grid-layout";
-import type { Layout, ResponsiveLayouts } from "react-grid-layout";
+import { useGridLayout } from '@/lib/use-grid-layout';
+import type { Spec } from '@json-render/core';
 import {
   Renderer,
-  type ComponentRenderer,
   type ComponentRegistry,
-} from "@json-render/react";
-import type { Spec } from "@json-render/core";
-import { useGridLayout } from "@/lib/use-grid-layout";
+  type ComponentRenderer,
+} from '@json-render/react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import type { Layout, ResponsiveLayouts } from 'react-grid-layout';
+import { ResponsiveGridLayout, useContainerWidth } from 'react-grid-layout';
 
 interface GridDashboardProps {
   spec: Spec;
@@ -22,7 +22,7 @@ interface GridDashboardProps {
 const BREAKPOINTS = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 } as const;
 const COLS = { lg: 12, md: 12, sm: 6, xs: 4, xxs: 2 } as const;
 const MARGIN = [16, 16] as [number, number];
-const RESIZE_HANDLES = ["se"] as const;
+const RESIZE_HANDLES = ['se'] as const;
 
 function CellSkeleton() {
   return (
@@ -44,8 +44,15 @@ export function GridDashboard({
   const { width, containerRef, mounted } = useContainerWidth();
   const readyKeys = useRef(new Set<string>());
 
-  const { layout, layoutVersion, childKeys, onLayoutChange, resetLayout, isDraggable, isResizable } =
-    useGridLayout(spec, loading);
+  const {
+    layout,
+    layoutVersion,
+    childKeys,
+    onLayoutChange,
+    resetLayout,
+    isDraggable,
+    isResizable,
+  } = useGridLayout(spec, loading);
 
   // Track which keys have been in the spec long enough to be "ready"
   // A key is ready once it appeared in a previous render cycle (i.e. its
@@ -82,23 +89,35 @@ export function GridDashboard({
   const handleLayoutChange = useCallback(
     (currentLayout: Layout, _allLayouts: ResponsiveLayouts) =>
       onLayoutChange(currentLayout),
-    [onLayoutChange],
+    [onLayoutChange]
   );
 
   const layouts = useMemo(() => ({ lg: layout }), [layout]);
 
   const dragConfig = useMemo(
-    () => ({ enabled: isDraggable, handle: ".drag-handle", bounded: false, threshold: 3 }),
-    [isDraggable],
+    () => ({
+      enabled: isDraggable,
+      handle: '.drag-handle',
+      bounded: false,
+      threshold: 3,
+    }),
+    [isDraggable]
   );
 
   const resizeConfig = useMemo(
     () => ({ enabled: isResizable, handles: RESIZE_HANDLES }),
-    [isResizable],
+    [isResizable]
   );
 
   if (childKeys.length === 0) {
-    return <Renderer spec={spec} registry={registry} fallback={fallback} loading={loading} />;
+    return (
+      <Renderer
+        spec={spec}
+        registry={registry}
+        fallback={fallback}
+        loading={loading}
+      />
+    );
   }
 
   return (
@@ -116,7 +135,7 @@ export function GridDashboard({
           onLayoutChange={handleLayoutChange}
           margin={MARGIN}
         >
-          {childKeys.map((key) => {
+          {childKeys.map(key => {
             const subSpec = subSpecs.get(key);
             if (!subSpec) return null;
 
@@ -126,7 +145,10 @@ export function GridDashboard({
             const showSkeleton = loading && (isNew || !hasElement);
 
             return (
-              <div key={key} className="group relative overflow-hidden rounded-lg border border-border bg-surface/80 hover:border-border-hi transition-colors duration-150">
+              <div
+                key={key}
+                className="group relative overflow-hidden rounded-lg border border-border bg-surface/80 hover:border-border-hi transition-colors duration-150"
+              >
                 {isDraggable && (
                   <button
                     type="button"
