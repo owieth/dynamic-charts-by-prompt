@@ -61,7 +61,7 @@ export function Sidebar({
         </span>
         <button
           onClick={onCreate}
-          className="size-7 flex items-center justify-center text-ink-muted hover:text-ink hover:bg-surface-hi transition-colors duration-150"
+          className="size-7 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
           aria-label="New dashboard"
         >
           <svg
@@ -92,7 +92,7 @@ export function Sidebar({
             <div
               key={dashboard.id}
               className={cn(
-                'group relative px-4 py-2.5 cursor-pointer transition-colors duration-100',
+                'group relative px-4 py-2.5 cursor-pointer transition-colors duration-200 ease-out',
                 isActive
                   ? 'bg-surface-hi border-l-2 border-accent'
                   : 'border-l-2 border-transparent hover:bg-surface/60'
@@ -131,13 +131,13 @@ export function Sidebar({
                 )}
 
                 {!isEditing && !isDefault && (
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-100">
+                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out">
                     <button
                       onClick={e => {
                         e.stopPropagation();
                         startRename(dashboard.id, dashboard.name);
                       }}
-                      className="size-6 flex items-center justify-center text-ink-dim hover:text-ink"
+                      className="size-6 flex items-center justify-center text-ink-dim hover:text-accent transition-colors duration-200 ease-out"
                       aria-label="Rename dashboard"
                     >
                       <svg
@@ -173,7 +173,7 @@ export function Sidebar({
                           setConfirmDeleteId(dashboard.id);
                           setTimeout(() => setConfirmDeleteId(null), 3000);
                         }}
-                        className="size-6 flex items-center justify-center text-ink-dim hover:text-danger"
+                        className="size-6 flex items-center justify-center text-ink-dim hover:text-danger transition-colors duration-200 ease-out"
                         aria-label="Delete dashboard"
                       >
                         <svg

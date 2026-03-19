@@ -76,12 +76,12 @@ export function ChatPanel({
                 <button
                   key={prompt}
                   onClick={() => handleExampleClick(prompt)}
-                  className="group flex items-start gap-3 py-2.5 text-left border-t border-border/60 first:border-t-0 hover:text-ink transition-colors duration-100"
+                  className="group flex items-start gap-3 py-2.5 text-left border-t border-border/60 first:border-t-0 hover:cursor-pointer hover:text-accent transition-colors duration-200 ease-out"
                 >
-                  <span className="text-accent font-mono text-[10px] tabular-nums mt-0.5 w-3 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity">
+                  <span className="text-accent font-mono text-[10px] tabular-nums mt-0.5 w-3 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity ease-out">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <span className="text-xs text-ink-muted group-hover:text-ink transition-colors leading-relaxed">
+                  <span className="text-xs text-ink-muted group-hover:text-accent transition-colors duration-200 ease-out leading-relaxed">
                     {prompt}
                   </span>
                 </button>
@@ -157,13 +157,13 @@ export function ChatPanel({
           }}
           placeholder="Describe changes…"
           rows={2}
-          className="flex-1 resize-none bg-surface border border-border focus:border-accent focus:outline-none px-3 py-2 text-xs text-ink placeholder-ink-dim transition-colors duration-150"
+          className="flex-1 resize-none bg-surface border border-border focus:border-accent focus:outline-none px-3 py-2 text-xs text-ink placeholder-ink-dim transition-colors duration-150 ease-out"
           disabled={isStreaming}
         />
         <button
           type="submit"
           disabled={!input.trim() || isStreaming}
-          className="h-full px-3 py-2 shrink-0 self-end bg-accent text-bg font-medium text-xs hover:bg-[#f8b060] active:translate-y-px disabled:bg-surface disabled:text-ink-dim disabled:cursor-not-allowed transition-all duration-150"
+          className="h-full px-3 py-2 shrink-0 self-end bg-accent text-bg font-medium text-xs hover:bg-[#f8b060] active:translate-y-px disabled:bg-surface disabled:text-ink-dim disabled:cursor-not-allowed transition-all duration-150 ease-out"
         >
           {isStreaming ? <ThinkingDots /> : '→'}
         </button>

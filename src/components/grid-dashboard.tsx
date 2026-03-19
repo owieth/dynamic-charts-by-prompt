@@ -152,12 +152,12 @@ export function GridDashboard({
                 className="group relative overflow-hidden rounded-lg bg-surface/80"
               >
                 {!loading && (
-                  <div className="absolute top-2 right-2 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                  <div className="absolute top-2 right-2 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out">
                     {onRemoveItem && (
                       <button
                         type="button"
                         onClick={() => onRemoveItem(key)}
-                        className="flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-danger"
+                        className="flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-danger transition-colors duration-200 ease-out"
                         aria-label="Remove item"
                       >
                         <svg
@@ -179,7 +179,7 @@ export function GridDashboard({
                     {isDraggable && (
                       <button
                         type="button"
-                        className="drag-handle flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-ink cursor-grab active:cursor-grabbing"
+                        className="drag-handle flex size-6 items-center justify-center rounded bg-surface-hi/80 text-ink-muted hover:text-accent cursor-grab active:cursor-grabbing transition-colors duration-200 ease-out"
                         aria-label="Drag to reorder"
                       >
                         <svg

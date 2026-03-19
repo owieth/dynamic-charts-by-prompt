@@ -182,7 +182,7 @@ export default function DashboardPage({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(o => !o)}
-              className="size-8 flex items-center justify-center text-ink-muted hover:text-ink"
+              className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
               aria-label="Toggle sidebar"
             >
               <svg
@@ -253,7 +253,7 @@ export default function DashboardPage({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setChatOpen(o => !o)}
-              className="size-8 flex items-center justify-center text-ink-muted hover:text-ink"
+              className="size-8 flex items-center justify-center text-ink-muted hover:text-accent transition-colors duration-200 ease-out"
               aria-label="Toggle chat"
             >
               <svg
