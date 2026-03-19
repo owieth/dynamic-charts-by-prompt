@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.3.0...v1.4.0) (2026-03-19)
+
+
+### Features
+
+* **charts:** error boundary per chart ([697f36b](https://github.com/owieth/dynamic-charts-by-prompt/commit/697f36b700cdc95ff674f4c0544d31b1f1fcd064))
+
 ## [1.3.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.2.0...v1.3.0) (2026-03-19)
 
 
