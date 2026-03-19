@@ -5,6 +5,7 @@ import { z } from 'zod';
 import {
   areaChartSchema,
   barChartSchema,
+  dataTableSchema,
   doughnutChartSchema,
   lineChartSchema,
   pieChartSchema,
@@ -172,6 +173,22 @@ export const catalog = defineCatalog(schema, {
       props: radarChartSchema,
       description:
         'Radar chart for multi-metric comparison. Use dataQuery to compare groups. Set top-level backgroundColor/borderColor to override default colors.',
+    },
+
+    DataTable: {
+      props: dataTableSchema,
+      description:
+        'Sortable data table showing raw project rows. Specify columns to display, optional filter, sort, limit, and pageSize for pagination. Use this when the user wants to see individual records rather than aggregated charts.',
+      example: {
+        title: 'Top 10 Projects by Capacity',
+        columns: ['Project Name', 'Country', 'Technology', 'Capacity (kW)', 'CoD'],
+        source: 'projects',
+        filter: null,
+        sortBy: 'Capacity (kW)',
+        sortDir: 'desc',
+        limit: 10,
+        pageSize: 10,
+      },
     },
   },
   actions: {},
