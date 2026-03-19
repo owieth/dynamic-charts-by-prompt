@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.2.0...v1.3.0) (2026-03-19)
+
+
+### Features
+
+* add DataTable component with sorting and pagination ([7bcd921](https://github.com/owieth/dynamic-charts-by-prompt/commit/7bcd921c5e20cb16b8153add23c6ff85ed944809))
+
 ## [1.2.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.1.0...v1.2.0) (2026-03-19)
 
 
