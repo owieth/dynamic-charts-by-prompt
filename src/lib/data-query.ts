@@ -2,6 +2,16 @@ import { z } from 'zod';
 
 // ─── Schema ──────────────────────────────────────────────────
 
+export const computedFieldSchema = z.object({
+  name: z.string(),
+  type: z.enum(['ratio', 'running_total', 'pct_of_total']),
+  field: z.string().nullable(),
+  numerator: z.string().nullable(),
+  denominator: z.string().nullable(),
+});
+
+export type ComputedField = z.infer<typeof computedFieldSchema>;
+
 export const dataQuerySchema = z.object({
   source: z.literal('projects'),
   filter: z
@@ -12,6 +22,7 @@ export const dataQuerySchema = z.object({
   valueField: z.string().nullable(),
   sort: z.enum(['asc', 'desc']).nullable(),
   limit: z.number().nullable(),
+  computedFields: z.array(computedFieldSchema).nullable(),
 });
 
 export type DataQuery = z.infer<typeof dataQuerySchema>;
@@ -122,6 +133,85 @@ export function resolveMultiQuery(
   return { labels: mergedLabels, datasets };
 }
 
+function aggregateValues(vals: number[], aggregate: DataQuery['aggregate']): number {
+  switch (aggregate) {
+    case 'count':
+      return vals.length;
+    case 'sum':
+      return vals.reduce((a, b) => a + b, 0);
+    case 'avg':
+      return vals.reduce((a, b) => a + b, 0) / vals.length;
+    case 'min':
+      return Math.min(...vals);
+    case 'max':
+      return Math.max(...vals);
+  }
+}
+
+function aggregateField(
+  rows: Row[],
+  groupBy: string,
+  fieldName: string,
+  aggregate: DataQuery['aggregate']
+): Map<string, number> {
+  const groups = new Map<string, number[]>();
+  for (const row of rows) {
+    const key = deriveField(row, groupBy);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(Number(row[fieldName] ?? 0));
+  }
+  const result = new Map<string, number>();
+  for (const [key, vals] of groups) {
+    result.set(key, aggregateValues(vals, aggregate));
+  }
+  return result;
+}
+
+function applyComputedFields(
+  entries: [string, number][],
+  computedFields: ComputedField[],
+  rows: Row[],
+  query: DataQuery
+): [string, number][] {
+  let result = entries;
+
+  for (const cf of computedFields) {
+    switch (cf.type) {
+      case 'ratio': {
+        const numField = cf.numerator;
+        const denField = cf.denominator;
+        if (!numField || !denField) break;
+        const numMap = aggregateField(rows, query.groupBy, numField, query.aggregate);
+        const denMap = aggregateField(rows, query.groupBy, denField, query.aggregate);
+        result = result.map(([key]) => {
+          const num = numMap.get(key) ?? 0;
+          const den = denMap.get(key) ?? 0;
+          return [key, den !== 0 ? num / den : 0];
+        });
+        break;
+      }
+      case 'running_total': {
+        let cumulative = 0;
+        result = result.map(([key, val]) => {
+          cumulative += val;
+          return [key, cumulative];
+        });
+        break;
+      }
+      case 'pct_of_total': {
+        const total = result.reduce((sum, [, val]) => sum + val, 0);
+        result = result.map(([key, val]) => [
+          key,
+          total !== 0 ? (val / total) * 100 : 0,
+        ]);
+        break;
+      }
+    }
+  }
+
+  return result;
+}
+
 export function resolveQuery(
   data: Row[],
   query: DataQuery,
@@ -146,27 +236,9 @@ export function resolveQuery(
   }
 
   // 3. Aggregate
-  const entries: [string, number][] = [];
+  let entries: [string, number][] = [];
   for (const [key, vals] of groups) {
-    let result: number;
-    switch (query.aggregate) {
-      case 'count':
-        result = vals.length;
-        break;
-      case 'sum':
-        result = vals.reduce((a, b) => a + b, 0);
-        break;
-      case 'avg':
-        result = vals.reduce((a, b) => a + b, 0) / vals.length;
-        break;
-      case 'min':
-        result = Math.min(...vals);
-        break;
-      case 'max':
-        result = Math.max(...vals);
-        break;
-    }
-    entries.push([key, result]);
+    entries.push([key, aggregateValues(vals, query.aggregate)]);
   }
 
   // 4. Sort
@@ -176,9 +248,15 @@ export function resolveQuery(
   // 5. Limit
   const limited = query.limit ? entries.slice(0, query.limit) : entries;
 
-  // 6. Build chart data
-  const labels = limited.map(([k]) => k);
-  const values = limited.map(([, v]) => Math.round(v * 100) / 100);
+  // 6. Apply computed fields (post-processing)
+  const processed =
+    query.computedFields && query.computedFields.length > 0
+      ? applyComputedFields(limited, query.computedFields, rows, query)
+      : limited;
+
+  // 7. Build chart data
+  const labels = processed.map(([k]) => k);
+  const values = processed.map(([, v]) => Math.round(v * 100) / 100);
 
   const needsPerSliceColor = labels.length <= PALETTE.length;
 
@@ -188,7 +266,8 @@ export function resolveQuery(
       {
         label:
           datasetLabel ??
-          `${query.aggregate}(${query.valueField || query.groupBy})`,
+          (query.computedFields?.[0]?.name ??
+            `${query.aggregate}(${query.valueField || query.groupBy})`),
         data: values,
         backgroundColor: needsPerSliceColor
           ? labels.map((_, i) => PALETTE[i % PALETTE.length])
