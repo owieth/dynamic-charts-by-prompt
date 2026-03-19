@@ -90,45 +90,50 @@ export function ChatPanel({
           </div>
         ) : (
           <>
-            {messages.map(msg => (
-              <div
-                key={msg.id}
-                className={cn(
-                  'flex flex-col gap-1 max-w-[90%]',
-                  msg.role === 'user'
-                    ? 'ml-auto items-end'
-                    : 'mr-auto items-start'
-                )}
-              >
+            {messages.map((msg, idx) => {
+              const isLast = idx === messages.length - 1;
+              const isAssistantStreaming =
+                msg.role === 'assistant' && isStreaming && isLast;
+              const showBubble = msg.role === 'user' || !!msg.text;
+
+              return (
                 <div
+                  key={msg.id}
                   className={cn(
-                    'px-3 py-2 text-xs leading-relaxed',
+                    'flex flex-col gap-1 max-w-[90%]',
                     msg.role === 'user'
-                      ? 'bg-surface-hi text-ink rounded-sm'
-                      : 'text-ink-muted'
+                      ? 'ml-auto items-end'
+                      : 'mr-auto items-start'
                   )}
                 >
-                  {msg.text ||
-                    (msg.role === 'assistant' && isStreaming && (
+                  {showBubble && (
+                    <div
+                      className={cn(
+                        'px-3 py-2 text-xs leading-relaxed',
+                        msg.role === 'user'
+                          ? 'bg-surface-hi text-ink rounded-sm'
+                          : 'text-ink-muted'
+                      )}
+                    >
+                      {msg.text}
+                    </div>
+                  )}
+                  {isAssistantStreaming && !msg.text && (
+                    <div className="flex items-center gap-2 text-xs text-ink-muted py-1">
                       <ThinkingDots />
-                    ))}
+                      <span>Generating…</span>
+                    </div>
+                  )}
+                  {msg.role === 'assistant' &&
+                    msg.spec &&
+                    !isAssistantStreaming && (
+                      <span className="text-[10px] text-accent/70 px-1">
+                        Dashboard updated
+                      </span>
+                    )}
                 </div>
-                {msg.role === 'assistant' && msg.spec && (
-                  <span className="text-[10px] text-accent/70 px-1">
-                    Dashboard updated
-                  </span>
-                )}
-              </div>
-            ))}
-            {isStreaming &&
-              messages.length > 0 &&
-              !messages[messages.length - 1]?.text &&
-              messages[messages.length - 1]?.role === 'assistant' && (
-                <div className="flex items-center gap-2 text-xs text-ink-muted">
-                  <ThinkingDots />
-                  <span>Generating…</span>
-                </div>
-              )}
+              );
+            })}
           </>
         )}
       </div>
