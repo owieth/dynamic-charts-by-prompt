@@ -83,8 +83,7 @@ export default function DashboardPage({
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [activeId]
+    [activeDashboard?.messages]
   );
 
   const onChatUpdate = useCallback(
