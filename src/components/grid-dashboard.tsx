@@ -149,7 +149,7 @@ export function GridDashboard({
             return (
               <div
                 key={key}
-                className="group relative overflow-hidden rounded-lg bg-surface/80"
+                className="group relative overflow-hidden rounded-lg bg-surface/80 border border-border/60"
               >
                 {!loading && (
                   <div className="absolute top-2 right-2 z-10 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-out">
@@ -205,7 +205,7 @@ export function GridDashboard({
                     <div className="size-2 rounded-full bg-accent animate-pulse" />
                   </div>
                 )}
-                <div className="size-full overflow-auto [&_[data-slot=card]]:h-full [&_[data-slot=card]]:border-0 [&_[data-slot=card]]:shadow-none [&_[data-slot=card]]:rounded-none [&_[data-slot=card]]:py-3 [&_[data-slot=card-content]]:flex-1 [&_[data-slot=card-content]]:min-h-0">
+                <div className="size-full overflow-auto [&_[data-slot=card]]:h-full [&_[data-slot=card]]:border-0 [&_[data-slot=card]]:shadow-none [&_[data-slot=card]]:rounded-none [&_[data-slot=card]]:py-3 [&_[data-slot=card]]:px-4 [&_[data-slot=card-content]]:flex-1 [&_[data-slot=card-content]]:min-h-0">
                   {showSkeleton ? (
                     <CellSkeleton />
                   ) : (
