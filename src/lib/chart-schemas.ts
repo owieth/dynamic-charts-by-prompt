@@ -8,6 +8,8 @@ const datasetSchema = z.object({
   borderColor: z.union([z.string(), z.array(z.string())]).nullable(),
   borderWidth: z.number().nullable(),
   fill: z.boolean().nullable(),
+  type: z.enum(['bar', 'line']).nullable().optional(),
+  borderDash: z.array(z.number()).nullable().optional(),
 });
 
 const baseChartSchema = z.object({
@@ -22,7 +24,7 @@ const baseChartSchema = z.object({
   // Display
   title: z.string().nullable(),
   showLegend: z.boolean().nullable(),
-  yFormat: z.enum(['number', 'currency-k', 'percent']).nullable(),
+  yFormat: z.enum(['number', 'currency-k', 'currency-eur-k', 'percent']).nullable(),
   // Style overrides (applied on top of resolved/default colors)
   backgroundColor: z.union([z.string(), z.array(z.string())]).nullable(),
   borderColor: z.union([z.string(), z.array(z.string())]).nullable(),
@@ -53,6 +55,39 @@ export type PieChartProps = z.infer<typeof pieChartSchema>;
 export type DoughnutChartProps = z.infer<typeof doughnutChartSchema>;
 export type AreaChartProps = z.infer<typeof areaChartSchema>;
 export type RadarChartProps = z.infer<typeof radarChartSchema>;
+
+const scatterDatasetSchema = z.object({
+  label: z.string(),
+  data: z.array(z.object({ x: z.number(), y: z.number() })),
+  backgroundColor: z.union([z.string(), z.array(z.string())]).nullable(),
+  borderColor: z.union([z.string(), z.array(z.string())]).nullable(),
+  borderWidth: z.number().nullable(),
+  pointStyle: z
+    .enum([
+      'circle',
+      'cross',
+      'crossRot',
+      'dash',
+      'line',
+      'rect',
+      'rectRounded',
+      'rectRot',
+      'star',
+      'triangle',
+    ])
+    .nullable(),
+  pointRadius: z.number().nullable(),
+});
+
+export const scatterChartSchema = z.object({
+  title: z.string().nullable(),
+  xLabel: z.string().nullable(),
+  yLabel: z.string().nullable(),
+  datasets: z.array(scatterDatasetSchema).nullable(),
+  showLegend: z.boolean().nullable(),
+});
+
+export type ScatterChartProps = z.infer<typeof scatterChartSchema>;
 
 export const dataTableSchema = z.object({
   title: z.string().nullable(),

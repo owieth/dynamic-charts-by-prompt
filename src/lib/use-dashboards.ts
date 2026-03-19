@@ -3,6 +3,10 @@
 import type { Spec } from '@json-render/core';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  BESS_DASHBOARD_ID,
+  BESS_DASHBOARD_SPEC,
+} from './bess-benchmark-dashboard';
+import {
   DEFAULT_DASHBOARD_ID,
   DEFAULT_DASHBOARD_SPEC,
 } from './default-dashboard';
@@ -31,6 +35,17 @@ function createDefaultDashboard(): Dashboard {
     name: 'Overview',
     messages: [],
     spec: DEFAULT_DASHBOARD_SPEC,
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+  };
+}
+
+function createBessDashboard(): Dashboard {
+  return {
+    id: BESS_DASHBOARD_ID,
+    name: 'BESS Benchmark',
+    messages: [],
+    spec: BESS_DASHBOARD_SPEC,
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
@@ -66,6 +81,16 @@ function reconcileDashboards(loaded: Dashboard[]): Dashboard[] {
       d.id === DEFAULT_DASHBOARD_ID ? { ...d, spec: DEFAULT_DASHBOARD_SPEC } : d
     );
   }
+
+  const existingBess = loaded.find(d => d.id === BESS_DASHBOARD_ID);
+  if (!existingBess) {
+    loaded = [...loaded, createBessDashboard()];
+  } else if (existingBess.messages.length === 0) {
+    loaded = loaded.map(d =>
+      d.id === BESS_DASHBOARD_ID ? { ...d, spec: BESS_DASHBOARD_SPEC } : d
+    );
+  }
+
   return loaded;
 }
 
@@ -125,7 +150,7 @@ export function useDashboards(activeId: string) {
 
   const deleteDashboard = useCallback(
     (id: string) => {
-      if (id === DEFAULT_DASHBOARD_ID) return;
+      if (id === DEFAULT_DASHBOARD_ID || id === BESS_DASHBOARD_ID) return;
       const next = dashboardsRef.current.filter(d => d.id !== id);
       persist(next);
     },

@@ -60,6 +60,8 @@ export interface ResolvedChartData {
     borderColor: string | string[] | null;
     borderWidth: number | null;
     fill: boolean | null;
+    type?: 'bar' | 'line' | null;
+    borderDash?: number[] | null;
   }[];
 }
 
