@@ -37,8 +37,6 @@ export function DashboardRenderer({
   onResetLayout,
   onRemoveItem,
 }: DashboardRendererProps): ReactNode {
-  if (!spec) return null;
-
   const sources = useMemo(() => {
     const base: Record<string, Row[]> = {
       projects: projectsData.projects as Row[],
@@ -48,6 +46,8 @@ export function DashboardRenderer({
     }
     return base;
   }, [additionalSources]);
+
+  if (!spec) return null;
 
   return (
     <DataProvider sources={sources}>
