@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.5.0...v1.6.0) (2026-03-20)
+
+
+### Features
+
+* **dashboard:** add BESS benchmarking dashboard ([8205a86](https://github.com/owieth/dynamic-charts-by-prompt/commit/8205a86d1ad6d1dabf58af87f962dcbe429de3a1))
+* **dashboard:** add BESS benchmarking dashboard ([20d329c](https://github.com/owieth/dynamic-charts-by-prompt/commit/20d329c15c7f6762609cbcba4ccd0637d5f9f4bd)), closes [#58](https://github.com/owieth/dynamic-charts-by-prompt/issues/58)
+
 ## [1.5.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.4.0...v1.5.0) (2026-03-19)
 
 
