@@ -19,6 +19,8 @@ interface ChartProps {
         borderColor: string | string[] | null;
         borderWidth: number | null;
         fill: boolean | null;
+        type?: 'bar' | 'line' | null;
+        borderDash?: number[] | null;
       }[]
     | null;
   dataQuery?: DataQuery | null;
@@ -77,6 +79,8 @@ export function useChartData(props: ChartProps): ResolvedChartData {
           borderColor: ds.borderColor,
           borderWidth: ds.borderWidth,
           fill: ds.fill,
+          ...(ds.type ? { type: ds.type } : {}),
+          ...(ds.borderDash ? { borderDash: ds.borderDash } : {}),
         }))
       ),
     };

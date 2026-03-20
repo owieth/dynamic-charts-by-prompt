@@ -14,6 +14,8 @@ interface DatasetInput {
   borderColor: string | string[] | null;
   borderWidth: number | null;
   fill: boolean | null;
+  type?: 'bar' | 'line' | null;
+  borderDash?: number[] | null;
 }
 
 interface DatasetDefaults {
@@ -48,21 +50,25 @@ export function basePlugins(props: {
   };
 }
 
-type YFormat = 'number' | 'currency-k' | 'percent' | null;
+type YFormat = 'number' | 'currency-k' | 'currency-eur-k' | 'percent' | null;
+
+function currencyEurKFormatter(v: number | string) {
+  const n = Number(v);
+  if (n >= 1_000_000) return `\u20AC${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `\u20AC${(n / 1_000).toFixed(0)}K`;
+  return `\u20AC${n}`;
+}
 
 export function yAxisConfig(format: YFormat) {
   if (!format || format === 'number') return {};
-  return {
-    y: {
-      ticks: {
-        callback:
-          format === 'currency-k'
-            ? (v: number | string) => {
-                const n = Number(v);
-                return n >= 1000 ? `$${(n / 1000).toFixed(0)}K` : `$${n}`;
-              }
-            : (v: number | string) => `${v}%`,
-      },
-    },
-  };
+  const callback =
+    format === 'currency-k'
+      ? (v: number | string) => {
+          const n = Number(v);
+          return n >= 1000 ? `$${(n / 1000).toFixed(0)}K` : `$${n}`;
+        }
+      : format === 'currency-eur-k'
+        ? currencyEurKFormatter
+        : (v: number | string) => `${v}%`;
+  return { y: { ticks: { callback } } };
 }

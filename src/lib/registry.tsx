@@ -8,6 +8,7 @@ import { DoughnutChart } from '@/components/charts/doughnut-chart';
 import { LineChart } from '@/components/charts/line-chart';
 import { PieChart } from '@/components/charts/pie-chart';
 import { RadarChart } from '@/components/charts/radar-chart';
+import { ScatterChart } from '@/components/charts/scatter-chart';
 import { DataTable } from '@/components/data-table';
 import { DashboardHeader } from '@/components/dashboard-header';
 import { MetricCard } from '@/components/metric-card';
@@ -23,6 +24,7 @@ import type {
   LineChartProps,
   PieChartProps,
   RadarChartProps,
+  ScatterChartProps,
 } from './chart-schemas';
 
 // Pick only the shadcn renderers that match our lean catalog
@@ -90,6 +92,13 @@ const { registry } = defineRegistry(catalog, {
     DoughnutChart: withSkeleton<DoughnutChartProps>(DoughnutChart),
     AreaChart: withSkeleton<AreaChartProps>(AreaChart),
     RadarChart: withSkeleton<RadarChartProps>(RadarChart),
+    ScatterChart: ({ props }: { props: ScatterChartProps }) => (
+      <ChartErrorBoundary>
+        <div className="relative h-full min-h-[200px]">
+          <ScatterChart props={props} />
+        </div>
+      </ChartErrorBoundary>
+    ),
     DataTable: ({ props }: { props: DataTableProps }) => (
       <DataTable props={props} />
     ),
