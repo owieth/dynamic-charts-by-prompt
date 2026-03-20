@@ -2,6 +2,7 @@
 
 import { GridDashboard } from '@/components/grid-dashboard';
 import '@/lib/chartjs-setup';
+import { applyChartTheme } from '@/lib/chartjs-setup';
 import { DataProvider } from '@/lib/data-context';
 import projectsData from '@/lib/projects.json';
 import { registry } from '@/lib/registry';
@@ -12,7 +13,7 @@ import {
   VisibilityProvider,
   type ComponentRenderer,
 } from '@json-render/react';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 interface DashboardRendererProps {
   spec: Spec | null;
@@ -33,6 +34,17 @@ export function DashboardRenderer({
   onResetLayout,
   onRemoveItem,
 }: DashboardRendererProps): ReactNode {
+  const [, setThemeTick] = useState(0);
+
+  useEffect(() => {
+    function handleThemeChange() {
+      applyChartTheme();
+      setThemeTick(t => t + 1);
+    }
+    window.addEventListener('theme-change', handleThemeChange);
+    return () => window.removeEventListener('theme-change', handleThemeChange);
+  }, []);
+
   if (!spec) return null;
 
   return (
