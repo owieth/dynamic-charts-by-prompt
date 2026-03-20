@@ -117,6 +117,7 @@ export default function DashboardPage({
     isStreaming,
     error,
     send,
+    stop,
   } = useChat({
     api: '/api/chat',
     initialMessages,
@@ -305,6 +306,7 @@ export default function DashboardPage({
           isStreaming={isStreaming}
           error={error}
           onSend={send}
+          onStop={stop}
           showExamples={showExamples}
         />
       </div>

@@ -42,6 +42,7 @@ interface UseChatReturn {
   isStreaming: boolean;
   error: Error | null;
   send: (text: string) => Promise<void>;
+  stop: () => void;
   clear: () => void;
   setMessages: (msgs: ChatMessage[]) => void;
 }
@@ -194,7 +195,31 @@ export function useChat({
           return updated;
         });
       } catch (err) {
-        if ((err as Error).name === 'AbortError') return;
+        if ((err as Error).name === 'AbortError') {
+          // Keep partial results on abort
+          const partialSpec = hasSpec
+            ? {
+                root: currentSpec.root,
+                elements: { ...currentSpec.elements },
+                ...(currentSpec.state
+                  ? { state: { ...currentSpec.state } }
+                  : {}),
+              }
+            : null;
+
+          setMessages(prev => {
+            const updated = prev
+              .map(m =>
+                m.id === assistantId
+                  ? { ...m, text: accumulatedText, spec: partialSpec }
+                  : m
+              )
+              .filter(m => m.id !== assistantId || m.text || m.spec);
+            onUpdateRef.current?.(updated, partialSpec ?? spec);
+            return updated;
+          });
+          return;
+        }
         const resolved = err instanceof Error ? err : new Error(String(err));
         setError(resolved);
         setMessages(prev =>
@@ -206,6 +231,10 @@ export function useChat({
     },
     [api, spec]
   );
+
+  const stop = useCallback(() => {
+    abortRef.current?.abort();
+  }, []);
 
   const clear = useCallback(() => {
     abortRef.current?.abort();
@@ -219,6 +248,7 @@ export function useChat({
     isStreaming,
     error,
     send,
+    stop,
     clear,
     setMessages,
   };
