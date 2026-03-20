@@ -3,7 +3,7 @@ import { z } from 'zod';
 // ─── Schema ──────────────────────────────────────────────────
 
 export const dataQuerySchema = z.object({
-  source: z.literal('projects'),
+  source: z.string(),
   filter: z
     .record(z.string(), z.union([z.string(), z.array(z.string())]))
     .nullable(),

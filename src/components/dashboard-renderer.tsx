@@ -3,7 +3,6 @@
 import { GridDashboard } from '@/components/grid-dashboard';
 import '@/lib/chartjs-setup';
 import { DataProvider } from '@/lib/data-context';
-import projectsData from '@/lib/projects.json';
 import { registry } from '@/lib/registry';
 import type { Spec } from '@json-render/core';
 import {
@@ -14,9 +13,12 @@ import {
 } from '@json-render/react';
 import type { ReactNode } from 'react';
 
+type Row = Record<string, unknown>;
+
 interface DashboardRendererProps {
   spec: Spec | null;
   loading: boolean;
+  sources: Record<string, Row[]>;
   onResetLayout?: (reset: () => void) => void;
   onRemoveItem?: (key: string) => void;
 }
@@ -30,13 +32,14 @@ const fallback: ComponentRenderer = ({ element }) => (
 export function DashboardRenderer({
   spec,
   loading,
+  sources,
   onResetLayout,
   onRemoveItem,
 }: DashboardRendererProps): ReactNode {
   if (!spec) return null;
 
   return (
-    <DataProvider projects={projectsData.projects as Record<string, unknown>[]}>
+    <DataProvider sources={sources}>
       <StateProvider initialState={{}}>
         <VisibilityProvider>
           <ActionProvider handlers={{}}>
