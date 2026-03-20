@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.6.0...v1.7.0) (2026-03-20)
+
+
+### Features
+
+* **chat:** add stop generation button ([d55dcb0](https://github.com/owieth/dynamic-charts-by-prompt/commit/d55dcb02fa306e5016feb5b547d2f17dc33074a2))
+
 ## [1.6.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.5.0...v1.6.0) (2026-03-20)
 
 
