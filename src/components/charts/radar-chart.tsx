@@ -14,7 +14,7 @@ export function RadarChart({ props }: { props: RadarChartProps }) {
         datasets: mapDatasets(resolved.datasets, {
           borderWidth: 2,
           fill: true,
-        }) as any,
+        }),
       }}
       options={{
         responsive: true,

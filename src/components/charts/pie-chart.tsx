@@ -11,7 +11,7 @@ export function PieChart({ props }: { props: PieChartProps }) {
     <Pie
       data={{
         labels: resolved.labels,
-        datasets: mapDatasets(resolved.datasets, { borderWidth: 1 }) as any,
+        datasets: mapDatasets(resolved.datasets, { borderWidth: 1 }),
       }}
       options={{
         responsive: true,

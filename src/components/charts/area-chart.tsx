@@ -21,7 +21,7 @@ export function AreaChart({ props }: { props: AreaChartProps }) {
           borderWidth: 2,
           fill: true,
           tension: 0.4,
-        }) as any,
+        }),
       }}
       options={{
         responsive: true,

@@ -13,11 +13,23 @@ import { Bar } from 'react-chartjs-2';
 export function BarChart({ props }: { props: BarChartProps }) {
   const resolved = useChartData(props);
   const stacked = props.stacked ?? false;
+
+  const datasets = mapDatasets(resolved.datasets, { borderWidth: 1 }).map(
+    (mapped, i) => {
+      const src = resolved.datasets[i];
+      return {
+        ...mapped,
+        ...(src?.type ? { type: src.type as 'bar' | 'line' } : {}),
+        ...(src?.borderDash ? { borderDash: src.borderDash } : {}),
+      };
+    }
+  );
+
   return (
     <Bar
       data={{
         labels: resolved.labels,
-        datasets: mapDatasets(resolved.datasets, { borderWidth: 1 }) as any,
+        datasets: datasets as Parameters<typeof Bar>[0]['data']['datasets'],
       }}
       options={{
         responsive: true,

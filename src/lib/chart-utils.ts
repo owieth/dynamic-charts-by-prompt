@@ -37,8 +37,6 @@ export function mapDatasets(
     borderWidth: ds.borderWidth ?? defaults.borderWidth,
     ...(defaults.fill !== undefined ? { fill: ds.fill ?? defaults.fill } : {}),
     ...(defaults.tension !== undefined ? { tension: defaults.tension } : {}),
-    ...(ds.type ? { type: ds.type } : {}),
-    ...(ds.borderDash ? { borderDash: ds.borderDash } : {}),
   }));
 }
 
