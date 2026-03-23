@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.12.0...v1.13.0) (2026-03-23)
+
+
+### Features
+
+* **share:** add dashboard sharing via URL ([abe4273](https://github.com/owieth/dynamic-charts-by-prompt/commit/abe4273de7a3e013fd7abca047412df873c6d579))
+
 ## [1.12.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.11.0...v1.12.0) (2026-03-23)
 
 
