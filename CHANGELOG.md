@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.13.0...v1.14.0) (2026-03-23)
+
+
+### Features
+
+* **icon:** add new SVG icon for the application ([776f538](https://github.com/owieth/dynamic-charts-by-prompt/commit/776f53878017c47d91fda02f718ffc249a8b2b33))
+
 ## [1.13.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.12.0...v1.13.0) (2026-03-23)
 
 ### Features
