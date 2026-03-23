@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.11.0...v1.12.0) (2026-03-23)
+
+
+### Features
+
+* **dashboard:** add PDF/print export ([41c3a73](https://github.com/owieth/dynamic-charts-by-prompt/commit/41c3a737b76af6a275f6767ec99402bb5cc6b7ab))
+
 ## [1.11.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.10.0...v1.11.0) (2026-03-23)
 
 
