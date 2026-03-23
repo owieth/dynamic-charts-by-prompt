@@ -84,7 +84,9 @@ export default function DashboardPage({
   const [sidebarOpen, setSidebarOpen] = usePersistedState('sidebar-open', true);
   const [chatOpen, setChatOpen] = usePersistedState('chat-open', true);
   const [copied, setCopied] = useState(false);
-  const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'too-long'>('idle');
+  const [shareStatus, setShareStatus] = useState<
+    'idle' | 'copied' | 'too-long'
+  >('idle');
 
   const initialMessages = useMemo(
     () => activeDashboard?.messages ?? [],
@@ -134,10 +136,12 @@ export default function DashboardPage({
 
   const handleCopySpec = useCallback(() => {
     if (!displaySpec) return;
-    navigator.clipboard.writeText(JSON.stringify(displaySpec, null, 2)).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
+    navigator.clipboard
+      .writeText(JSON.stringify(displaySpec, null, 2))
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      });
   }, [displaySpec]);
   const showExamples = !activeDashboard?.spec && messages.length === 0;
 

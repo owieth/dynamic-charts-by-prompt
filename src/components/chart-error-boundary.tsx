@@ -1,7 +1,7 @@
 'use client';
 
-import { Component } from 'react';
 import type { ErrorInfo, ReactNode } from 'react';
+import { Component } from 'react';
 
 interface ChartErrorBoundaryProps {
   children: ReactNode;
@@ -48,9 +48,7 @@ export class ChartErrorBoundary extends Component<
             <line x1="12" y1="9" x2="12" y2="13" />
             <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
-          <p className="text-sm font-medium text-ink">
-            Chart failed to render
-          </p>
+          <p className="text-sm font-medium text-ink">Chart failed to render</p>
           {this.state.error?.message && (
             <p className="text-xs text-ink-muted max-w-xs text-center">
               {this.state.error.message}

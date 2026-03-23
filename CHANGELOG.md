@@ -2,125 +2,108 @@
 
 ## [1.13.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.12.0...v1.13.0) (2026-03-23)
 
-
 ### Features
 
-* **share:** add dashboard sharing via URL ([abe4273](https://github.com/owieth/dynamic-charts-by-prompt/commit/abe4273de7a3e013fd7abca047412df873c6d579))
+- **share:** add dashboard sharing via URL ([abe4273](https://github.com/owieth/dynamic-charts-by-prompt/commit/abe4273de7a3e013fd7abca047412df873c6d579))
 
 ## [1.12.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.11.0...v1.12.0) (2026-03-23)
 
-
 ### Features
 
-* **dashboard:** add PDF/print export ([41c3a73](https://github.com/owieth/dynamic-charts-by-prompt/commit/41c3a737b76af6a275f6767ec99402bb5cc6b7ab))
+- **dashboard:** add PDF/print export ([41c3a73](https://github.com/owieth/dynamic-charts-by-prompt/commit/41c3a737b76af6a275f6767ec99402bb5cc6b7ab))
 
 ## [1.11.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.10.0...v1.11.0) (2026-03-23)
 
-
 ### Features
 
-* **charts:** add reset zoom button ([86c8d54](https://github.com/owieth/dynamic-charts-by-prompt/commit/86c8d5405e6dd164a9a3ee523fb06a37eb845074))
-* **charts:** add reset zoom button on zoomable charts ([444cb67](https://github.com/owieth/dynamic-charts-by-prompt/commit/444cb6770dc2590dc96b241f5192ca6ed37cdaf6)), closes [#3](https://github.com/owieth/dynamic-charts-by-prompt/issues/3)
+- **charts:** add reset zoom button ([86c8d54](https://github.com/owieth/dynamic-charts-by-prompt/commit/86c8d5405e6dd164a9a3ee523fb06a37eb845074))
+- **charts:** add reset zoom button on zoomable charts ([444cb67](https://github.com/owieth/dynamic-charts-by-prompt/commit/444cb6770dc2590dc96b241f5192ca6ed37cdaf6)), closes [#3](https://github.com/owieth/dynamic-charts-by-prompt/issues/3)
 
 ## [1.10.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.9.0...v1.10.0) (2026-03-23)
 
-
 ### Features
 
-* **layout:** add responsive grid breakpoints ([a8bf031](https://github.com/owieth/dynamic-charts-by-prompt/commit/a8bf031311eabb5e6b45d30ec617a36c47db5bc5))
+- **layout:** add responsive grid breakpoints ([a8bf031](https://github.com/owieth/dynamic-charts-by-prompt/commit/a8bf031311eabb5e6b45d30ec617a36c47db5bc5))
 
 ## [1.9.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.8.0...v1.9.0) (2026-03-23)
 
-
 ### Features
 
-* **data:** add computed/derived fields in dataQuery ([56f8642](https://github.com/owieth/dynamic-charts-by-prompt/commit/56f8642e4c85a4fb2d0e7a51367ef1717fc9f91c))
+- **data:** add computed/derived fields in dataQuery ([56f8642](https://github.com/owieth/dynamic-charts-by-prompt/commit/56f8642e4c85a4fb2d0e7a51367ef1717fc9f91c))
 
 ## [1.8.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.7.0...v1.8.0) (2026-03-23)
 
-
 ### Features
 
-* **ui:** add light/dark theme switcher ([5738a22](https://github.com/owieth/dynamic-charts-by-prompt/commit/5738a222c640a823ddd77877b0ea8d1ae6e09ee2))
-
+- **ui:** add light/dark theme switcher ([5738a22](https://github.com/owieth/dynamic-charts-by-prompt/commit/5738a222c640a823ddd77877b0ea8d1ae6e09ee2))
 
 ### Bug Fixes
 
-* **theme:** dispatch theme-change event async to avoid setState-in-render ([ddcdfca](https://github.com/owieth/dynamic-charts-by-prompt/commit/ddcdfcab92b6c928e45d0fba33e1fd1e44cdf3c2))
+- **theme:** dispatch theme-change event async to avoid setState-in-render ([ddcdfca](https://github.com/owieth/dynamic-charts-by-prompt/commit/ddcdfcab92b6c928e45d0fba33e1fd1e44cdf3c2))
 
 ## [1.7.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.6.0...v1.7.0) (2026-03-20)
 
-
 ### Features
 
-* **chat:** add stop generation button ([d55dcb0](https://github.com/owieth/dynamic-charts-by-prompt/commit/d55dcb02fa306e5016feb5b547d2f17dc33074a2))
+- **chat:** add stop generation button ([d55dcb0](https://github.com/owieth/dynamic-charts-by-prompt/commit/d55dcb02fa306e5016feb5b547d2f17dc33074a2))
 
 ## [1.6.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.5.0...v1.6.0) (2026-03-20)
 
-
 ### Features
 
-* **dashboard:** add BESS benchmarking dashboard ([8205a86](https://github.com/owieth/dynamic-charts-by-prompt/commit/8205a86d1ad6d1dabf58af87f962dcbe429de3a1))
-* **dashboard:** add BESS benchmarking dashboard ([20d329c](https://github.com/owieth/dynamic-charts-by-prompt/commit/20d329c15c7f6762609cbcba4ccd0637d5f9f4bd)), closes [#58](https://github.com/owieth/dynamic-charts-by-prompt/issues/58)
+- **dashboard:** add BESS benchmarking dashboard ([8205a86](https://github.com/owieth/dynamic-charts-by-prompt/commit/8205a86d1ad6d1dabf58af87f962dcbe429de3a1))
+- **dashboard:** add BESS benchmarking dashboard ([20d329c](https://github.com/owieth/dynamic-charts-by-prompt/commit/20d329c15c7f6762609cbcba4ccd0637d5f9f4bd)), closes [#58](https://github.com/owieth/dynamic-charts-by-prompt/issues/58)
 
 ## [1.5.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.4.0...v1.5.0) (2026-03-19)
 
-
 ### Features
 
-* multi-series dataQuery for chart overlays ([b61d92b](https://github.com/owieth/dynamic-charts-by-prompt/commit/b61d92bc641b9cf224ccbcc125c72bd425732289))
-
+- multi-series dataQuery for chart overlays ([b61d92b](https://github.com/owieth/dynamic-charts-by-prompt/commit/b61d92bc641b9cf224ccbcc125c72bd425732289))
 
 ### Bug Fixes
 
-* **charts:** include dataQueries in withSkeleton hasData check ([c27d6ab](https://github.com/owieth/dynamic-charts-by-prompt/commit/c27d6ab733246e3861db543619da08673415b4a9))
+- **charts:** include dataQueries in withSkeleton hasData check ([c27d6ab](https://github.com/owieth/dynamic-charts-by-prompt/commit/c27d6ab733246e3861db543619da08673415b4a9))
 
 ## [1.4.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.3.0...v1.4.0) (2026-03-19)
 
-
 ### Features
 
-* **charts:** error boundary per chart ([697f36b](https://github.com/owieth/dynamic-charts-by-prompt/commit/697f36b700cdc95ff674f4c0544d31b1f1fcd064))
+- **charts:** error boundary per chart ([697f36b](https://github.com/owieth/dynamic-charts-by-prompt/commit/697f36b700cdc95ff674f4c0544d31b1f1fcd064))
 
 ## [1.3.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.2.0...v1.3.0) (2026-03-19)
 
-
 ### Features
 
-* add DataTable component with sorting and pagination ([7bcd921](https://github.com/owieth/dynamic-charts-by-prompt/commit/7bcd921c5e20cb16b8153add23c6ff85ed944809))
+- add DataTable component with sorting and pagination ([7bcd921](https://github.com/owieth/dynamic-charts-by-prompt/commit/7bcd921c5e20cb16b8153add23c6ff85ed944809))
 
 ## [1.2.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.1.0...v1.2.0) (2026-03-19)
 
-
 ### Features
 
-* add trend indicator to MetricCard ([2fcc6a9](https://github.com/owieth/dynamic-charts-by-prompt/commit/2fcc6a9baaa596765728c27f711b8b93750e66ac))
+- add trend indicator to MetricCard ([2fcc6a9](https://github.com/owieth/dynamic-charts-by-prompt/commit/2fcc6a9baaa596765728c27f711b8b93750e66ac))
 
 ## [1.1.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.2...v1.1.0) (2026-03-19)
 
-
 ### Features
 
-* add AI-generated dashboard title and description ([b72c6ae](https://github.com/owieth/dynamic-charts-by-prompt/commit/b72c6ae9f79820ab9ffac9a1619cd6150944e4c3))
-* **ai-config:** instruct Claude to start dashboards with DashboardHeader ([cd0aa66](https://github.com/owieth/dynamic-charts-by-prompt/commit/cd0aa6650875008960c6030b6a67292f89d9f31f))
-* **catalog:** register DashboardHeader component definition ([4383ca9](https://github.com/owieth/dynamic-charts-by-prompt/commit/4383ca9f887424443d8c49779f1882af8e4e5483))
-* **components:** add DashboardHeader component ([63bbfc6](https://github.com/owieth/dynamic-charts-by-prompt/commit/63bbfc62403ca5af3c37405fab74b52615126344))
-* **registry:** register DashboardHeader renderer ([fa2042f](https://github.com/owieth/dynamic-charts-by-prompt/commit/fa2042f4bd22d722da17ad8741aee2344d81e5ea))
+- add AI-generated dashboard title and description ([b72c6ae](https://github.com/owieth/dynamic-charts-by-prompt/commit/b72c6ae9f79820ab9ffac9a1619cd6150944e4c3))
+- **ai-config:** instruct Claude to start dashboards with DashboardHeader ([cd0aa66](https://github.com/owieth/dynamic-charts-by-prompt/commit/cd0aa6650875008960c6030b6a67292f89d9f31f))
+- **catalog:** register DashboardHeader component definition ([4383ca9](https://github.com/owieth/dynamic-charts-by-prompt/commit/4383ca9f887424443d8c49779f1882af8e4e5483))
+- **components:** add DashboardHeader component ([63bbfc6](https://github.com/owieth/dynamic-charts-by-prompt/commit/63bbfc62403ca5af3c37405fab74b52615126344))
+- **registry:** register DashboardHeader renderer ([fa2042f](https://github.com/owieth/dynamic-charts-by-prompt/commit/fa2042f4bd22d722da17ad8741aee2344d81e5ea))
 
 ## [1.0.2](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.1...v1.0.2) (2026-03-19)
 
-
 ### Bug Fixes
 
-* **chat:** restore messages after page refresh ([bdea1e4](https://github.com/owieth/dynamic-charts-by-prompt/commit/bdea1e472979d0b5391372fae8181edaaf4e8f10))
+- **chat:** restore messages after page refresh ([bdea1e4](https://github.com/owieth/dynamic-charts-by-prompt/commit/bdea1e472979d0b5391372fae8181edaaf4e8f10))
 
 ## [1.0.1](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.0.0...v1.0.1) (2026-03-19)
 
-
 ### Bug Fixes
 
-* **ci:** migrate to googleapis/release-please-action ([f8241a5](https://github.com/owieth/dynamic-charts-by-prompt/commit/f8241a5d48b90a1626f2da86d279aa12b77ada02))
-* **ci:** migrate to googleapis/release-please-action ([393dc34](https://github.com/owieth/dynamic-charts-by-prompt/commit/393dc3412ea7e96c8d742a6569c7d879cd0e42fd))
+- **ci:** migrate to googleapis/release-please-action ([f8241a5](https://github.com/owieth/dynamic-charts-by-prompt/commit/f8241a5d48b90a1626f2da86d279aa12b77ada02))
+- **ci:** migrate to googleapis/release-please-action ([393dc34](https://github.com/owieth/dynamic-charts-by-prompt/commit/393dc3412ea7e96c8d742a6569c7d879cd0e42fd))
 
 ## 1.0.0 (2026-03-19)
 

@@ -98,7 +98,10 @@ export function GridDashboard({
     const mdLayout = layout.map(item => ({
       ...item,
       w: Math.min(item.w, COLS.md),
-      x: item.x >= COLS.md ? 0 : Math.min(item.x, COLS.md - Math.min(item.w, COLS.md)),
+      x:
+        item.x >= COLS.md
+          ? 0
+          : Math.min(item.x, COLS.md - Math.min(item.w, COLS.md)),
     }));
     const smLayout = layout.map((item, idx) => ({
       ...item,

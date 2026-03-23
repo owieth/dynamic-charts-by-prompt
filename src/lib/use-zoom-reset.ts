@@ -4,7 +4,9 @@ import { useCallback, useRef, useState } from 'react';
 
 type ChartRef = { resetZoom(): void } | null;
 
-export function useZoomReset(baseZoomOptions: typeof import('@/lib/chart-utils').ZOOM_OPTIONS) {
+export function useZoomReset(
+  baseZoomOptions: typeof import('@/lib/chart-utils').ZOOM_OPTIONS
+) {
   const chartRef = useRef<ChartRef>(null);
   const [isZoomed, setIsZoomed] = useState(false);
 

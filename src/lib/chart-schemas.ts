@@ -24,7 +24,9 @@ const baseChartSchema = z.object({
   // Display
   title: z.string().nullable(),
   showLegend: z.boolean().nullable(),
-  yFormat: z.enum(['number', 'currency-k', 'currency-eur-k', 'percent']).nullable(),
+  yFormat: z
+    .enum(['number', 'currency-k', 'currency-eur-k', 'percent'])
+    .nullable(),
   // Style overrides (applied on top of resolved/default colors)
   backgroundColor: z.union([z.string(), z.array(z.string())]).nullable(),
   borderColor: z.union([z.string(), z.array(z.string())]).nullable(),

@@ -33,7 +33,9 @@ function SharedDashboardContent() {
 
     decodeSpec(encoded).then(result => {
       if (!result) {
-        setError('Failed to decode the shared dashboard. The link may be corrupted.');
+        setError(
+          'Failed to decode the shared dashboard. The link may be corrupted.'
+        );
         return;
       }
       setSpec(result.spec);
@@ -55,10 +57,7 @@ function SharedDashboardContent() {
         <p className="text-sm text-ink-muted text-pretty text-center max-w-sm">
           {error}
         </p>
-        <a
-          href="/"
-          className="text-sm text-accent hover:underline"
-        >
+        <a href="/" className="text-sm text-accent hover:underline">
           Go to dashboards
         </a>
       </div>

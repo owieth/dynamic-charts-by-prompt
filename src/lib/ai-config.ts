@@ -4,7 +4,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { gateway } from '@ai-sdk/gateway';
 
 const CUSTOM_RULES = [
-  'Start every dashboard with a DashboardHeader containing a concise title and an optional subtitle summarizing the dashboard\'s purpose.',
+  "Start every dashboard with a DashboardHeader containing a concise title and an optional subtitle summarizing the dashboard's purpose.",
   'After the DashboardHeader, add a horizontal Stack (direction: horizontal, gap: lg) of MetricCard components showing key numbers. Use 3–5 metrics.',
   'Below the metrics row, use a Grid with columns: 2 for side-by-side charts. Use columns: 1 for full-width charts.',
   'Always wrap each chart inside a Card with a clear, descriptive title.',

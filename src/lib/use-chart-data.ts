@@ -3,8 +3,8 @@
 import { useMemo } from 'react';
 import { useDataSource } from './data-context';
 import {
-  resolveQuery,
   resolveMultiQuery,
+  resolveQuery,
   type DataQuery,
   type ResolvedChartData,
 } from './data-query';

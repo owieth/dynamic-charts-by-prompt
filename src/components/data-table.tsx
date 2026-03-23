@@ -33,9 +33,7 @@ function isNumeric(value: unknown): boolean {
 
 export function DataTable({ props }: { props: DataTableProps }) {
   const data = useDataSource(props.source);
-  const [sortCol, setSortCol] = useState<string | null>(
-    props.sortBy ?? null
-  );
+  const [sortCol, setSortCol] = useState<string | null>(props.sortBy ?? null);
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>(
     props.sortDir ?? 'asc'
   );
@@ -76,10 +74,7 @@ export function DataTable({ props }: { props: DataTableProps }) {
 
   const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
   const safeePage = Math.min(page, totalPages - 1);
-  const pageRows = rows.slice(
-    safeePage * pageSize,
-    (safeePage + 1) * pageSize
-  );
+  const pageRows = rows.slice(safeePage * pageSize, (safeePage + 1) * pageSize);
 
   function handleSort(col: string) {
     if (sortCol === col) {

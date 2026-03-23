@@ -23,83 +23,376 @@ const HIGHLIGHT_COLOR = '#e63946';
 
 const projects: BessProject[] = [
   // Finland (highlighted)
-  { name: 'Honkakero', country: 'Finland', status: 'Development', capex: 42_000_000, opex: 840_000, capacity: 60 },
-  { name: 'Pekosenniemi', country: 'Finland', status: 'Development', capex: 35_000_000, opex: 700_000, capacity: 50 },
+  {
+    name: 'Honkakero',
+    country: 'Finland',
+    status: 'Development',
+    capex: 42_000_000,
+    opex: 840_000,
+    capacity: 60,
+  },
+  {
+    name: 'Pekosenniemi',
+    country: 'Finland',
+    status: 'Development',
+    capex: 35_000_000,
+    opex: 700_000,
+    capacity: 50,
+  },
   // Germany
-  { name: 'Lausitz BESS', country: 'Germany', status: 'Operational', capex: 78_000_000, opex: 1_560_000, capacity: 100 },
-  { name: 'Schwarze Pumpe', country: 'Germany', status: 'Construction', capex: 52_000_000, opex: 1_040_000, capacity: 70 },
-  { name: 'Emsland Storage', country: 'Germany', status: 'Ready-to-build', capex: 44_000_000, opex: 880_000, capacity: 55 },
-  { name: 'Rhein-Ruhr', country: 'Germany', status: 'Development', capex: 62_000_000, opex: 1_240_000, capacity: 80 },
-  { name: 'Brandenburg Hub', country: 'Germany', status: 'Construction', capex: 48_000_000, opex: 960_000, capacity: 65 },
+  {
+    name: 'Lausitz BESS',
+    country: 'Germany',
+    status: 'Operational',
+    capex: 78_000_000,
+    opex: 1_560_000,
+    capacity: 100,
+  },
+  {
+    name: 'Schwarze Pumpe',
+    country: 'Germany',
+    status: 'Construction',
+    capex: 52_000_000,
+    opex: 1_040_000,
+    capacity: 70,
+  },
+  {
+    name: 'Emsland Storage',
+    country: 'Germany',
+    status: 'Ready-to-build',
+    capex: 44_000_000,
+    opex: 880_000,
+    capacity: 55,
+  },
+  {
+    name: 'Rhein-Ruhr',
+    country: 'Germany',
+    status: 'Development',
+    capex: 62_000_000,
+    opex: 1_240_000,
+    capacity: 80,
+  },
+  {
+    name: 'Brandenburg Hub',
+    country: 'Germany',
+    status: 'Construction',
+    capex: 48_000_000,
+    opex: 960_000,
+    capacity: 65,
+  },
   // UK
-  { name: 'Minety Phase 1', country: 'UK', status: 'Operational', capex: 90_000_000, opex: 1_800_000, capacity: 120 },
-  { name: 'Pillswood', country: 'UK', status: 'Operational', capex: 72_000_000, opex: 1_440_000, capacity: 98 },
-  { name: 'Bramley', country: 'UK', status: 'Construction', capex: 56_000_000, opex: 1_120_000, capacity: 75 },
-  { name: 'Cowley', country: 'UK', status: 'Ready-to-build', capex: 38_000_000, opex: 760_000, capacity: 50 },
-  { name: 'Kenfig', country: 'UK', status: 'Development', capex: 82_000_000, opex: 1_640_000, capacity: 110 },
+  {
+    name: 'Minety Phase 1',
+    country: 'UK',
+    status: 'Operational',
+    capex: 90_000_000,
+    opex: 1_800_000,
+    capacity: 120,
+  },
+  {
+    name: 'Pillswood',
+    country: 'UK',
+    status: 'Operational',
+    capex: 72_000_000,
+    opex: 1_440_000,
+    capacity: 98,
+  },
+  {
+    name: 'Bramley',
+    country: 'UK',
+    status: 'Construction',
+    capex: 56_000_000,
+    opex: 1_120_000,
+    capacity: 75,
+  },
+  {
+    name: 'Cowley',
+    country: 'UK',
+    status: 'Ready-to-build',
+    capex: 38_000_000,
+    opex: 760_000,
+    capacity: 50,
+  },
+  {
+    name: 'Kenfig',
+    country: 'UK',
+    status: 'Development',
+    capex: 82_000_000,
+    opex: 1_640_000,
+    capacity: 110,
+  },
   // Spain
-  { name: 'Talayuela', country: 'Spain', status: 'Operational', capex: 45_000_000, opex: 900_000, capacity: 60 },
-  { name: 'Sevilla Sur', country: 'Spain', status: 'Construction', capex: 68_000_000, opex: 1_360_000, capacity: 90 },
-  { name: 'Aragon Grid', country: 'Spain', status: 'Ready-to-build', capex: 37_000_000, opex: 740_000, capacity: 48 },
-  { name: 'Navarra Energy', country: 'Spain', status: 'Development', capex: 55_000_000, opex: 1_100_000, capacity: 72 },
+  {
+    name: 'Talayuela',
+    country: 'Spain',
+    status: 'Operational',
+    capex: 45_000_000,
+    opex: 900_000,
+    capacity: 60,
+  },
+  {
+    name: 'Sevilla Sur',
+    country: 'Spain',
+    status: 'Construction',
+    capex: 68_000_000,
+    opex: 1_360_000,
+    capacity: 90,
+  },
+  {
+    name: 'Aragon Grid',
+    country: 'Spain',
+    status: 'Ready-to-build',
+    capex: 37_000_000,
+    opex: 740_000,
+    capacity: 48,
+  },
+  {
+    name: 'Navarra Energy',
+    country: 'Spain',
+    status: 'Development',
+    capex: 55_000_000,
+    opex: 1_100_000,
+    capacity: 72,
+  },
   // Italy
-  { name: 'Brindisi', country: 'Italy', status: 'Operational', capex: 58_000_000, opex: 1_160_000, capacity: 75 },
-  { name: 'Sardinia BESS', country: 'Italy', status: 'Construction', capex: 42_000_000, opex: 840_000, capacity: 55 },
-  { name: 'Puglia Storage', country: 'Italy', status: 'Ready-to-build', capex: 33_000_000, opex: 660_000, capacity: 42 },
+  {
+    name: 'Brindisi',
+    country: 'Italy',
+    status: 'Operational',
+    capex: 58_000_000,
+    opex: 1_160_000,
+    capacity: 75,
+  },
+  {
+    name: 'Sardinia BESS',
+    country: 'Italy',
+    status: 'Construction',
+    capex: 42_000_000,
+    opex: 840_000,
+    capacity: 55,
+  },
+  {
+    name: 'Puglia Storage',
+    country: 'Italy',
+    status: 'Ready-to-build',
+    capex: 33_000_000,
+    opex: 660_000,
+    capacity: 42,
+  },
   // France
-  { name: 'Dunkerque', country: 'France', status: 'Operational', capex: 50_000_000, opex: 1_000_000, capacity: 65 },
-  { name: 'Fos-sur-Mer', country: 'France', status: 'Construction', capex: 64_000_000, opex: 1_280_000, capacity: 85 },
-  { name: 'Bordeaux Grid', country: 'France', status: 'Development', capex: 40_000_000, opex: 800_000, capacity: 52 },
+  {
+    name: 'Dunkerque',
+    country: 'France',
+    status: 'Operational',
+    capex: 50_000_000,
+    opex: 1_000_000,
+    capacity: 65,
+  },
+  {
+    name: 'Fos-sur-Mer',
+    country: 'France',
+    status: 'Construction',
+    capex: 64_000_000,
+    opex: 1_280_000,
+    capacity: 85,
+  },
+  {
+    name: 'Bordeaux Grid',
+    country: 'France',
+    status: 'Development',
+    capex: 40_000_000,
+    opex: 800_000,
+    capacity: 52,
+  },
   // Netherlands
-  { name: 'Vlissingen', country: 'Netherlands', status: 'Operational', capex: 30_000_000, opex: 600_000, capacity: 40 },
-  { name: 'Eemshaven', country: 'Netherlands', status: 'Ready-to-build', capex: 46_000_000, opex: 920_000, capacity: 60 },
+  {
+    name: 'Vlissingen',
+    country: 'Netherlands',
+    status: 'Operational',
+    capex: 30_000_000,
+    opex: 600_000,
+    capacity: 40,
+  },
+  {
+    name: 'Eemshaven',
+    country: 'Netherlands',
+    status: 'Ready-to-build',
+    capex: 46_000_000,
+    opex: 920_000,
+    capacity: 60,
+  },
   // Ireland
-  { name: 'Shannonbridge', country: 'Ireland', status: 'Operational', capex: 36_000_000, opex: 720_000, capacity: 50 },
-  { name: 'Louth Storage', country: 'Ireland', status: 'Construction', capex: 28_000_000, opex: 560_000, capacity: 35 },
+  {
+    name: 'Shannonbridge',
+    country: 'Ireland',
+    status: 'Operational',
+    capex: 36_000_000,
+    opex: 720_000,
+    capacity: 50,
+  },
+  {
+    name: 'Louth Storage',
+    country: 'Ireland',
+    status: 'Construction',
+    capex: 28_000_000,
+    opex: 560_000,
+    capacity: 35,
+  },
   // Belgium
-  { name: 'Bastogne', country: 'Belgium', status: 'Ready-to-build', capex: 32_000_000, opex: 640_000, capacity: 40 },
-  { name: 'Antwerp Grid', country: 'Belgium', status: 'Development', capex: 54_000_000, opex: 1_080_000, capacity: 70 },
+  {
+    name: 'Bastogne',
+    country: 'Belgium',
+    status: 'Ready-to-build',
+    capex: 32_000_000,
+    opex: 640_000,
+    capacity: 40,
+  },
+  {
+    name: 'Antwerp Grid',
+    country: 'Belgium',
+    status: 'Development',
+    capex: 54_000_000,
+    opex: 1_080_000,
+    capacity: 70,
+  },
   // Poland
-  { name: 'Gdansk BESS', country: 'Poland', status: 'Development', capex: 38_000_000, opex: 760_000, capacity: 50 },
-  { name: 'Wroclaw Hub', country: 'Poland', status: 'Ready-to-build', capex: 29_000_000, opex: 580_000, capacity: 38 },
+  {
+    name: 'Gdansk BESS',
+    country: 'Poland',
+    status: 'Development',
+    capex: 38_000_000,
+    opex: 760_000,
+    capacity: 50,
+  },
+  {
+    name: 'Wroclaw Hub',
+    country: 'Poland',
+    status: 'Ready-to-build',
+    capex: 29_000_000,
+    opex: 580_000,
+    capacity: 38,
+  },
   // Sweden
-  { name: 'Lulea Storage', country: 'Sweden', status: 'Development', capex: 44_000_000, opex: 880_000, capacity: 58 },
-  { name: 'Malmo Grid', country: 'Sweden', status: 'Construction', capex: 35_000_000, opex: 700_000, capacity: 45 },
+  {
+    name: 'Lulea Storage',
+    country: 'Sweden',
+    status: 'Development',
+    capex: 44_000_000,
+    opex: 880_000,
+    capacity: 58,
+  },
+  {
+    name: 'Malmo Grid',
+    country: 'Sweden',
+    status: 'Construction',
+    capex: 35_000_000,
+    opex: 700_000,
+    capacity: 45,
+  },
   // Portugal
-  { name: 'Sines BESS', country: 'Portugal', status: 'Operational', capex: 41_000_000, opex: 820_000, capacity: 55 },
-  { name: 'Algarve Grid', country: 'Portugal', status: 'Development', capex: 26_000_000, opex: 520_000, capacity: 32 },
+  {
+    name: 'Sines BESS',
+    country: 'Portugal',
+    status: 'Operational',
+    capex: 41_000_000,
+    opex: 820_000,
+    capacity: 55,
+  },
+  {
+    name: 'Algarve Grid',
+    country: 'Portugal',
+    status: 'Development',
+    capex: 26_000_000,
+    opex: 520_000,
+    capacity: 32,
+  },
   // Greece
-  { name: 'Ptolemaida', country: 'Greece', status: 'Construction', capex: 48_000_000, opex: 960_000, capacity: 62 },
-  { name: 'Thessaloniki', country: 'Greece', status: 'Ready-to-build', capex: 34_000_000, opex: 680_000, capacity: 44 },
+  {
+    name: 'Ptolemaida',
+    country: 'Greece',
+    status: 'Construction',
+    capex: 48_000_000,
+    opex: 960_000,
+    capacity: 62,
+  },
+  {
+    name: 'Thessaloniki',
+    country: 'Greece',
+    status: 'Ready-to-build',
+    capex: 34_000_000,
+    opex: 680_000,
+    capacity: 44,
+  },
   // Austria
-  { name: 'Mellach', country: 'Austria', status: 'Operational', capex: 39_000_000, opex: 780_000, capacity: 50 },
+  {
+    name: 'Mellach',
+    country: 'Austria',
+    status: 'Operational',
+    capex: 39_000_000,
+    opex: 780_000,
+    capacity: 50,
+  },
   // Denmark
-  { name: 'Esbjerg', country: 'Denmark', status: 'Ready-to-build', capex: 43_000_000, opex: 860_000, capacity: 56 },
+  {
+    name: 'Esbjerg',
+    country: 'Denmark',
+    status: 'Ready-to-build',
+    capex: 43_000_000,
+    opex: 860_000,
+    capacity: 56,
+  },
   // Romania
-  { name: 'Cernavoda', country: 'Romania', status: 'Development', capex: 31_000_000, opex: 620_000, capacity: 40 },
+  {
+    name: 'Cernavoda',
+    country: 'Romania',
+    status: 'Development',
+    capex: 31_000_000,
+    opex: 620_000,
+    capacity: 40,
+  },
 ];
 
 // ── Derived data ────────────────────────────────────────────────
 const totalProjects = projects.length;
 const totalCapacity = projects.reduce((s, p) => s + p.capacity, 0);
-const avgCapex = Math.round(projects.reduce((s, p) => s + p.capex, 0) / totalProjects);
-const avgOpex = Math.round(projects.reduce((s, p) => s + p.opex, 0) / totalProjects);
+const avgCapex = Math.round(
+  projects.reduce((s, p) => s + p.capex, 0) / totalProjects
+);
+const avgOpex = Math.round(
+  projects.reduce((s, p) => s + p.opex, 0) / totalProjects
+);
 
 // Specific CapEx (EUR/kW)
-const specificCapex = projects.map(p => Math.round(p.capex / (p.capacity * 1_000)));
-const avgSpecificCapex = Math.round(specificCapex.reduce((a, b) => a + b, 0) / totalProjects);
+const specificCapex = projects.map(p =>
+  Math.round(p.capex / (p.capacity * 1_000))
+);
+const avgSpecificCapex = Math.round(
+  specificCapex.reduce((a, b) => a + b, 0) / totalProjects
+);
 
 // Specific OpEx (EUR/kW/yr)
-const specificOpex = projects.map(p => Math.round(p.opex / (p.capacity * 1_000)));
-const avgSpecificOpex = Math.round(specificOpex.reduce((a, b) => a + b, 0) / totalProjects);
+const specificOpex = projects.map(p =>
+  Math.round(p.opex / (p.capacity * 1_000))
+);
+const avgSpecificOpex = Math.round(
+  specificOpex.reduce((a, b) => a + b, 0) / totalProjects
+);
 
 // Sort by specific capex descending for the horizontal bar
 const capexSorted = projects
-  .map((p, i) => ({ name: p.name, value: specificCapex[i], isHighlight: p.name === 'Honkakero' || p.name === 'Pekosenniemi' }))
+  .map((p, i) => ({
+    name: p.name,
+    value: specificCapex[i],
+    isHighlight: p.name === 'Honkakero' || p.name === 'Pekosenniemi',
+  }))
   .sort((a, b) => b.value - a.value);
 
 const opexSorted = projects
-  .map((p, i) => ({ name: p.name, value: specificOpex[i], isHighlight: p.name === 'Honkakero' || p.name === 'Pekosenniemi' }))
+  .map((p, i) => ({
+    name: p.name,
+    value: specificOpex[i],
+    isHighlight: p.name === 'Honkakero' || p.name === 'Pekosenniemi',
+  }))
   .sort((a, b) => b.value - a.value);
 
 // Projects by country
@@ -375,7 +668,14 @@ export const BESS_DASHBOARD_SPEC: Spec = {
     'bess-table': {
       type: 'Table',
       props: {
-        columns: ['Project', 'Country', 'Status', 'Capacity (MW)', 'CapEx (\u20AC/kW)', 'OpEx (\u20AC/kW/yr)'],
+        columns: [
+          'Project',
+          'Country',
+          'Status',
+          'Capacity (MW)',
+          'CapEx (\u20AC/kW)',
+          'OpEx (\u20AC/kW/yr)',
+        ],
         rows: projects.map((p, i) => [
           p.name,
           p.country,

@@ -8,7 +8,11 @@ interface ZoomableChartProps {
   children: ReactNode;
 }
 
-export function ZoomableChart({ isZoomed, onReset, children }: ZoomableChartProps) {
+export function ZoomableChart({
+  isZoomed,
+  onReset,
+  children,
+}: ZoomableChartProps) {
   return (
     <div className="relative size-full">
       {children}

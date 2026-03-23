@@ -135,7 +135,10 @@ export function resolveMultiQuery(
   return { labels: mergedLabels, datasets };
 }
 
-function aggregateValues(vals: number[], aggregate: DataQuery['aggregate']): number {
+function aggregateValues(
+  vals: number[],
+  aggregate: DataQuery['aggregate']
+): number {
   switch (aggregate) {
     case 'count':
       return vals.length;
@@ -183,8 +186,18 @@ function applyComputedFields(
         const numField = cf.numerator;
         const denField = cf.denominator;
         if (!numField || !denField) break;
-        const numMap = aggregateField(rows, query.groupBy, numField, query.aggregate);
-        const denMap = aggregateField(rows, query.groupBy, denField, query.aggregate);
+        const numMap = aggregateField(
+          rows,
+          query.groupBy,
+          numField,
+          query.aggregate
+        );
+        const denMap = aggregateField(
+          rows,
+          query.groupBy,
+          denField,
+          query.aggregate
+        );
         result = result.map(([key]) => {
           const num = numMap.get(key) ?? 0;
           const den = denMap.get(key) ?? 0;
@@ -268,8 +281,8 @@ export function resolveQuery(
       {
         label:
           datasetLabel ??
-          (query.computedFields?.[0]?.name ??
-            `${query.aggregate}(${query.valueField || query.groupBy})`),
+          query.computedFields?.[0]?.name ??
+          `${query.aggregate}(${query.valueField || query.groupBy})`,
         data: values,
         backgroundColor: needsPerSliceColor
           ? labels.map((_, i) => PALETTE[i % PALETTE.length])
