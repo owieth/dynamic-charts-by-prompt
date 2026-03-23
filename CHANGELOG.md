@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.11.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.10.0...v1.11.0) (2026-03-23)
+
+
+### Features
+
+* **charts:** add reset zoom button ([86c8d54](https://github.com/owieth/dynamic-charts-by-prompt/commit/86c8d5405e6dd164a9a3ee523fb06a37eb845074))
+* **charts:** add reset zoom button on zoomable charts ([444cb67](https://github.com/owieth/dynamic-charts-by-prompt/commit/444cb6770dc2590dc96b241f5192ca6ed37cdaf6)), closes [#3](https://github.com/owieth/dynamic-charts-by-prompt/issues/3)
+
 ## [1.10.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.9.0...v1.10.0) (2026-03-23)
 
 
