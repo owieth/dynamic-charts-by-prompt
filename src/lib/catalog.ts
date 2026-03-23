@@ -74,7 +74,7 @@ export const catalog = defineCatalog(schema, {
     BarChart: {
       props: barChartSchema,
       description:
-        'Bar chart. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays (e.g. capacity + count by year). Each query in dataQueries produces one dataset with a distinct color. All queries should share the same groupBy for aligned labels. Set top-level backgroundColor/borderColor to override default palette colors.',
+        'Bar chart. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays (e.g. capacity + count by year). Each query in dataQueries produces one dataset with a distinct color. All queries should share the same groupBy for aligned labels. Set top-level backgroundColor/borderColor to override default palette colors. Use computedFields in dataQuery for derived metrics: ratio (numerator/denominator per group), running_total (cumulative sum), pct_of_total (percentage of total).',
       example: {
         title: 'Projects by Country (Top 10)',
         dataQuery: {
@@ -85,6 +85,7 @@ export const catalog = defineCatalog(schema, {
           valueField: null,
           sort: 'desc',
           limit: 10,
+          computedFields: null,
         },
         dataQueries: null,
         datasetLabel: 'Projects',
@@ -105,7 +106,7 @@ export const catalog = defineCatalog(schema, {
     LineChart: {
       props: lineChartSchema,
       description:
-        "Line chart for trends. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays. Use a date field (e.g. 'CoD:year') as groupBy. Set top-level backgroundColor/borderColor to override default colors.",
+        "Line chart for trends. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays. Use a date field (e.g. 'CoD:year') as groupBy. Set top-level backgroundColor/borderColor to override default colors. Use computedFields for running_total to show cumulative trends.",
       example: {
         title: 'Projects by Year',
         dataQuery: {
@@ -116,6 +117,7 @@ export const catalog = defineCatalog(schema, {
           valueField: null,
           sort: 'asc',
           limit: null,
+          computedFields: null,
         },
         dataQueries: null,
         datasetLabel: 'Projects',
@@ -134,7 +136,7 @@ export const catalog = defineCatalog(schema, {
     PieChart: {
       props: pieChartSchema,
       description:
-        'Pie chart for proportional distribution. Use dataQuery with groupBy for slices. Set top-level backgroundColor to override default slice colors (use an array for per-slice colors).',
+        'Pie chart for proportional distribution. Use dataQuery with groupBy for slices. Set top-level backgroundColor to override default slice colors (use an array for per-slice colors). Use computedFields with pct_of_total to show percentage labels.',
       example: {
         title: 'Projects by Technology',
         dataQuery: {
@@ -145,6 +147,7 @@ export const catalog = defineCatalog(schema, {
           valueField: null,
           sort: 'desc',
           limit: null,
+          computedFields: null,
         },
         dataQueries: null,
         datasetLabel: 'Projects',
@@ -169,7 +172,7 @@ export const catalog = defineCatalog(schema, {
     AreaChart: {
       props: areaChartSchema,
       description:
-        'Area chart with filled regions. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays. Set top-level backgroundColor/borderColor to override default colors.',
+        'Area chart with filled regions. Use dataQuery for a single series or dataQueries (array) with datasetLabels for multi-series overlays. Set top-level backgroundColor/borderColor to override default colors. Use computedFields with running_total to show cumulative area charts.',
       example: {
         title: 'Cumulative Capacity by Year',
         dataQuery: {
@@ -180,6 +183,7 @@ export const catalog = defineCatalog(schema, {
           valueField: 'Capacity (kW)',
           sort: 'asc',
           limit: null,
+          computedFields: null,
         },
         dataQueries: null,
         datasetLabel: 'Capacity (kW)',
