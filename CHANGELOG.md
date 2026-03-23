@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.9.0...v1.10.0) (2026-03-23)
+
+
+### Features
+
+* **layout:** add responsive grid breakpoints ([a8bf031](https://github.com/owieth/dynamic-charts-by-prompt/commit/a8bf031311eabb5e6b45d30ec617a36c47db5bc5))
+
 ## [1.9.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.8.0...v1.9.0) (2026-03-23)
 
 
