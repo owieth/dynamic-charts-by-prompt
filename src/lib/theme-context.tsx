@@ -55,8 +55,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       } catch {
         // fail silently
       }
-      // Dispatch a custom event so Chart.js defaults can update
-      window.dispatchEvent(new CustomEvent('theme-change', { detail: next }));
+      // Dispatch async so listeners don't setState during this render cycle
+      queueMicrotask(() => {
+        window.dispatchEvent(new CustomEvent('theme-change', { detail: next }));
+      });
       return next;
     });
   }, []);
