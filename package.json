@@ -1,6 +1,6 @@
 {
   "name": "dynamic-charts-by-prompt",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "private": true,
   "packageManager": "pnpm@10.6.5",
   "scripts": {

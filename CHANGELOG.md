@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.8.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.7.0...v1.8.0) (2026-03-23)
+
+
+### Features
+
+* **ui:** add light/dark theme switcher ([5738a22](https://github.com/owieth/dynamic-charts-by-prompt/commit/5738a222c640a823ddd77877b0ea8d1ae6e09ee2))
+
+
+### Bug Fixes
+
+* **theme:** dispatch theme-change event async to avoid setState-in-render ([ddcdfca](https://github.com/owieth/dynamic-charts-by-prompt/commit/ddcdfcab92b6c928e45d0fba33e1fd1e44cdf3c2))
+
 ## [1.7.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.6.0...v1.7.0) (2026-03-20)
 
 
