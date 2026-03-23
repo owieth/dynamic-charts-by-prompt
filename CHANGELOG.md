@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.8.0...v1.9.0) (2026-03-23)
+
+
+### Features
+
+* **data:** add computed/derived fields in dataQuery ([56f8642](https://github.com/owieth/dynamic-charts-by-prompt/commit/56f8642e4c85a4fb2d0e7a51367ef1717fc9f91c))
+
 ## [1.8.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.7.0...v1.8.0) (2026-03-23)
 
 
