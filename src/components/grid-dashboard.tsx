@@ -20,8 +20,8 @@ interface GridDashboardProps {
   onRemoveItem?: (key: string) => void;
 }
 
-const BREAKPOINTS = { lg: 0 } as const;
-const COLS = { lg: 12 } as const;
+const BREAKPOINTS = { lg: 1200, md: 768, sm: 0 } as const;
+const COLS = { lg: 12, md: 6, sm: 1 } as const;
 const MARGIN = [8, 8] as [number, number];
 const RESIZE_HANDLES = ['se'] as const;
 
@@ -94,7 +94,20 @@ export function GridDashboard({
     [onLayoutChange]
   );
 
-  const layouts = useMemo(() => ({ lg: layout }), [layout]);
+  const layouts = useMemo(() => {
+    const mdLayout = layout.map(item => ({
+      ...item,
+      w: Math.min(item.w, COLS.md),
+      x: item.x >= COLS.md ? 0 : Math.min(item.x, COLS.md - Math.min(item.w, COLS.md)),
+    }));
+    const smLayout = layout.map((item, idx) => ({
+      ...item,
+      w: 1,
+      x: 0,
+      y: idx,
+    }));
+    return { lg: layout, md: mdLayout, sm: smLayout };
+  }, [layout]);
 
   const dragConfig = useMemo(
     () => ({
