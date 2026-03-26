@@ -21,8 +21,8 @@ importers:
         specifier: 0.14.1
         version: 0.14.1(react@19.2.4)(zod@4.3.6)
       '@json-render/shadcn':
-        specifier: 0.14.1
-        version: 0.14.1(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.2.2)(zod@4.3.6)
+        specifier: 0.15.0
+        version: 0.15.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.2.2)(zod@4.3.6)
       ai:
         specifier: 6.0.116
         version: 6.0.116(zod@4.3.6)
@@ -422,13 +422,23 @@ packages:
     peerDependencies:
       zod: ^4.0.0
 
+  '@json-render/core@0.15.0':
+    resolution: {integrity: sha512-ej5fx6C2Gp5iSit+HyyFh6QenKRIAO9xvFlxal6uzQQTpOJzJlXPsNROL2JT5QjY/iLgLaf4RJohdP1mWSYDNQ==}
+    peerDependencies:
+      zod: ^4.0.0
+
   '@json-render/react@0.14.1':
     resolution: {integrity: sha512-0LsX4yL+int7CS0cb6EWquQmLYipP0qYaSGdoLALXQ5nu6zEo9a1phGQSqJQ58bhv10/d0a4N3+2bHbVv+VDWw==}
     peerDependencies:
       react: ^19.2.3
 
-  '@json-render/shadcn@0.14.1':
-    resolution: {integrity: sha512-K35mxjPmXusaZDYFu5ZM621AkbTI6WOWB3ZC7Ns/H1U+44/JvbX4R0/dPW19bpHqIdsvTnyfda2zD8Z9zbp9Tw==}
+  '@json-render/react@0.15.0':
+    resolution: {integrity: sha512-2vfevZ3zRQNqVN6Y/WPFDkOe9/LPpUwDS+W4ViQQRJGO2j1wl0RbfMQtiiPai/bWQkJq0aantoQWIbh1/o8Cew==}
+    peerDependencies:
+      react: ^19.2.3
+
+  '@json-render/shadcn@0.15.0':
+    resolution: {integrity: sha512-8A8snIkdOUD/5UirIZdHAe0zOrGU/grxsTG8x3mPNHKjHzFVsVB9WiHklmsFIfyDKBR2x7gyKkKhhwo0CpJnyg==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -3251,6 +3261,10 @@ snapshots:
     dependencies:
       zod: 4.3.6
 
+  '@json-render/core@0.15.0(zod@4.3.6)':
+    dependencies:
+      zod: 4.3.6
+
   '@json-render/react@0.14.1(react@19.2.4)(zod@4.3.6)':
     dependencies:
       '@json-render/core': 0.14.1(zod@4.3.6)
@@ -3258,10 +3272,17 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  '@json-render/shadcn@0.14.1(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.2.2)(zod@4.3.6)':
+  '@json-render/react@0.15.0(react@19.2.4)(zod@4.3.6)':
     dependencies:
-      '@json-render/core': 0.14.1(zod@4.3.6)
-      '@json-render/react': 0.14.1(react@19.2.4)(zod@4.3.6)
+      '@json-render/core': 0.15.0(zod@4.3.6)
+      react: 19.2.4
+    transitivePeerDependencies:
+      - zod
+
+  '@json-render/shadcn@0.15.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.2.2)(zod@4.3.6)':
+    dependencies:
+      '@json-render/core': 0.15.0(zod@4.3.6)
+      '@json-render/react': 0.15.0(react@19.2.4)(zod@4.3.6)
       class-variance-authority: 0.7.1
       clsx: 2.1.1
       embla-carousel-react: 8.6.0(react@19.2.4)
