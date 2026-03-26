@@ -15,7 +15,7 @@
     "@ai-sdk/gateway": "3.0.66",
     "@json-render/core": "0.14.1",
     "@json-render/react": "0.14.1",
-    "@json-render/shadcn": "0.14.1",
+    "@json-render/shadcn": "0.15.0",
     "ai": "6.0.116",
     "chart.js": "4.5.1",
     "chartjs-plugin-zoom": "2.2.0",
