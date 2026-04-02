@@ -18,8 +18,8 @@ importers:
         specifier: 0.15.0
         version: 0.15.0(zod@4.3.6)
       '@json-render/react':
-        specifier: 0.14.1
-        version: 0.14.1(react@19.2.4)(zod@4.3.6)
+        specifier: 0.16.0
+        version: 0.16.0(react@19.2.4)(zod@4.3.6)
       '@json-render/shadcn':
         specifier: 0.15.0
         version: 0.15.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(tailwindcss@4.2.2)(zod@4.3.6)
@@ -423,23 +423,23 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@json-render/core@0.14.1':
-    resolution: {integrity: sha512-Z1lctUILswRS9xvQbLgsLGRXY4M31CtG0H6wCouGlk9lxXpB5hkuoIoAJ4bJ/HXDVoBgYzI18XI/O8luE3CuzA==}
-    peerDependencies:
-      zod: ^4.0.0
-
   '@json-render/core@0.15.0':
     resolution: {integrity: sha512-ej5fx6C2Gp5iSit+HyyFh6QenKRIAO9xvFlxal6uzQQTpOJzJlXPsNROL2JT5QjY/iLgLaf4RJohdP1mWSYDNQ==}
     peerDependencies:
       zod: ^4.0.0
 
-  '@json-render/react@0.14.1':
-    resolution: {integrity: sha512-0LsX4yL+int7CS0cb6EWquQmLYipP0qYaSGdoLALXQ5nu6zEo9a1phGQSqJQ58bhv10/d0a4N3+2bHbVv+VDWw==}
+  '@json-render/core@0.16.0':
+    resolution: {integrity: sha512-qQp8BB/3pWYapTGXBDSBMXRCdrC05VJPLL3drXMPX/QbUB3nuvtyXUGmAZFUz8eLUy7JImODvb3GNIq38dGzhQ==}
     peerDependencies:
-      react: ^19.2.3
+      zod: ^4.0.0
 
   '@json-render/react@0.15.0':
     resolution: {integrity: sha512-2vfevZ3zRQNqVN6Y/WPFDkOe9/LPpUwDS+W4ViQQRJGO2j1wl0RbfMQtiiPai/bWQkJq0aantoQWIbh1/o8Cew==}
+    peerDependencies:
+      react: ^19.2.3
+
+  '@json-render/react@0.16.0':
+    resolution: {integrity: sha512-PJQjLftGYZ5LNlA1IFww+yNOAJZRW2feEcH/L10u/8M/b/zImr9wfqQVMDyC87myoEzhyucpkQ6joISeZdKxsw==}
     peerDependencies:
       react: ^19.2.3
 
@@ -3270,24 +3270,24 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@json-render/core@0.14.1(zod@4.3.6)':
-    dependencies:
-      zod: 4.3.6
-
   '@json-render/core@0.15.0(zod@4.3.6)':
     dependencies:
       zod: 4.3.6
 
-  '@json-render/react@0.14.1(react@19.2.4)(zod@4.3.6)':
+  '@json-render/core@0.16.0(zod@4.3.6)':
     dependencies:
-      '@json-render/core': 0.14.1(zod@4.3.6)
-      react: 19.2.4
-    transitivePeerDependencies:
-      - zod
+      zod: 4.3.6
 
   '@json-render/react@0.15.0(react@19.2.4)(zod@4.3.6)':
     dependencies:
       '@json-render/core': 0.15.0(zod@4.3.6)
+      react: 19.2.4
+    transitivePeerDependencies:
+      - zod
+
+  '@json-render/react@0.16.0(react@19.2.4)(zod@4.3.6)':
+    dependencies:
+      '@json-render/core': 0.16.0(zod@4.3.6)
       react: 19.2.4
     transitivePeerDependencies:
       - zod
