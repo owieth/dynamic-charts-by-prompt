@@ -18,8 +18,8 @@ importers:
         specifier: 0.16.0
         version: 0.16.0(zod@4.3.6)
       '@json-render/react':
-        specifier: 0.16.0
-        version: 0.16.0(react@19.2.5)(zod@4.3.6)
+        specifier: 0.17.0
+        version: 0.17.0(react@19.2.5)(zod@4.3.6)
       '@json-render/shadcn':
         specifier: 0.15.0
         version: 0.15.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(tailwindcss@4.2.2)(zod@4.3.6)
@@ -433,13 +433,18 @@ packages:
     peerDependencies:
       zod: ^4.0.0
 
+  '@json-render/core@0.17.0':
+    resolution: {integrity: sha512-8woFjU0RZqxDvJ9E1vxv21uv1lcXEGut/tcVWiVsduds3pcX3tCv5xKSjREjew/yS061CGjFAPr5vozYS39whg==}
+    peerDependencies:
+      zod: ^4.0.0
+
   '@json-render/react@0.15.0':
     resolution: {integrity: sha512-2vfevZ3zRQNqVN6Y/WPFDkOe9/LPpUwDS+W4ViQQRJGO2j1wl0RbfMQtiiPai/bWQkJq0aantoQWIbh1/o8Cew==}
     peerDependencies:
       react: ^19.2.3
 
-  '@json-render/react@0.16.0':
-    resolution: {integrity: sha512-PJQjLftGYZ5LNlA1IFww+yNOAJZRW2feEcH/L10u/8M/b/zImr9wfqQVMDyC87myoEzhyucpkQ6joISeZdKxsw==}
+  '@json-render/react@0.17.0':
+    resolution: {integrity: sha512-MEQ+Id5ZpqfgzASvRqFIJnNJJrqsyozve8jDQzsAKasm4kU6dQ4Jrp2q3fAkSS0duk33n4JfgzKlKCqEy2Xr8A==}
     peerDependencies:
       react: ^19.2.3
 
@@ -3273,6 +3278,10 @@ snapshots:
     dependencies:
       zod: 4.3.6
 
+  '@json-render/core@0.17.0(zod@4.3.6)':
+    dependencies:
+      zod: 4.3.6
+
   '@json-render/react@0.15.0(react@19.2.5)(zod@4.3.6)':
     dependencies:
       '@json-render/core': 0.15.0(zod@4.3.6)
@@ -3280,9 +3289,9 @@ snapshots:
     transitivePeerDependencies:
       - zod
 
-  '@json-render/react@0.16.0(react@19.2.5)(zod@4.3.6)':
+  '@json-render/react@0.17.0(react@19.2.5)(zod@4.3.6)':
     dependencies:
-      '@json-render/core': 0.16.0(zod@4.3.6)
+      '@json-render/core': 0.17.0(zod@4.3.6)
       react: 19.2.5
     transitivePeerDependencies:
       - zod
