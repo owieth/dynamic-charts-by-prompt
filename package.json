@@ -14,7 +14,7 @@
     "@ai-sdk/anthropic": "3.0.64",
     "@ai-sdk/gateway": "3.0.104",
     "@json-render/core": "0.17.0",
-    "@json-render/react": "0.17.0",
+    "@json-render/react": "0.18.0",
     "@json-render/shadcn": "0.15.0",
     "ai": "6.0.154",
     "chart.js": "4.5.1",
