@@ -18,8 +18,8 @@ importers:
         specifier: 0.18.0
         version: 0.18.0(zod@4.3.6)
       '@json-render/react':
-        specifier: 0.18.0
-        version: 0.18.0(react@19.2.6)(zod@4.3.6)
+        specifier: 0.19.0
+        version: 0.19.0(react@19.2.6)(zod@4.3.6)
       '@json-render/shadcn':
         specifier: 0.19.0
         version: 0.19.0(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(tailwindcss@4.2.4)(zod@4.3.6)
@@ -442,11 +442,6 @@ packages:
     resolution: {integrity: sha512-vvcyZ+10EDZKbEyB1J2kXOGfDaiZR2LurZGSqi2r5STHyKr+Te85DWaBxTwRGgM7U1LtIvNx85BzzjElRKoAIg==}
     peerDependencies:
       zod: ^4.0.0
-
-  '@json-render/react@0.18.0':
-    resolution: {integrity: sha512-rT0hJ9mK2BGfLxZ/ztS4UF1XqAz/o+FNtFgii7hea7VjD4u0wJYyRphe4a5DetS/dSMZFECXkmida+xi3wKl9A==}
-    peerDependencies:
-      react: ^19.2.3
 
   '@json-render/react@0.19.0':
     resolution: {integrity: sha512-kTW6b6cSNRrlEfCUf/69SLoLn+CufC968ruge9tnQlp9pDTGG/SK8pgM541FdgwMFA4zm3s5mpM3G8rdODKc/A==}
@@ -3297,13 +3292,6 @@ snapshots:
   '@json-render/core@0.19.0(zod@4.3.6)':
     dependencies:
       zod: 4.3.6
-
-  '@json-render/react@0.18.0(react@19.2.6)(zod@4.3.6)':
-    dependencies:
-      '@json-render/core': 0.18.0(zod@4.3.6)
-      react: 19.2.6
-    transitivePeerDependencies:
-      - zod
 
   '@json-render/react@0.19.0(react@19.2.6)(zod@4.3.6)':
     dependencies:
