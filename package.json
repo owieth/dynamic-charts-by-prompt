@@ -16,7 +16,7 @@
     "@json-render/core": "0.19.0",
     "@json-render/react": "0.19.0",
     "@json-render/shadcn": "0.19.0",
-    "ai": "6.0.189",
+    "ai": "6.0.192",
     "chart.js": "4.5.1",
     "chartjs-plugin-zoom": "2.2.0",
     "clsx": "2.1.1",
