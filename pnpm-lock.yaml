@@ -15,8 +15,8 @@ importers:
         specifier: 3.0.118
         version: 3.0.118(zod@4.3.6)
       '@json-render/core':
-        specifier: 0.18.0
-        version: 0.18.0(zod@4.3.6)
+        specifier: 0.19.0
+        version: 0.19.0(zod@4.3.6)
       '@json-render/react':
         specifier: 0.19.0
         version: 0.19.0(react@19.2.6)(zod@4.3.6)
@@ -422,11 +422,6 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
-
-  '@json-render/core@0.18.0':
-    resolution: {integrity: sha512-zm0K9cgxZLGshw5TmdKe3Xc6fpjbONdlj3v+Er+HhCYZ9fSJpv32d9VzQds4bDW36vPfdieAOcsPR9+EcTff7Q==}
-    peerDependencies:
-      zod: ^4.0.0
 
   '@json-render/core@0.19.0':
     resolution: {integrity: sha512-vvcyZ+10EDZKbEyB1J2kXOGfDaiZR2LurZGSqi2r5STHyKr+Te85DWaBxTwRGgM7U1LtIvNx85BzzjElRKoAIg==}
@@ -3259,10 +3254,6 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
-
-  '@json-render/core@0.18.0(zod@4.3.6)':
-    dependencies:
-      zod: 4.3.6
 
   '@json-render/core@0.19.0(zod@4.3.6)':
     dependencies:
