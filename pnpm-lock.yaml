@@ -12,8 +12,8 @@ importers:
         specifier: 3.0.75
         version: 3.0.75(zod@4.4.3)
       '@ai-sdk/gateway':
-        specifier: 3.0.118
-        version: 3.0.118(zod@4.4.3)
+        specifier: 3.0.121
+        version: 3.0.121(zod@4.4.3)
       '@json-render/core':
         specifier: 0.19.0
         version: 0.19.0(zod@4.4.3)
@@ -95,12 +95,6 @@ packages:
 
   '@ai-sdk/anthropic@3.0.75':
     resolution: {integrity: sha512-5AV3CKwaOJFdGXhihVgvRLNrjwRn2Xmy71YygT8DYOA+5zTx93Seg2QSIS8b3tJxzZ7X4H84pEtrE8VZKBCZGA==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.25.76 || ^4.1.8
-
-  '@ai-sdk/gateway@3.0.118':
-    resolution: {integrity: sha512-XYPbVoDo1TDMVLe5Eg42gIjdOyxaizh9H0kiSSnTXr+AdrqZvutk/ypLOiqBXPV3D1K3+BSm/sbFeomZJlM64A==}
     engines: {node: '>=18'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -2930,13 +2924,6 @@ snapshots:
     dependencies:
       '@ai-sdk/provider': 3.0.10
       '@ai-sdk/provider-utils': 4.0.26(zod@4.4.3)
-      zod: 4.4.3
-
-  '@ai-sdk/gateway@3.0.118(zod@4.4.3)':
-    dependencies:
-      '@ai-sdk/provider': 3.0.10
-      '@ai-sdk/provider-utils': 4.0.27(zod@4.4.3)
-      '@vercel/oidc': 3.2.0
       zod: 4.4.3
 
   '@ai-sdk/gateway@3.0.121(zod@4.4.3)':
