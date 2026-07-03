@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.14.0...v1.14.1) (2026-07-03)
+
+
+### Bug Fixes
+
+* **deps:** align ai sdk with gateway v4 model types ([3e38bbc](https://github.com/owieth/dynamic-charts-by-prompt/commit/3e38bbc2c9ef9082110393954d089d6bdd3bcfa8))
+
 ## [1.14.0](https://github.com/owieth/dynamic-charts-by-prompt/compare/v1.13.0...v1.14.0) (2026-03-23)
 
 
