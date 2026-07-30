@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@ai-sdk/anthropic':
-        specifier: 4.0.18
-        version: 4.0.18(zod@4.4.3)
+        specifier: 4.0.24
+        version: 4.0.24(zod@4.4.3)
       '@ai-sdk/gateway':
         specifier: 4.0.32
         version: 4.0.32(zod@4.4.3)
@@ -77,7 +77,7 @@ importers:
         version: 16.2.12(@typescript-eslint/parser@8.65.0(eslint@9.39.4(jiti@2.7.0))(typescript@6.0.3))(eslint@9.39.4(jiti@2.7.0))(typescript@6.0.3)
       postcss:
         specifier: 8.5.19
-        version: 8.5.25
+        version: 8.5.19
       prettier:
         specifier: 3.9.5
         version: 3.9.5
@@ -93,8 +93,8 @@ importers:
 
 packages:
 
-  '@ai-sdk/anthropic@4.0.18':
-    resolution: {integrity: sha512-CpSBDI7DWk3DHM+qwbjhH7JxqqEqr5sK/SDrC9eit8Q03Uf1xBBrgMAVf9FajbpaH3oHxynLn474lf6ikjjO8A==}
+  '@ai-sdk/anthropic@4.0.24':
+    resolution: {integrity: sha512-ywMZXK/uOIxUKwo2vaow0kt2XqMjIEeZWBOxif/oDka3294fUDX0gcUESUjPzd8254Fnvz1lRO70gr9LOgLkww==}
     engines: {node: '>=22'}
     peerDependencies:
       zod: ^3.25.76 || ^4.1.8
@@ -2542,8 +2542,8 @@ packages:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  postcss@8.5.25:
-    resolution: {integrity: sha512-DTPx3RWSSnWyzLxQnlH0rJP+EW5ekl16ZU4/psbIhA0e53kJfdgaN5vKM+xP7yJtXVu+nfdVFmlgFDEKAe4Pyw==}
+  postcss@8.5.19:
+    resolution: {integrity: sha512-Mz8SaolMd8nB+G13WkORcxQKHZ/NE4xXevtkJHVuG+guo9/wYKlIMTKAqGdEmYOXR2ijPjTYNHssizdaVSUNdQ==}
     engines: {node: ^10 || ^12 || >=14}
 
   prelude-ls@1.2.1:
@@ -2970,10 +2970,10 @@ packages:
 
 snapshots:
 
-  '@ai-sdk/anthropic@4.0.18(zod@4.4.3)':
+  '@ai-sdk/anthropic@4.0.24(zod@4.4.3)':
     dependencies:
-      '@ai-sdk/provider': 4.0.3
-      '@ai-sdk/provider-utils': 5.0.12(zod@4.4.3)
+      '@ai-sdk/provider': 4.0.4
+      '@ai-sdk/provider-utils': 5.0.15(zod@4.4.3)
       zod: 4.4.3
 
   '@ai-sdk/gateway@4.0.27(zod@4.4.3)':
@@ -4240,7 +4240,7 @@ snapshots:
       '@alloc/quick-lru': 5.2.0
       '@tailwindcss/node': 4.3.3
       '@tailwindcss/oxide': 4.3.3
-      postcss: 8.5.25
+      postcss: 8.5.19
       tailwindcss: 4.3.3
 
   '@tybys/wasm-util@0.10.3':
@@ -5595,7 +5595,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.25:
+  postcss@8.5.19:
     dependencies:
       nanoid: 3.3.16
       picocolors: 1.1.1
