@@ -48,8 +48,8 @@ importers:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
       react-grid-layout:
-        specifier: 2.2.4
-        version: 2.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: 2.3.0
+        version: 2.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       tailwind-merge:
         specifier: 3.6.0
         version: 3.6.0
@@ -2639,14 +2639,14 @@ packages:
     peerDependencies:
       react: ^19.2.8
 
-  react-draggable@4.7.1:
-    resolution: {integrity: sha512-wa3tzfFnYt3yaZLuyU58fl1TNunfWfBekDgWhZA1+gb2jnp42wZ0ymuopR6M5kqDYmm4hKmzGlcKWjZf3Zb6RQ==}
+  react-draggable@4.7.2:
+    resolution: {integrity: sha512-pmqDx72EqhMGoJe/x42ZO2wJ9TIz7qJ5OPnFu6lVWWznEuJumlSjR+J0V4tNyDFhUo6dVvv56FeiTqN+arTgnw==}
     peerDependencies:
       react: '>= 16.3.0'
       react-dom: '>= 16.3.0'
 
-  react-grid-layout@2.2.4:
-    resolution: {integrity: sha512-Eb57FsgOMYOfsUGrMI1ku/FFR+dPNPrE8qo+3hwZubpqVSy4GO9v52DeX50Tl3JDYAlCypP4rmw7Vrqk/zOIvA==}
+  react-grid-layout@2.3.0:
+    resolution: {integrity: sha512-4ofzuR/MlYchp+ixDUVBxH6ybaw+JH51M+rpf675ik/++4Dn0Kax/Vf2Gv/7Z++mV1ZC7mY9UV2sRRycjGjKXQ==}
     peerDependencies:
       react: '>= 16.3.0'
       react-dom: '>= 16.3.0'
@@ -5791,21 +5791,21 @@ snapshots:
       react: 19.2.8
       scheduler: 0.27.0
 
-  react-draggable@4.7.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+  react-draggable@4.7.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       clsx: 2.1.1
       prop-types: 15.8.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
 
-  react-grid-layout@2.2.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+  react-grid-layout@2.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       clsx: 2.1.1
       fast-equals: 4.0.3
       prop-types: 15.8.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
-      react-draggable: 4.7.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react-draggable: 4.7.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react-resizable: 3.2.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       resize-observer-polyfill: 1.5.1
 
@@ -5835,7 +5835,7 @@ snapshots:
       prop-types: 15.8.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
-      react-draggable: 4.7.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react-draggable: 4.7.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
   react-style-singleton@2.2.3(@types/react@19.2.18)(react@19.2.8):
     dependencies:
